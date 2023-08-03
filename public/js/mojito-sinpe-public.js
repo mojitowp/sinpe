@@ -63,8 +63,7 @@
 			bank_number = '71984256';
 
 		}
-		
-		console.log ( mojito_sinpe_show_text_after_banks_list )
+
 		if ( mojito_sinpe_show_text_after_banks_list === 'yes' ) {
 			if ( type === 'mobile' ){
 				var href = 'sms:+' + bank_number + '?body=' + link.data('msj');
@@ -76,8 +75,6 @@
 				text_container.show();
 			}
 		}
-		
-
 	 })
 
 })( jQuery );
