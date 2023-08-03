@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: ecommerce, woocommerce, payment, woocommerce payment, sinpe, costa rica, multisite
 Requires at least: 4.6
 Tested up to: 6.2.2
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,14 +13,16 @@ Sinpe Móvil as Woocommerce gateway
 
 == Description ==
 
+¿Desea colaborar? https://github.com/mojitowp/sinpe
+
+
+
 (Español)
 Habilita SINPE Móvil como pasarela de pago (solo funciona en Costa Rica)
 
 Agrega enlace de pago en la página de pago (opcional), página de gracias y correo de confirmación de pedido.
 
 El dueño de la tienda sólo debe agregar su número de teléfono en "Woocommerce > Ajustes > Pagos > SINPE Móvil > Gestionar"
-
-¿Desea colaborar? https://github.com/mojitowp/sinpe
 
 
 (English)
@@ -56,12 +58,14 @@ e.g.
 
 == Upgrade Notice ==
 
-Nueva opción para ocultar lista de bancos en página de pago. Correcciones varias.
+¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
 
 == Changelog ==
 
 = 1.0.8 =
-* 
+* iPhone Compatibility fix
+* Tested up to WP 6.2.2
+* Tested up to WC 7.9.0
 
 = 1.0.7 =
 * New filter mojito_sinpe_show_text_after_banks_list
