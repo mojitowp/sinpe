@@ -20,7 +20,7 @@ Agrega enlace de pago en la página de pago (opcional), página de gracias y cor
 
 El dueño de la tienda sólo debe agregar su número de teléfono en "Woocommerce > Ajustes > Pagos > SINPE Móvil > Gestionar"
 
-¿Desea colaborar? https://github.com/nomanualdev/mojito-sinpe
+¿Desea colaborar? https://github.com/mojitowp/sinpe
 
 
 (English)

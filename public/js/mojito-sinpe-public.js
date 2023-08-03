@@ -66,7 +66,7 @@
 
 		if ( mojito_sinpe_show_text_after_banks_list === 'yes' ) {
 			if ( type === 'mobile' ){
-				var href = 'sms:+' + bank_number + '?body=' + link.data('msj');
+				var href = 'sms:+' + bank_number + '?&body=' + link.data('msj');
 				link.attr('href', href);
 				link.show();
 	
