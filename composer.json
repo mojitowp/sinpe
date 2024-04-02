@@ -1,5 +1,6 @@
 {
     "require": {
-        "hisorange/browser-detect": "^4.2"
+        "hisorange/browser-detect": "^4.2",
+        "mojitowp/exchange-rate": "^0.0.7"
     }
 }

@@ -406,6 +406,41 @@
             "install-path": "../mobiledetect/mobiledetectlib"
         },
         {
+            "name": "mojitowp/exchange-rate",
+            "version": "0.0.7",
+            "version_normalized": "0.0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mojitowp/exchange-rate.git",
+                "reference": "b76963d3de2160fc3e821afe947262ac648be47a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mojitowp/exchange-rate/zipball/b76963d3de2160fc3e821afe947262ac648be47a",
+                "reference": "b76963d3de2160fc3e821afe947262ac648be47a",
+                "shasum": ""
+            },
+            "time": "2023-03-01T23:20:35+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "src/",
+                    "src/providers/cr/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Exchange Rate.",
+            "support": {
+                "issues": "https://github.com/mojitowp/exchange-rate/issues",
+                "source": "https://github.com/mojitowp/exchange-rate/tree/0.0.7"
+            },
+            "install-path": "../mojitowp/exchange-rate"
+        },
+        {
             "name": "mustangostang/spyc",
             "version": "0.6.3",
             "version_normalized": "0.6.3.0",

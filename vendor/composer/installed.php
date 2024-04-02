@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '799b3e3a5a0dff6f31c8bbdee4638d801cfc640a',
+        'reference' => 'ad0de121716a8d63e4711a52ea111a3c3a946549',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '799b3e3a5a0dff6f31c8bbdee4638d801cfc640a',
+            'reference' => 'ad0de121716a8d63e4711a52ea111a3c3a946549',
             'dev_requirement' => false,
         ),
         'composer/ca-bundle' => array(
@@ -71,6 +71,15 @@
             'install_path' => __DIR__ . '/../mobiledetect/mobiledetectlib',
             'aliases' => array(),
             'reference' => '96aaebcf4f50d3d2692ab81d2c5132e425bca266',
+            'dev_requirement' => false,
+        ),
+        'mojitowp/exchange-rate' => array(
+            'pretty_version' => '0.0.7',
+            'version' => '0.0.7.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mojitowp/exchange-rate',
+            'aliases' => array(),
+            'reference' => 'b76963d3de2160fc3e821afe947262ac648be47a',
             'dev_requirement' => false,
         ),
         'mustangostang/spyc' => array(

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "425e0c5d16c5d82e04c9a9bb04446934",
+    "content-hash": "09d22dbb57e8c4052be6f21f8e6917da",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -396,6 +396,38 @@
                 }
             ],
             "time": "2023-11-07T21:57:25+00:00"
+        },
+        {
+            "name": "mojitowp/exchange-rate",
+            "version": "0.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mojitowp/exchange-rate.git",
+                "reference": "b76963d3de2160fc3e821afe947262ac648be47a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mojitowp/exchange-rate/zipball/b76963d3de2160fc3e821afe947262ac648be47a",
+                "reference": "b76963d3de2160fc3e821afe947262ac648be47a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/",
+                    "src/providers/cr/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Exchange Rate.",
+            "support": {
+                "issues": "https://github.com/mojitowp/exchange-rate/issues",
+                "source": "https://github.com/mojitowp/exchange-rate/tree/0.0.7"
+            },
+            "time": "2023-03-01T23:20:35+00:00"
         },
         {
             "name": "mustangostang/spyc",
