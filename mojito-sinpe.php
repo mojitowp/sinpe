@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Version.
  */
-define( 'MOJITO_SINPE_VERSION', '1.0.8' );
+define( 'MOJITO_SINPE_VERSION', '1.1.0' );
 
 /**
  * Define plugin constants.
