@@ -62,6 +62,12 @@ e.g.
 
 == Changelog ==
 
+= 1.1.0
+* Exchange rate options
+* New filter action mojito_sinpe_exchange_rate
+* Tested up to WP 6.4.3
+* Tested up to WC 8.7.0
+
 = 1.0.8 =
 * iPhone Compatibility fix
 * Tested up to WP 6.2.2

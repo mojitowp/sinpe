@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Device Detector - The Universal Device Detection library for parsing User Agents
  *
@@ -10,7 +8,11 @@ declare(strict_types=1);
  * @license http://www.gnu.org/licenses/lgpl.html LGPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace DeviceDetector\Parser;
+
+use DeviceDetector\ClientHints;
 
 /**
  * Class OperatingSystem
@@ -40,6 +42,8 @@ class OperatingSystem extends AbstractParser
     protected static $operatingSystems = [
         'AIX' => 'AIX',
         'AND' => 'Android',
+        'ADR' => 'Android TV',
+        'AMZ' => 'Amazon Linux',
         'AMG' => 'AmigaOS',
         'ATV' => 'tvOS',
         'ARL' => 'Arch Linux',
@@ -48,10 +52,16 @@ class OperatingSystem extends AbstractParser
         'BEO' => 'BeOS',
         'BLB' => 'BlackBerry OS',
         'QNX' => 'BlackBerry Tablet OS',
+        'BOS' => 'Bliss OS',
         'BMP' => 'Brew',
+        'BSN' => 'BrightSignOS',
         'CAI' => 'Caixa Mágica',
         'CES' => 'CentOS',
+        'CST' => 'CentOS Stream',
+        'CLR' => 'ClearOS Mobile',
         'COS' => 'Chrome OS',
+        'CRS' => 'Chromium OS',
+        'CHN' => 'China OS',
         'CYN' => 'CyanogenMod',
         'DEB' => 'Debian',
         'DEE' => 'Deepin',
@@ -61,9 +71,11 @@ class OperatingSystem extends AbstractParser
         'FEN' => 'Fenix',
         'FOS' => 'Firefox OS',
         'FIR' => 'Fire OS',
+        'FOR' => 'Foresight Linux',
         'FRE' => 'Freebox',
         'BSD' => 'FreeBSD',
         'FYD' => 'FydeOS',
+        'FUC' => 'Fuchsia',
         'GNT' => 'Gentoo',
         'GRI' => 'GridOS',
         'GTV' => 'Google TV',
@@ -74,12 +86,20 @@ class OperatingSystem extends AbstractParser
         'HAS' => 'HasCodingOS',
         'IRI' => 'IRIX',
         'INF' => 'Inferno',
+        'JME' => 'Java ME',
         'KOS' => 'KaiOS',
+        'KAL' => 'Kali',
+        'KAN' => 'Kanotix',
         'KNO' => 'Knoppix',
+        'KTV' => 'KreaTV',
         'KBT' => 'Kubuntu',
         'LIN' => 'GNU/Linux',
+        'LND' => 'LindowsOS',
+        'LNS' => 'Linspire',
+        'LEN' => 'Lineage OS',
         'LBT' => 'Lubuntu',
         'LOS' => 'Lumin OS',
+        'LUN' => 'LuneOS',
         'VLN' => 'VectorLinux',
         'MAC' => 'Mac',
         'MAE' => 'Maemo',
@@ -87,6 +107,7 @@ class OperatingSystem extends AbstractParser
         'MDR' => 'Mandriva',
         'SMG' => 'MeeGo',
         'MCD' => 'MocorDroid',
+        'MON' => 'moonOS',
         'MIN' => 'Mint',
         'MLD' => 'MildWild',
         'MOR' => 'MorphOS',
@@ -95,22 +116,37 @@ class OperatingSystem extends AbstractParser
         'MRE' => 'MRE',
         'WII' => 'Nintendo',
         'NDS' => 'Nintendo Mobile',
+        'NOV' => 'Nova',
         'OS2' => 'OS/2',
         'T64' => 'OSF1',
         'OBS' => 'OpenBSD',
+        'OWR' => 'OpenWrt',
+        'OTV' => 'Opera TV',
+        'ORA' => 'Oracle Linux',
         'ORD' => 'Ordissimo',
+        'PAR' => 'Pardus',
         'PCL' => 'PCLinuxOS',
+        'PIC' => 'PICO OS',
+        'PLA' => 'Plasma Mobile',
         'PSP' => 'PlayStation Portable',
         'PS3' => 'PlayStation',
+        'PUR' => 'PureOS',
         'RHT' => 'Red Hat',
+        'RED' => 'RedOS',
+        'REV' => 'Revenge OS',
         'ROS' => 'RISC OS',
+        'ROK' => 'Roku OS',
         'RSO' => 'Rosa',
+        'ROU' => 'RouterOS',
         'REM' => 'Remix OS',
+        'RRS' => 'Resurrection Remix OS',
+        'REX' => 'REX',
         'RZD' => 'RazoDroiD',
         'SAB' => 'Sabayon',
         'SSE' => 'SUSE',
         'SAF' => 'Sailfish OS',
         'SEE' => 'SeewoOS',
+        'SIR' => 'Sirin OS',
         'SLW' => 'Slackware',
         'SOS' => 'Solaris',
         'SYL' => 'Syllable',
@@ -119,11 +155,15 @@ class OperatingSystem extends AbstractParser
         'S40' => 'Symbian OS Series 40',
         'S60' => 'Symbian OS Series 60',
         'SY3' => 'Symbian^3',
+        'TEN' => 'TencentOS',
         'TDX' => 'ThreadX',
         'TIZ' => 'Tizen',
+        'TIV' => 'TiVo OS',
         'TOS' => 'TmaxOS',
         'UBT' => 'Ubuntu',
+        'VID' => 'VIDAA',
         'WAS' => 'watchOS',
+        'WER' => 'Wear OS',
         'WTV' => 'WebTV',
         'WHS' => 'Whale OS',
         'WIN' => 'Windows',
@@ -134,7 +174,9 @@ class OperatingSystem extends AbstractParser
         'WRT' => 'Windows RT',
         'XBX' => 'Xbox',
         'XBT' => 'Xubuntu',
-        'YNS' => 'YunOs',
+        'YNS' => 'YunOS',
+        'ZEN' => 'Zenwalk',
+        'ZOR' => 'ZorinOS',
         'IOS' => 'iOS',
         'POS' => 'palmOS',
         'WOS' => 'webOS',
@@ -146,12 +188,15 @@ class OperatingSystem extends AbstractParser
      * @var array
      */
     protected static $osFamilies = [
-        'Android'               => ['AND', 'CYN', 'FIR', 'REM', 'RZD', 'MLD', 'MCD', 'YNS', 'GRI', 'HAR'],
+        'Android'               => [
+            'AND', 'CYN', 'FIR', 'REM', 'RZD', 'MLD', 'MCD', 'YNS', 'GRI', 'HAR',
+            'ADR', 'CLR', 'BOS', 'REV', 'LEN', 'SIR', 'RRS', 'WER', 'PIC',
+        ],
         'AmigaOS'               => ['AMG', 'MOR'],
         'BlackBerry'            => ['BLB', 'QNX'],
         'Brew'                  => ['BMP'],
         'BeOS'                  => ['BEO', 'HAI'],
-        'Chrome OS'             => ['COS', 'FYD', 'SEE'],
+        'Chrome OS'             => ['COS', 'CRS', 'FYD', 'SEE'],
         'Firefox OS'            => ['FOS', 'KOS'],
         'Gaming Console'        => ['WII', 'PS3'],
         'Google TV'             => ['GTV'],
@@ -162,12 +207,14 @@ class OperatingSystem extends AbstractParser
             'LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED',
             'RHT', 'VLN', 'MDR', 'GNT', 'SAB', 'SLW', 'SSE', 'CES', 'BTR', 'SAF',
             'ORD', 'TOS', 'RSO', 'DEE', 'FRE', 'MAG', 'FEN', 'CAI', 'PCL', 'HAS',
-            'LOS', 'DVK',
+            'LOS', 'DVK', 'ROK', 'OWR', 'OTV', 'KTV', 'PUR', 'PLA', 'FUC', 'PAR',
+            'FOR', 'MON', 'KAN', 'ZEN', 'LND', 'LNS', 'CHN', 'AMZ', 'TEN', 'CST',
+            'NOV', 'ROU', 'ZOR', 'RED', 'KAL', 'ORA', 'VID', 'TIV', 'BSN',
         ],
         'Mac'                   => ['MAC'],
         'Mobile Gaming Console' => ['PSP', 'NDS', 'XBX'],
-        'Real-time OS'          => ['MTK', 'TDX', 'MRE'],
-        'Other Mobile'          => ['WOS', 'POS', 'SBA', 'TIZ', 'SMG', 'MAE'],
+        'Real-time OS'          => ['MTK', 'TDX', 'MRE', 'JME', 'REX'],
+        'Other Mobile'          => ['WOS', 'POS', 'SBA', 'TIZ', 'SMG', 'MAE', 'LUN'],
         'Symbian'               => ['SYM', 'SYS', 'SY3', 'S60', 'S40'],
         'Unix'                  => ['SOS', 'AIX', 'HPX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64', 'INF'],
         'WebTV'                 => ['WTV'],
@@ -177,11 +224,23 @@ class OperatingSystem extends AbstractParser
     ];
 
     /**
+     * Contains a list of mappings from OS names we use to known client hint values
+     *
+     * @var array<string, array<string>>
+     */
+    protected static $clientHintMapping = [
+        'GNU/Linux' => ['Linux'],
+        'Mac'       => ['MacOS'],
+    ];
+
+    /**
      * Operating system families that are known as desktop only
      *
      * @var array
      */
-    protected static $desktopOsArray = ['AmigaOS', 'IBM', 'GNU/Linux', 'Mac', 'Unix', 'Windows', 'BeOS', 'Chrome OS'];
+    protected static $desktopOsArray = [
+        'AmigaOS', 'IBM', 'GNU/Linux', 'Mac', 'Unix', 'Windows', 'BeOS', 'Chrome OS', 'Chromium OS',
+    ];
 
     /**
      * Returns all available operating systems
@@ -204,25 +263,14 @@ class OperatingSystem extends AbstractParser
     }
 
     /**
-     * @inheritdoc
+     * Returns the os name and shot name
+     *
+     * @param string $name
+     *
+     * @return array
      */
-    public function parse(): ?array
+    public static function getShortOsData(string $name): array
     {
-        $return = $osRegex = $matches = [];
-
-        foreach ($this->getRegexes() as $osRegex) {
-            $matches = $this->matchUserAgent($osRegex['regex']);
-
-            if ($matches) {
-                break;
-            }
-        }
-
-        if (empty($matches)) {
-            return $return;
-        }
-
-        $name  = $this->buildByMatch($osRegex['name'], $matches);
         $short = 'UNK';
 
         foreach (self::$operatingSystems as $osShort => $osName) {
@@ -232,14 +280,103 @@ class OperatingSystem extends AbstractParser
 
             $name  = $osName;
             $short = $osShort;
+
+            break;
+        }
+
+        return \compact('short', 'name');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function parse(): ?array
+    {
+        $osFromClientHints = $this->parseOsFromClientHints();
+        $osFromUserAgent   = $this->parseOsFromUserAgent();
+
+        if (!empty($osFromClientHints['name'])) {
+            $name    = $osFromClientHints['name'];
+            $version = $osFromClientHints['version'];
+
+            // use version from user agent if non was provided in client hints, but os family from useragent matches
+            if (empty($version)
+                && self::getOsFamily($name) === self::getOsFamily($osFromUserAgent['name'])
+            ) {
+                $version = $osFromUserAgent['version'];
+            }
+
+            // If the OS name detected from client hints matches the OS family from user agent
+            // but the os name is another, we use the one from user agent, as it might be more detailed
+            if (self::getOsFamily($osFromUserAgent['name']) === $name && $osFromUserAgent['name'] !== $name) {
+                $name = $osFromUserAgent['name'];
+
+                if ('HarmonyOS' === $name) {
+                    $version = '';
+                }
+
+                if ('Fire OS' === $osFromUserAgent['name']) {
+                        $majorVersion = (int) (\explode('.', $version, 1)[0] ?? '0');
+
+                        $fireOsVersionMapping = [
+                            '11'    => '8',
+                            '10'    => '8',
+                            '9'     => '7',
+                            '7'     => '6',
+                            '5'     => '5',
+                            '4.4.3' => '4.5.1',
+                            '4.4.2' => '4',
+                            '4.2.2' => '3',
+                            '4.0.3' => '3',
+                            '4.0.2' => '3',
+                            '4'     => '2',
+                            '2'     => '1',
+                        ];
+
+                        $version = $fireOsVersionMapping[$version] ?? $fireOsVersionMapping[$majorVersion] ?? $version;
+                }
+            }
+
+            $short = $osFromClientHints['short_name'];
+
+            // Chrome OS is in some cases reported as Linux in client hints, we fix this only if the version matches
+            if ('GNU/Linux' === $name
+                && 'Chrome OS' === $osFromUserAgent['name']
+                && $osFromClientHints['version'] === $osFromUserAgent['version']
+            ) {
+                $name  = $osFromUserAgent['name'];
+                $short = $osFromUserAgent['short_name'];
+            }
+        } elseif (!empty($osFromUserAgent['name'])) {
+            $name    = $osFromUserAgent['name'];
+            $version = $osFromUserAgent['version'];
+            $short   = $osFromUserAgent['short_name'];
+        } else {
+            return [];
+        }
+
+        $platform    = $this->parsePlatform();
+        $family      = self::getOsFamily($short);
+        $androidApps = [
+            'com.hisense.odinbrowser', 'com.seraphic.openinet.pre', 'com.appssppa.idesktoppcbrowser',
+            'every.browser.inc',
+        ];
+
+        if (null !== $this->clientHints) {
+            if (\in_array($this->clientHints->getApp(), $androidApps) && 'Android' !== $name) {
+                $name    = 'Android';
+                $family  = 'Android';
+                $short   = 'ADR';
+                $version = '';
+            }
         }
 
         $return = [
             'name'       => $name,
             'short_name' => $short,
-            'version'    => $this->buildVersion((string) $osRegex['version'], $matches),
-            'platform'   => $this->parsePlatform(),
-            'family'     => self::getOsFamily($short),
+            'version'    => $version,
+            'platform'   => $platform,
+            'family'     => $family,
         ];
 
         if (\in_array($return['name'], self::$operatingSystems)) {
@@ -305,10 +442,139 @@ class OperatingSystem extends AbstractParser
     }
 
     /**
+     * Returns the OS that can be safely detected from client hints
+     *
+     * @return array
+     */
+    protected function parseOsFromClientHints(): array
+    {
+        $name = $version = $short = '';
+
+        if ($this->clientHints instanceof ClientHints && $this->clientHints->getOperatingSystem()) {
+            $hintName = $this->applyClientHintMapping($this->clientHints->getOperatingSystem());
+
+            foreach (self::$operatingSystems as $osShort => $osName) {
+                if ($this->fuzzyCompare($hintName, $osName)) {
+                    $name  = $osName;
+                    $short = $osShort;
+
+                    break;
+                }
+            }
+
+            $version = $this->clientHints->getOperatingSystemVersion();
+
+            if ('Windows' === $name) {
+                $majorVersion = (int) (\explode('.', $version, 1)[0] ?? '0');
+
+                if ($majorVersion > 0 && $majorVersion < 11) {
+                    $version = '10';
+                } elseif ($majorVersion > 10) {
+                    $version = '11';
+                }
+            }
+
+            if (0 === (int) $version) {
+                $version = '';
+            }
+        }
+
+        return [
+            'name'       => $name,
+            'short_name' => $short,
+            'version'    => $this->buildVersion($version, []),
+        ];
+    }
+
+    /**
+     * Returns the OS that can be detected from useragent
+     *
+     * @return array
+     *
+     * @throws \Exception
+     */
+    protected function parseOsFromUserAgent(): array
+    {
+        $osRegex = $matches = [];
+        $name    = $version = $short = '';
+
+        foreach ($this->getRegexes() as $osRegex) {
+            $matches = $this->matchUserAgent($osRegex['regex']);
+
+            if ($matches) {
+                break;
+            }
+        }
+
+        if (!empty($matches)) {
+            $name                                = $this->buildByMatch($osRegex['name'], $matches);
+            ['name' => $name, 'short' => $short] = self::getShortOsData($name);
+
+            $version = \array_key_exists('version', $osRegex)
+                ? $this->buildVersion((string) $osRegex['version'], $matches)
+                : '';
+
+            foreach ($osRegex['versions'] ?? [] as $regex) {
+                $matches = $this->matchUserAgent($regex['regex']);
+
+                if (!$matches) {
+                    continue;
+                }
+
+                if (\array_key_exists('name', $regex)) {
+                    $name                                = $this->buildByMatch($regex['name'], $matches);
+                    ['name' => $name, 'short' => $short] = self::getShortOsData($name);
+                }
+
+                if (\array_key_exists('version', $regex)) {
+                    $version = $this->buildVersion((string) $regex['version'], $matches);
+                }
+
+                break;
+            }
+        }
+
+        return [
+            'name'       => $name,
+            'short_name' => $short,
+            'version'    => $version,
+        ];
+    }
+
+    /**
+     * Parse current UserAgent string for the operating system platform
+     *
      * @return string
      */
     protected function parsePlatform(): string
     {
+        // Use architecture from client hints if available
+        if ($this->clientHints instanceof ClientHints && $this->clientHints->getArchitecture()) {
+            $arch = \strtolower($this->clientHints->getArchitecture());
+
+            if (false !== \strpos($arch, 'arm')) {
+                return 'ARM';
+            }
+
+            if (false !== \strpos($arch, 'mips')) {
+                return 'MIPS';
+            }
+
+            if (false !== \strpos($arch, 'sh4')) {
+                return 'SuperH';
+            }
+
+            if (false !== \strpos($arch, 'x64')
+                || (false !== \strpos($arch, 'x86') && '64' === $this->clientHints->getBitness())
+            ) {
+                return 'x64';
+            }
+
+            if (false !== \strpos($arch, 'x86')) {
+                return 'x86';
+            }
+        }
+
         if ($this->matchUserAgent('arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]')) {
             return 'ARM';
         }
@@ -321,11 +587,11 @@ class OperatingSystem extends AbstractParser
             return 'SuperH';
         }
 
-        if ($this->matchUserAgent('WOW64|x64|win64|amd64|x86_?64')) {
+        if ($this->matchUserAgent('64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64')) {
             return 'x64';
         }
 
-        if ($this->matchUserAgent('(?:i[0-9]|x)86|i86pc')) {
+        if ($this->matchUserAgent('.+32bit|.+win32|(?:i[0-9]|x)86|i86pc')) {
             return 'x86';
         }
 

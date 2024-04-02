@@ -21,7 +21,7 @@ class BrowserDetect implements StageInterface
     public function __invoke(PayloadInterface $payload): ResultInterface
     {
         // Fix issue when the device is detected at tablet and mobile in the same time.
-        if (! $payload->getValue('isMobile') && ! $payload->getValue('isTablet')) {
+        if (!$payload->getValue('isMobile') && !$payload->getValue('isTablet')) {
             $payload->setValue('isMobile', false);
             $payload->setValue('isTablet', false);
             $payload->setValue('isDesktop', true);
@@ -35,22 +35,41 @@ class BrowserDetect implements StageInterface
             $payload->setValue('isDesktop', false);
         }
 
+        // Prerender desktop bot checker
+        if (strpos($payload->getAgent(), 'Prerender') !== false) {
+            $payload->setValue('isBot', true);
+            $payload->setValue('isMobile', false);
+            $payload->setValue('isTable', false);
+            $payload->setValue('isDesktop', true);
+        }
+
+        // Prerender mobile bot checker
+        if (
+            stripos($payload->getAgent(), 'Prerender') !== false &&
+            stripos($payload->getAgent(), 'Android') !== false
+        ) {
+            $payload->setValue('isBot', true);
+            $payload->setValue('isMobile', true);
+            $payload->setValue('isTable', false);
+            $payload->setValue('isDesktop', false);
+        }
+
         // Popular browser vendors.
-        if (false !== stripos($payload->getValue('browserFamily'), 'chrom')) {
+        if (false !== stripos($payload->getValue('browserFamily') ?? '', 'chrom')) {
             $payload->setValue('isChrome', true);
-        } elseif (false !== stripos($payload->getValue('browserFamily'), 'firefox')) {
+        } elseif (false !== stripos($payload->getValue('browserFamily') ?? '', 'firefox')) {
             $payload->setValue('isFirefox', true);
-        } elseif (false !== stripos($payload->getValue('browserFamily'), 'opera')) {
+        } elseif (false !== stripos($payload->getValue('browserFamily') ?? '', 'opera')) {
             $payload->setValue('isOpera', true);
-        } elseif (false !== stripos($payload->getValue('browserFamily'), 'safari')) {
+        } elseif (false !== stripos($payload->getValue('browserFamily') ?? '', 'safari')) {
             $payload->setValue('isSafari', true);
         } elseif (
-            false !== stripos($payload->getValue('browserFamily'), 'explorer')
-            || false !== stripos($payload->getValue('browserFamily'), 'ie')
-            || false !== stripos($payload->getValue('browserFamily'), 'trident')
+            false !== stripos($payload->getValue('browserFamily') ?? '', 'explorer')
+            || false !== stripos($payload->getValue('browserFamily') ?? '', 'ie')
+            || false !== stripos($payload->getValue('browserFamily') ?? '', 'trident')
         ) {
             $payload->setValue('isIE', true);
-        } elseif (false !== stripos($payload->getValue('browserFamily'), 'edge')) {
+        } elseif (false !== stripos($payload->getValue('browserFamily') ?? '', 'edge')) {
             $payload->setValue('isEdge', true);
         }
 
@@ -61,9 +80,9 @@ class BrowserDetect implements StageInterface
                 implode(
                     '.',
                     [
-                    $payload->getValue('browserVersionMajor'),
-                    $payload->getValue('browserVersionMinor'),
-                    $payload->getValue('browserVersionPatch'),
+                        $payload->getValue('browserVersionMajor'),
+                        $payload->getValue('browserVersionMinor'),
+                        $payload->getValue('browserVersionPatch'),
                     ]
                 )
             )
@@ -71,8 +90,8 @@ class BrowserDetect implements StageInterface
 
         $payload->setValue('browserName', trim(
             $payload->getValue('browserFamily') .
-            ' ' .
-            $payload->getValue('browserVersion')
+                ' ' .
+                $payload->getValue('browserVersion')
         ));
 
         // Human readable platform version.
@@ -82,9 +101,9 @@ class BrowserDetect implements StageInterface
                 implode(
                     '.',
                     [
-                    $payload->getValue('platformVersionMajor'),
-                    $payload->getValue('platformVersionMinor'),
-                    $payload->getValue('platformVersionPatch'),
+                        $payload->getValue('platformVersionMajor'),
+                        $payload->getValue('platformVersionMinor'),
+                        $payload->getValue('platformVersionPatch'),
                     ]
                 )
             )
@@ -92,21 +111,21 @@ class BrowserDetect implements StageInterface
 
         $payload->setValue('platformName', trim(
             $payload->getValue('platformFamily') .
-            ' ' .
-            $payload->getValue('platformVersion')
+                ' ' .
+                $payload->getValue('platformVersion')
         ));
 
         // Popular os vendors.
-        if (false !== stripos($payload->getValue('platformFamily'), 'windows')) {
+        if (false !== stripos($payload->getValue('platformFamily') ?? '', 'windows')) {
             $payload->setValue('isWindows', true);
-        } elseif (false !== stripos($payload->getValue('platformFamily'), 'android')) {
+        } elseif (false !== stripos($payload->getValue('platformFamily') ?? '', 'android')) {
             $payload->setValue('isAndroid', true);
         } elseif (
-            false !== stripos($payload->getValue('platformFamily'), 'mac')
-            || false !== stripos($payload->getValue('platformFamily'), 'ios')
+            false !== stripos($payload->getValue('platformFamily') ?? '', 'mac')
+            || false !== stripos($payload->getValue('platformFamily') ?? '', 'ios')
         ) {
             $payload->setValue('isMac', true);
-        } elseif (false !== stripos($payload->getValue('platformFamily'), 'linux')) {
+        } elseif (false !== stripos($payload->getValue('platformFamily') ?? '', 'linux')) {
             $payload->setValue('isLinux', true);
         }
 
@@ -124,10 +143,38 @@ class BrowserDetect implements StageInterface
      */
     protected function detectIsInApp(PayloadInterface $payload): bool
     {
-        return (bool) preg_match(
-            '%(WebView|(iPhone|iPod|iPad)(?!.*Safari\/)|Android.*(wv|\.0\.0\.0))%',
+        // Simple WebView match
+        if (stripos($payload->getAgent(), 'WebView') !== false) {
+            return true;
+        }
+
+        // Twitter
+        if (stripos($payload->getAgent(), 'Twitter') !== false) {
+            return true;
+        }
+
+        // Twitter
+        if (stripos($payload->getAgent(), 'MicroMessenger') !== false) {
+            return true;
+        }
+
+        // Apple
+        if (preg_match(
+            '%(iPhone|iPod|iPad)(?!.*Safari\/)%i',
             $payload->getAgent()
-        );
+        )) {
+            return true;
+        }
+
+        // Android
+        if (preg_match(
+            '%Android.*wv%i',
+            $payload->getAgent()
+        )) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

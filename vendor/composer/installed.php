@@ -1,103 +1,101 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => '1.1.0.x-dev',
+        'version' => '1.1.0.9999999-dev',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '799b3e3a5a0dff6f31c8bbdee4638d801cfc640a',
+        'name' => '__root__',
+        'dev' => true,
     ),
-    'reference' => '801873a7600729a8f3e2c0537658280245394d0c',
-    'name' => '__root__',
-  ),
-  'versions' => 
-  array (
-    '__root__' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '801873a7600729a8f3e2c0537658280245394d0c',
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => '1.1.0.x-dev',
+            'version' => '1.1.0.9999999-dev',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '799b3e3a5a0dff6f31c8bbdee4638d801cfc640a',
+            'dev_requirement' => false,
+        ),
+        'composer/ca-bundle' => array(
+            'pretty_version' => '1.5.0',
+            'version' => '1.5.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./ca-bundle',
+            'aliases' => array(),
+            'reference' => '0c5ccfcfea312b5c5a190a21ac5cef93f74baf99',
+            'dev_requirement' => false,
+        ),
+        'hisorange/browser-detect' => array(
+            'pretty_version' => '4.5.4',
+            'version' => '4.5.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../hisorange/browser-detect',
+            'aliases' => array(),
+            'reference' => '2a7c2b140209aa8477424614eb3aa6f7a7b9f429',
+            'dev_requirement' => false,
+        ),
+        'jaybizzle/crawler-detect' => array(
+            'pretty_version' => 'v1.2.117',
+            'version' => '1.2.117.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../jaybizzle/crawler-detect',
+            'aliases' => array(),
+            'reference' => '6785557f03d0fa9e2205352ebae9a12a4484cc8e',
+            'dev_requirement' => false,
+        ),
+        'league/pipeline' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/pipeline',
+            'aliases' => array(),
+            'reference' => 'aa14b0e3133121f8be39e9a3b6ddd011fc5bb9a8',
+            'dev_requirement' => false,
+        ),
+        'matomo/device-detector' => array(
+            'pretty_version' => '6.3.0',
+            'version' => '6.3.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../matomo/device-detector',
+            'aliases' => array(),
+            'reference' => '35efad75b31f2596701834d19f097497909572a4',
+            'dev_requirement' => false,
+        ),
+        'mobiledetect/mobiledetectlib' => array(
+            'pretty_version' => '2.8.45',
+            'version' => '2.8.45.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mobiledetect/mobiledetectlib',
+            'aliases' => array(),
+            'reference' => '96aaebcf4f50d3d2692ab81d2c5132e425bca266',
+            'dev_requirement' => false,
+        ),
+        'mustangostang/spyc' => array(
+            'pretty_version' => '0.6.3',
+            'version' => '0.6.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mustangostang/spyc',
+            'aliases' => array(),
+            'reference' => '4627c838b16550b666d15aeae1e5289dd5b77da0',
+            'dev_requirement' => false,
+        ),
+        'piwik/device-detector' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '6.3.0',
+            ),
+        ),
+        'ua-parser/uap-php' => array(
+            'pretty_version' => 'v3.9.14',
+            'version' => '3.9.14.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ua-parser/uap-php',
+            'aliases' => array(),
+            'reference' => 'b796c5ea5df588e65aeb4e2c6cce3811dec4fed6',
+            'dev_requirement' => false,
+        ),
     ),
-    'composer/ca-bundle' => 
-    array (
-      'pretty_version' => '1.3.1',
-      'version' => '1.3.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b',
-    ),
-    'hisorange/browser-detect' => 
-    array (
-      'pretty_version' => '4.5.0',
-      'version' => '4.5.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'f5749fcbeeeb0130abab15ffaeb2094dc0d561fc',
-    ),
-    'jaybizzle/crawler-detect' => 
-    array (
-      'pretty_version' => 'v1.2.111',
-      'version' => '1.2.111.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'd572ed4a65a70a2d2871dc5137c9c5b7e69745ab',
-    ),
-    'league/pipeline' => 
-    array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'aa14b0e3133121f8be39e9a3b6ddd011fc5bb9a8',
-    ),
-    'matomo/device-detector' => 
-    array (
-      'pretty_version' => '4.3.1',
-      'version' => '4.3.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '88e5419ee1448ccb9537e287dd09836ff9d2de3b',
-    ),
-    'mobiledetect/mobiledetectlib' => 
-    array (
-      'pretty_version' => '2.8.39',
-      'version' => '2.8.39.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '0fd6753003fc870f6e229bae869cc1337c99bc45',
-    ),
-    'mustangostang/spyc' => 
-    array (
-      'pretty_version' => '0.6.3',
-      'version' => '0.6.3.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '4627c838b16550b666d15aeae1e5289dd5b77da0',
-    ),
-    'piwik/device-detector' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '4.3.1',
-      ),
-    ),
-    'ua-parser/uap-php' => 
-    array (
-      'pretty_version' => 'v3.9.14',
-      'version' => '3.9.14.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'b796c5ea5df588e65aeb4e2c6cce3811dec4fed6',
-    ),
-  ),
 );

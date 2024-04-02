@@ -2,6 +2,7 @@
 ^Aether
 ^Amazon Simple Notification Service Agent$
 ^Amazon-Route53-Health-Check-Service
+^Amazon CloudFront
 ^b0t$
 ^bluefish 
 ^Calypso v\/
@@ -139,7 +140,6 @@ axios\/
 a\.pr-cy\.ru
 B-l-i-t-z-B-O-T
 Backlink-Ceck
-backlink-check
 BacklinkHttpStatus
 BackStreet
 BackupLand
@@ -274,6 +274,7 @@ DAP\/NetHTTP
 DareBoost
 DatabaseDriverMysqli
 DataCha0s
+DatadogSynthetics
 Datafeedwatch
 Datanyze
 DataparkSearch
@@ -354,6 +355,7 @@ Express WebPictures
 Extreme Picture Finder
 EyeNetIE
 ezooms
+facebookcatalog
 facebookexternalhit
 facebookexternalua
 facebookplatform
@@ -400,16 +402,20 @@ fluffy
 Flunky
 flynxapp
 forensiq
+ForusP
 FoundSeoTool
+fragFINN\.de
 free thumbnails
 Freeuploader
 FreshRSS
+frontman
 Funnelback
 Fuzz Faster U Fool
 G-i-g-a-b-o-t
 g00g1e\.net
 ganarvisitas
 gdnplus\.com
+GeedoProductSearch
 geek-tools
 Genieo
 GentleSource
@@ -434,6 +440,7 @@ Go!Zilla
 Go-Ahead-Got-It
 Go-http-client
 go-mtasts\/
+gobuster
 gobyus
 Gofeed
 gofetch
@@ -450,13 +457,13 @@ Google Page Speed Insights
 Google PP Default
 Google Search Console
 Google Web Preview
-Google-Ads-Creatives-Assistant
-Google-Ads-Overview
+Google-Ads
 Google-Adwords
 Google-Apps-Script
 Google-Calendar-Importer
 Google-HotelAdsVerifier
 Google-HTTP-Java-Client
+Google-InspectionTool
 Google-Podcast
 Google-Publisher-Plugin
 Google-Read-Aloud
@@ -593,6 +600,7 @@ internet_archive
 intraVnews
 IODC
 IOI
+Inboxb0t
 iplabel
 ips-agent
 IPS\/[0-9]
@@ -665,6 +673,7 @@ limber\.io
 Link Valet
 LinkAlarm\/
 LinkAnalyser
+link-check
 linkCheck
 linkdex
 LinkExaminer
@@ -730,6 +739,7 @@ Microsoft Outlook
 Microsoft Windows Network Diagnostics
 Microsoft-WebDAV-MiniRedir
 Microsoft\.Data\.Mashup
+MicrosoftPreview
 MIDown tool
 MIIxpc
 Mindjet
@@ -745,6 +755,7 @@ Mnogosearch
 mogimogi
 Mojeek
 Mojolicious \(Perl\)
+Mollie
 monitis
 Monitority\/
 Monit\/
@@ -772,6 +783,7 @@ NameFo\.com
 Nameprotect
 nationalarchives
 Navroad
+nbertaupete95
 NearSite
 Needle
 Nessus
@@ -926,6 +938,7 @@ Priceonomics Analysis Engine
 PrintFriendly
 PritTorrent
 Prlog
+probely\.com
 probethenet
 Project ?25499
 Project-Resonance
@@ -937,6 +950,7 @@ PRTG Network Monitor
 pshtt, https scanning
 PTST 
 PTST\/[0-9]+
+pulsetic\.com
 Pump
 Python-httplib2
 python-httpx
@@ -1029,6 +1043,7 @@ seo4ajax
 Seobility
 SEOCentro
 SeoCheck
+seocompany
 SEOkicks
 SEOlizer
 Seomoz
@@ -1098,9 +1113,11 @@ SpaceBison
 SpamExperts
 Spammen
 Spanner
+Spawning-AI
 spaziodati
 SPDYCheck
 Specificfeeds
+SpeedKit
 speedy
 SPEng
 Spinn3r
@@ -1226,6 +1243,7 @@ VCI
 via ggpht\.com GoogleImageProxy
 Virusdie
 visionutils
+Visual Rights Group
 vkShare
 VoidEYE
 Voil

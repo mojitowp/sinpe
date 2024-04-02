@@ -1,3 +1,16 @@
+### Changes in 4.5.2
+
+---
+
+- Improved the inApp detection
+- Small fix for new PHP versions
+
+### Change in 4.5.1
+
+---
+
+- Added Prerender as bot
+
 ### Change in 4.5.0
 
 ---
