@@ -64,7 +64,8 @@ e.g.
 
 = 1.1.0
 * Exchange rate options
-* New filter action mojito_sinpe_exchange_rate
+* New filter mojito_sinpe_exchange_rate
+* New filter mojito_sinpe_amount
 * Tested up to WP 6.4.3
 * Tested up to WC 8.7.0
 

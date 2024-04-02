@@ -293,6 +293,11 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			}
 
 			/**
+			 * Filter the exchange rate
+			 */
+			$exchange_rate = apply_filters( 'mojito_sinpe_exchange_rate', $exchange_rate );
+
+			/**
 			 * Si el exchange rate está activo, quiere decir que la tienda vende en dólares
 			 * Entonces se multiplica el monto por el exchange rate para obtener la cantidad en colones
 			 */
@@ -302,6 +307,8 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 				$amount = $amount * -1;
 			}
 		}
+
+		$amount = apply_filters( 'mojito_sinpe_amount', $amount );
 
 		$message = 'Pase ' . $amount . ' ' . $number;
 
