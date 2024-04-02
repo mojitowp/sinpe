@@ -297,6 +297,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			 * Entonces se multiplica el monto por el exchange rate para obtener la cantidad en colones
 			 */
 			$amount = $amount * $exchange_rate;
+			$amount = round( $amount, 0 );
 		}
 
 		$message = 'Pase ' . $amount . ' ' . $number;
