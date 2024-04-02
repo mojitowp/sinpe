@@ -298,6 +298,9 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			 */
 			$amount = $amount * $exchange_rate;
 			$amount = round( $amount, 0 );
+			if ( $amount < 1 ) {
+				$amount = $amount * -1;
+			}
 		}
 
 		$message = 'Pase ' . $amount . ' ' . $number;
