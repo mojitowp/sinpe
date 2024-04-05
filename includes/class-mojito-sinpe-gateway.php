@@ -283,7 +283,12 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			switch ( $exchange_rate_origin ) {
 				case 'hacienda':
 					$rates = \Mojito\ExchangeRate\Factory::create( \Mojito\ExchangeRate\ProviderTypes::CR_Hacienda );
-					$exchange_rate = $rates?->getRates()?->dolar?->venta?->valor ?? 1;
+					$rate  = (array)$rates->getRates();
+					if ( ! empty($rate['dolar']['venta']['valor'])) {
+						$exchange_rate = $rate['dolar']['venta']['valor'];
+					} else {
+						$exchange_rate = 1;
+					}
 					break;
 				case 'custom':
 					if ( is_numeric( $exchange_rate_custom ) ) {
