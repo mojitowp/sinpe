@@ -64,11 +64,12 @@ Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este 
 == Changelog ==
 
 = 1.1.0
+* WooCommerce High-Performance Order Storage compatibility
 * Exchange rate options
 * New filter mojito_sinpe_exchange_rate
 * New filter mojito_sinpe_amount
-* Tested up to WP 6.4.3
-* Tested up to WC 8.7.0
+* Tested up to WP 6.5.3
+* Tested up to WC 8.9.1
 
 = 1.0.8 =
 * iPhone Compatibility fix
@@ -80,7 +81,7 @@ Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este 
 * Tested up to WP 7.3.0
 * Tested up to WC 6.6.1
 
-= 1.0.6 =
+= 1.1.0 =
 * New option to hide banks list 
 * Compatibility fix for WooWallet
 * Tested up to WP 5.9.3

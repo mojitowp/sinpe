@@ -102,7 +102,6 @@ if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 		require_once MOJITO_SINPE_DIR . 'admin/partials/mojito-sinpe-require-plugins-woocommerce.php';
 	}
 }
-
 if ( $load ) {
 
 	/**

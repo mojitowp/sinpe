@@ -85,8 +85,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 * @access public
 	 * @return void
 	 */
-	public function init() {
-	}
+	public function init() {}
 
 	/**
 	 * Add configuration fields to woocommerce payment settings
@@ -406,6 +405,8 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 */
 	public function process_payment( $order_id ) {
 
+		global $woocommerce;
+
 		$bank = sanitize_text_field( $_POST['mojito_sinpe_bank'] );
 
 		if ( 'yes' === $this->settings['show-banks-list-in-checkout'] ) {
@@ -415,7 +416,6 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			}
 		}
 
-		global $woocommerce;
 		$order = new \WC_Order( $order_id );
 
 		if ( 'yes' === $this->settings['ask-voucher-id'] && 'yes' === $this->settings['show-banks-list-in-checkout'] ) {
