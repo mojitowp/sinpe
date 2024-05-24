@@ -77,6 +77,8 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 		if ( isset( $_SESSION['mojito-sinpe-email-instructions-already-added'] ) ) {
 			unset( $_SESSION['mojito-sinpe-email-instructions-already-added'] );
 		}
+		error_log( print_r( $this, true ) );
+
 	}
 
 	/**
