@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ad0de121716a8d63e4711a52ea111a3c3a946549',
+        'reference' => 'c79d60eed8240d5006c9f23d154f0249d00b2a70',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ad0de121716a8d63e4711a52ea111a3c3a946549',
+            'reference' => 'c79d60eed8240d5006c9f23d154f0249d00b2a70',
             'dev_requirement' => false,
         ),
         'composer/ca-bundle' => array(
@@ -38,12 +38,12 @@
             'dev_requirement' => false,
         ),
         'jaybizzle/crawler-detect' => array(
-            'pretty_version' => 'v1.2.117',
-            'version' => '1.2.117.0',
+            'pretty_version' => 'v1.2.118',
+            'version' => '1.2.118.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../jaybizzle/crawler-detect',
             'aliases' => array(),
-            'reference' => '6785557f03d0fa9e2205352ebae9a12a4484cc8e',
+            'reference' => '9b8912ac5b78b780a0ead552b4c3dc9ddfdea4fd',
             'dev_requirement' => false,
         ),
         'league/pipeline' => array(
@@ -56,12 +56,12 @@
             'dev_requirement' => false,
         ),
         'matomo/device-detector' => array(
-            'pretty_version' => '6.3.0',
-            'version' => '6.3.0.0',
+            'pretty_version' => '6.3.1',
+            'version' => '6.3.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../matomo/device-detector',
             'aliases' => array(),
-            'reference' => '35efad75b31f2596701834d19f097497909572a4',
+            'reference' => '8096093346917ee2477d802ab3b00c4c091c5cee',
             'dev_requirement' => false,
         ),
         'mobiledetect/mobiledetectlib' => array(
@@ -94,7 +94,7 @@
         'piwik/device-detector' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '6.3.0',
+                0 => '6.3.1',
             ),
         ),
         'ua-parser/uap-php' => array(
