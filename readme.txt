@@ -1,11 +1,11 @@
 === Mojito Sinpe ===
 Contributors: quantumdev
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CUC2VE9F3LADU
-Tags: ecommerce, woocommerce, payment, woocommerce payment, sinpe, costa rica, multisite
+Tags: ecommerce, woocommerce, payment
 Requires at least: 4.6
-Tested up to: 6.2.2
-Stable tag: 1.0.8
-Requires PHP: 7.0
+Tested up to: 6.5.3
+Stable tag: 1.1.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,9 +58,19 @@ e.g.
 
 == Upgrade Notice ==
 
-¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
+Actualización con compatibilidad para WooCommerce HPOS (High-Performance Order Storage). Requiere PHP 7.4 y WooCommerce 8.2 (o superiores)
+Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
 
 == Changelog ==
+
+= 1.1.0
+* WooCommerce High-Performance Order Storage compatibility
+* Exchange rate options
+* New filter mojito_sinpe_exchange_rate
+* New filter mojito_sinpe_amount
+* Tested up to WP 6.5.3
+* Tested up to WC 8.9.1
+* PHP Fixes
 
 = 1.0.8 =
 * iPhone Compatibility fix
@@ -72,7 +82,7 @@ e.g.
 * Tested up to WP 7.3.0
 * Tested up to WC 6.6.1
 
-= 1.0.6 =
+= 1.1.0 =
 * New option to hide banks list 
 * Compatibility fix for WooWallet
 * Tested up to WP 5.9.3

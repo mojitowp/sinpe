@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Device Detector - The Universal Device Detection library for parsing User Agents
  *
@@ -10,10 +8,13 @@ declare(strict_types=1);
  * @license http://www.gnu.org/licenses/lgpl.html LGPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace DeviceDetector\Parser;
 
 use DeviceDetector\Cache\CacheInterface;
 use DeviceDetector\Cache\StaticCache;
+use DeviceDetector\ClientHints;
 use DeviceDetector\DeviceDetector;
 use DeviceDetector\Yaml\ParserInterface as YamlParser;
 use DeviceDetector\Yaml\Spyc;
@@ -37,10 +38,22 @@ abstract class AbstractParser
     protected $parserName;
 
     /**
-     * Holds the user agent the should be parsed
+     * Holds the user agent to be parsed
      * @var string
      */
     protected $userAgent;
+
+    /**
+     * Holds the client hints to be parsed
+     * @var ?ClientHints
+     */
+    protected $clientHints = null;
+
+    /**
+     * Contains a list of mappings from names we use to known client hint values
+     * @var array<string, array<string>>
+     */
+    protected static $clientHintMapping = [];
 
     /**
      * Holds an array with method that should be available global
@@ -53,6 +66,12 @@ abstract class AbstractParser
      * @var array
      */
     protected $regexList;
+
+    /**
+     * Holds the concatenated regex for all items in regex list
+     * @var string
+     */
+    protected $overAllMatch;
 
     /**
      * Indicates how deep versioning will be detected
@@ -91,14 +110,14 @@ abstract class AbstractParser
     public const VERSION_TRUNCATION_NONE = -1;
 
     /**
-     * @var CacheInterface
+     * @var CacheInterface|null
      */
-    protected $cache;
+    protected $cache = null;
 
     /**
-     * @var YamlParser
+     * @var YamlParser|null
      */
-    protected $yamlParser;
+    protected $yamlParser = null;
 
     /**
      * parses the currently set useragents and returns possible results
@@ -110,11 +129,13 @@ abstract class AbstractParser
     /**
      * AbstractParser constructor.
      *
-     * @param string $ua
+     * @param string       $ua
+     * @param ?ClientHints $clientHints
      */
-    public function __construct(string $ua = '')
+    public function __construct(string $ua = '', ?ClientHints $clientHints = null)
     {
         $this->setUserAgent($ua);
+        $this->setClientHints($clientHints);
     }
 
     /**
@@ -145,6 +166,16 @@ abstract class AbstractParser
     public function setUserAgent(string $ua): void
     {
         $this->userAgent = $ua;
+    }
+
+    /**
+     * Sets the client hints to parse
+     *
+     * @param ?ClientHints $clientHints client hints
+     */
+    public function setClientHints(?ClientHints $clientHints): void
+    {
+        $this->clientHints = $clientHints;
     }
 
     /**
@@ -213,19 +244,50 @@ abstract class AbstractParser
     protected function getRegexes(): array
     {
         if (empty($this->regexList)) {
-            $cacheKey        = 'DeviceDetector-' . DeviceDetector::VERSION . 'regexes-' . $this->getName();
-            $cacheKey        = (string) \preg_replace('/([^a-z0-9_-]+)/i', '', $cacheKey);
-            $this->regexList = $this->getCache()->fetch($cacheKey);
+            $cacheKey     = 'DeviceDetector-' . DeviceDetector::VERSION . 'regexes-' . $this->getName();
+            $cacheKey     = (string) \preg_replace('/([^a-z0-9_-]+)/i', '', $cacheKey);
+            $cacheContent = $this->getCache()->fetch($cacheKey);
+
+            if (\is_array($cacheContent)) {
+                $this->regexList = $cacheContent;
+            }
 
             if (empty($this->regexList)) {
-                $this->regexList = $this->getYamlParser()->parseFile(
+                $parsedContent = $this->getYamlParser()->parseFile(
                     $this->getRegexesDirectory() . DIRECTORY_SEPARATOR . $this->fixtureFile
                 );
+
+                if (!\is_array($parsedContent)) {
+                    $parsedContent = [];
+                }
+
+                $this->regexList = $parsedContent;
                 $this->getCache()->save($cacheKey, $this->regexList);
             }
         }
 
         return $this->regexList;
+    }
+
+    /**
+     * Returns the provided name after applying client hint mappings.
+     * This is used to map names provided in client hints to the names we use.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function applyClientHintMapping(string $name): string
+    {
+        foreach (static::$clientHintMapping as $mappedName => $clientHints) {
+            foreach ($clientHints as $clientHint) {
+                if (\strtolower($name) === \strtolower($clientHint)) {
+                    return $mappedName;
+                }
+            }
+        }
+
+        return $name;
     }
 
     /**
@@ -250,7 +312,7 @@ abstract class AbstractParser
         $matches = [];
 
         // only match if useragent begins with given regex or there is no letter before it
-        $regex = '/(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:' . \str_replace('/', '\/', $regex) . ')/i';
+        $regex = '/(?:^|[^A-Z0-9_-]|[^A-Z0-9-]_|sprd-|MZ-)(?:' . \str_replace('/', '\/', $regex) . ')/i';
 
         try {
             if (\preg_match($regex, $this->userAgent, $matches)) {
@@ -318,7 +380,7 @@ abstract class AbstractParser
     /**
      * Tests the useragent against a combination of all regexes
      *
-     * All regexes returned by getRegexes() will be reversed and concated with '|'
+     * All regexes returned by getRegexes() will be reversed and concatenated with '|'
      * Afterwards the big regex will be tested against the user agent
      *
      * Method can be used to speed up detections by making a big check before doing checks for every single regex
@@ -329,23 +391,39 @@ abstract class AbstractParser
     {
         $regexes = $this->getRegexes();
 
-        static $overAllMatch;
-
         $cacheKey = $this->parserName . DeviceDetector::VERSION . '-all';
         $cacheKey = (string) \preg_replace('/([^a-z0-9_-]+)/i', '', $cacheKey);
 
-        if (empty($overAllMatch)) {
+        if (empty($this->overAllMatch)) {
             $overAllMatch = $this->getCache()->fetch($cacheKey);
+
+            if (\is_string($overAllMatch)) {
+                $this->overAllMatch = $overAllMatch;
+            }
         }
 
-        if (empty($overAllMatch)) {
+        if (empty($this->overAllMatch)) {
             // reverse all regexes, so we have the generic one first, which already matches most patterns
-            $overAllMatch = \array_reduce(\array_reverse($regexes), static function ($val1, $val2) {
+            $this->overAllMatch = \array_reduce(\array_reverse($regexes), static function ($val1, $val2) {
                 return !empty($val1) ? $val1 . '|' . $val2['regex'] : $val2['regex'];
             });
-            $this->getCache()->save($cacheKey, $overAllMatch);
+            $this->getCache()->save($cacheKey, $this->overAllMatch);
         }
 
-        return $this->matchUserAgent($overAllMatch);
+        return $this->matchUserAgent($this->overAllMatch);
+    }
+
+    /**
+     * Compares if two strings equals after lowering their case and removing spaces
+     *
+     * @param string $value1
+     * @param string $value2
+     *
+     * @return bool
+     */
+    protected function fuzzyCompare(string $value1, string $value2): bool
+    {
+        return \str_replace(' ', '', \strtolower($value1)) ===
+            \str_replace(' ', '', \strtolower($value2));
     }
 }

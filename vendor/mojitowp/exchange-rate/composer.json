@@ -1,0 +1,17 @@
+{
+    "name": "mojitowp/exchange-rate",
+    "description": "PHP Exchange Rate.",
+    "type": "library",
+	"license": "MIT",
+    "autoload" : {
+		"classmap": [
+			"src/",
+            "src/providers/cr/"
+		]
+	},
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

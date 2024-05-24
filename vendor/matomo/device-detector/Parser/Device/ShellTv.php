@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Device Detector - The Universal Device Detection library for parsing User Agents
  *
@@ -9,6 +7,8 @@ declare(strict_types=1);
  *
  * @license http://www.gnu.org/licenses/lgpl.html LGPL v3 or later
  */
+
+declare(strict_types=1);
 
 namespace DeviceDetector\Parser\Device;
 
@@ -36,7 +36,7 @@ class ShellTv extends AbstractDeviceParser
      */
     public function isShellTv(): bool
     {
-        $regex = '[a-z]+[ _]Shell[ _]\w{6}';
+        $regex = '[a-z]+[ _]Shell[ _]\w{6}|tclwebkit(\d+[\.\d]*)';
         $match = $this->matchUserAgent($regex);
 
         return null !== $match;

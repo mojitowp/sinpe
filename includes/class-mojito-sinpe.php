@@ -73,7 +73,7 @@ class Mojito_Sinpe {
 		if ( defined( 'MOJITO_SINPE_VERSION' ) ) {
 			$this->version = MOJITO_SINPE_VERSION;
 		} else {
-			$this->version = '1.0.6';
+			$this->version = '1.1.0';
 		}
 		$this->plugin_name = 'mojito-sinpe';
 
@@ -249,6 +249,7 @@ class Mojito_Sinpe {
 	 * @return void
 	 */
 	public function save_client_bank_selection( $order_id ) {
+
 		if ( ! empty( $_POST['mojito_sinpe_bank'] ) ) {
 			update_post_meta( $order_id, 'mojito_sinpe_bank', sanitize_text_field( $_POST['mojito_sinpe_bank'] ) );
 		}

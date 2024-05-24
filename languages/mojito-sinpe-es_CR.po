@@ -5,12 +5,12 @@ msgstr ""
 "Project-Id-Version: Mojito Sinpe 0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mojito-sinpe\n"
 "Last-Translator: \n"
-"Language-Team: Español de Costa Rica\n"
+"Language-Team: Spanish (Costa Rica)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2020-10-06T16:36:54-05:00\n"
-"PO-Revision-Date: 2022-05-14 18:45+0000\n"
+"PO-Revision-Date: 2024-04-02 16:33+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: mojito-sinpe\n"
 "Language: es-CR\n"
@@ -30,7 +30,7 @@ msgstr "¿Está en su teléfono?"
 msgid "Ask voucher id in check-out page"
 msgstr "Solicitar número de comprobante en página de pago"
 
-#: includes/class-mojito-sinpe-gateway.php:366
+#: includes/class-mojito-sinpe-gateway.php:429
 msgid "Awaiting SINPE payment"
 msgstr "En espera de pago SINPE"
 
@@ -38,9 +38,21 @@ msgstr "En espera de pago SINPE"
 msgid "Bank was not selected"
 msgstr "El banco no fue seleccionado"
 
+#: includes/class-mojito-sinpe-gateway.php:189
+msgid "Custom"
+msgstr "Personalizado"
+
+#: includes/class-mojito-sinpe-gateway.php:193
+msgid "Custom exchange rate"
+msgstr "Tipo de cambio personalizado"
+
 #: includes/class-mojito-sinpe-gateway.php:162
 msgid "Description"
 msgstr "Descripción"
+
+#: includes/class-mojito-sinpe-gateway.php:179
+msgid "Enable exchange rates"
+msgstr "Habilitar tipo de cambio"
 
 #: includes/class-mojito-sinpe-gateway.php:101
 msgid "Enable SINPE Payment"
@@ -50,13 +62,25 @@ msgstr "Habilitar pago SINPE"
 msgid "Enable/Disable"
 msgstr "Habilitar / Inhabilitar"
 
-#: includes/class-mojito-sinpe-gateway.php:264
+#: includes/class-mojito-sinpe-gateway.php:177
+msgid "Enable/Disable exchange rate"
+msgstr "Habilitar/Inhabilitar tipo de cambio"
+
+#: includes/class-mojito-sinpe-gateway.php:327
 msgid "Enter your voucher ID"
 msgstr "Digite su número de comprobante"
 
-#: includes/class-mojito-sinpe-gateway.php:261
+#: includes/class-mojito-sinpe-gateway.php:324
 msgid "Enter your voucher ID here"
 msgstr "Ingrese su número de comprobante aquí"
+
+#: includes/class-mojito-sinpe-gateway.php:183
+msgid "Exchange rate origin"
+msgstr "Origen del tipo de cambio"
+
+#: includes/class-mojito-sinpe-gateway.php:195
+msgid "How many colones is a dollar?"
+msgstr "¿Cuántos colones son un dólar?"
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
@@ -80,6 +104,10 @@ msgid ""
 msgstr ""
 "Realiza tu pago con tu móvil. Su pedido no se enviará hasta que los fondos "
 "se hayan liquidado en nuestra cuenta."
+
+#: includes/class-mojito-sinpe-gateway.php:188
+msgid "Ministerio de Hacienda"
+msgstr "Ministerio de Hacienda"
 
 #. Plugin Name of the plugin
 msgid "Mojito Sinpe"
@@ -117,8 +145,8 @@ msgstr "Pase %s %s Pedido %s"
 msgid "Pay here SINPE Móvil"
 msgstr "Pague aquí SINPE Móvil"
 
-#: includes/class-mojito-sinpe-gateway.php:253 
-#: includes/class-mojito-sinpe-gateway.php:255
+#: includes/class-mojito-sinpe-gateway.php:316 
+#: includes/class-mojito-sinpe-gateway.php:318
 msgid "Pay now: %s"
 msgstr "Pagar ya: %s"
 
@@ -126,11 +154,11 @@ msgstr "Pagar ya: %s"
 msgid "Pay using SINPE Móvil"
 msgstr "Pague usando SINPE Móvil"
 
-#: includes/class-mojito-sinpe-gateway.php:358
+#: includes/class-mojito-sinpe-gateway.php:421
 msgid "Payment error: Please enter your voucher id"
 msgstr "Error de pago: Por favor ingrese su número de comprobante"
 
-#: includes/class-mojito-sinpe-gateway.php:345
+#: includes/class-mojito-sinpe-gateway.php:408
 msgid "Payment error: Please select your bank"
 msgstr "Error de pago: Por favor seleccione su banco"
 
@@ -146,12 +174,16 @@ msgstr "Pagos usando SINPE Móvil"
 msgid "Phone number"
 msgstr "Número de teléfono"
 
+#: includes/class-mojito-sinpe-gateway.php:185
+msgid "Pick the origin of the dolar price"
+msgstr "Seleccione el origen del precio de dólar"
+
 #: includes/class-mojito-sinpe.php:168
 msgid "Please open the link only in mobile"
 msgstr "Abra el enlace solo en el móvil"
 
-#: includes/class-mojito-sinpe-gateway.php:209 
-#: includes/class-mojito-sinpe-gateway.php:232
+#: includes/class-mojito-sinpe-gateway.php:231 
+#: includes/class-mojito-sinpe-gateway.php:254
 msgid "Select your bank"
 msgstr "Seleccione su banco"
 
@@ -202,7 +234,7 @@ msgstr "Pago SINPE Móvil"
 msgid "Sinpe Number"
 msgstr "Número Sinpe"
 
-#: includes/class-mojito-sinpe-gateway.php:362
+#: includes/class-mojito-sinpe-gateway.php:425
 msgid "SINPE Voucher id: %s"
 msgstr "Comprobante SINPE: %s"
 
@@ -214,7 +246,7 @@ msgstr "Este pedido no tiene SINPE Móvil como método de pago"
 msgid "Title"
 msgstr "Título"
 
-#: includes/class-mojito-sinpe-gateway.php:243
+#: includes/class-mojito-sinpe-gateway.php:265
 msgid ""
 "You will receive the SINPE Payment link in the order confirmation email. "
 "Open it on your mobile."

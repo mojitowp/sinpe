@@ -77,6 +77,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 		if ( isset( $_SESSION['mojito-sinpe-email-instructions-already-added'] ) ) {
 			unset( $_SESSION['mojito-sinpe-email-instructions-already-added'] );
 		}
+
 	}
 
 	/**
@@ -85,8 +86,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 * @access public
 	 * @return void
 	 */
-	public function init() {
-	}
+	public function init() {}
 
 	/**
 	 * Add configuration fields to woocommerce payment settings
@@ -172,6 +172,28 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 				'default'     => 'Please send us the Sinpe Móvil voucher. Use your order ID as a payment reference.',
 				'desc_tip'    => true,
 			),
+			/** Exchange rates */
+			'exchange-rate-enable' => array(
+				'title'   => __( 'Enable/Disable exchange rate', 'mojito-sinpe' ),
+				'type'    => 'checkbox',
+				'label'   => __( 'Enable exchange rates', 'mojito-sinpe' ),
+				'default' => 'yes',
+			),
+			'exchange-rate-origin'  => array(
+				'title'   => __( 'Exchange rate origin', 'mojito-sinpe' ),
+				'type'    => 'select',
+				'label'   => __( 'Pick the origin of the dolar price', 'mojito-sinpe' ),
+				'default' => 'hacienda',
+				'options' => array(
+					'hacienda' => __( 'Ministerio de Hacienda', 'mojito-sinpe' ),
+					'custom' => __( 'Custom', 'mojito-sinpe' ),
+				),
+			),
+			'exchange-rate-custom' => array(
+				'title'   => __( 'Custom exchange rate', 'mojito-sinpe' ),
+				'type'    => 'text',
+				'label'   => __( 'How many colones is a dollar?', 'mojito-sinpe' ),
+			),
 		);
 	}
 
@@ -247,6 +269,52 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 		global $woocommerce;
 
 		$amount  = $woocommerce->cart->total;
+
+		/**
+		 * Exchange rate
+		 */
+		$exchange_rate        = 1;
+		$exchange_rate_enable = $this->settings['exchange-rate-enable'];
+		$exchange_rate_origin = $this->settings['exchange-rate-origin'];
+		$exchange_rate_custom = $this->settings['exchange-rate-custom'];
+
+		if ( 'yes' === $exchange_rate_enable ) {
+
+			switch ( $exchange_rate_origin ) {
+				case 'hacienda':
+					$rates = \Mojito\ExchangeRate\Factory::create( \Mojito\ExchangeRate\ProviderTypes::CR_Hacienda );
+					$rate  = $rates->getRates();
+					if ( isset($rate->dolar->venta->valor)) {
+						$exchange_rate = $rate->dolar->venta->valor;
+					} else {
+						$exchange_rate = 1;
+					}
+					break;
+				case 'custom':
+					if ( is_numeric( $exchange_rate_custom ) ) {
+						$exchange_rate = $exchange_rate_custom;
+					}
+					break;
+			}
+
+			/**
+			 * Filter the exchange rate
+			 */
+			$exchange_rate = apply_filters( 'mojito_sinpe_exchange_rate', $exchange_rate );
+
+			/**
+			 * Si el exchange rate está activo, quiere decir que la tienda vende en dólares
+			 * Entonces se multiplica el monto por el exchange rate para obtener la cantidad en colones
+			 */
+			$amount = $amount * $exchange_rate;
+			$amount = round( $amount, 0 );
+			if ( $amount < 1 ) {
+				$amount = $amount * -1;
+			}
+		}
+
+		$amount = apply_filters( 'mojito_sinpe_amount', $amount );
+
 		$message = 'Pase ' . $amount . ' ' . $number;
 
 		if ( $this->is_mobile() ) {
@@ -338,6 +406,8 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 */
 	public function process_payment( $order_id ) {
 
+		global $woocommerce;
+
 		$bank = sanitize_text_field( $_POST['mojito_sinpe_bank'] );
 
 		if ( 'yes' === $this->settings['show-banks-list-in-checkout'] ) {
@@ -347,7 +417,6 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			}
 		}
 
-		global $woocommerce;
 		$order = new \WC_Order( $order_id );
 
 		if ( 'yes' === $this->settings['ask-voucher-id'] && 'yes' === $this->settings['show-banks-list-in-checkout'] ) {

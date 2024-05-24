@@ -1,15 +1,15 @@
-# Copyright (C) 2022 Mojito Team
+# Copyright (C) 2024 Mojito Team
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mojito Sinpe 1.0.6\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mojito-sinpe-public\n"
+"Project-Id-Version: Mojito Sinpe 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sinpe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-05-14T13:44:11-05:00\n"
+"POT-Creation-Date: 2024-04-02T11:31:33-05:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: mojito-sinpe\n"
@@ -127,41 +127,73 @@ msgstr ""
 msgid "Instructions that will be added to the thank you page and emails."
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:209
-#: includes/class-mojito-sinpe-gateway.php:232
+#: includes/class-mojito-sinpe-gateway.php:177
+msgid "Enable/Disable exchange rate"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:179
+msgid "Enable exchange rates"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:183
+msgid "Exchange rate origin"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:185
+msgid "Pick the origin of the dolar price"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:188
+msgid "Ministerio de Hacienda"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:189
+msgid "Custom"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:193
+msgid "Custom exchange rate"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:195
+msgid "How many colones is a dollar?"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:231
+#: includes/class-mojito-sinpe-gateway.php:254
 msgid "Select your bank"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:243
+#: includes/class-mojito-sinpe-gateway.php:265
 msgid "You will receive the SINPE Payment link in the order confirmation email. Open it on your mobile."
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:253
-#: includes/class-mojito-sinpe-gateway.php:255
+#: includes/class-mojito-sinpe-gateway.php:316
+#: includes/class-mojito-sinpe-gateway.php:318
 msgid "Pay now: %s"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:261
+#: includes/class-mojito-sinpe-gateway.php:324
 msgid "Enter your voucher ID here"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:264
+#: includes/class-mojito-sinpe-gateway.php:327
 msgid "Enter your voucher ID"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:345
+#: includes/class-mojito-sinpe-gateway.php:408
 msgid "Payment error: Please select your bank"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:358
+#: includes/class-mojito-sinpe-gateway.php:421
 msgid "Payment error: Please enter your voucher id"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:362
+#: includes/class-mojito-sinpe-gateway.php:425
 msgid "SINPE Voucher id: %s"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:366
+#: includes/class-mojito-sinpe-gateway.php:429
 msgid "Awaiting SINPE payment"
 msgstr ""
 

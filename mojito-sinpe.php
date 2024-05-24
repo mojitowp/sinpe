@@ -10,17 +10,17 @@
  * Plugin Name: Mojito Sinpe
  * Plugin URI: https://mojitowp.com/
  * Description: Sinpe Móvil as Woocommerce gateway
- * Version: 1.0.8
+ * Version: 1.1.0
  * Requires at least: 5.2
- * Requires PHP: 7.0
+ * Requires PHP: 7.4
  * Author: Mojito Team
  * Author URI: https://mojitowp.com/
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: mojito-sinpe
  * Domain Path: /languages
- * WC requires at least: 3.0.0
- * WC tested up to: 7.9.0
+ * WC requires at least: 8.2.0
+ * WC tested up to: 8.9.1
  */
 
 namespace Mojito_Sinpe;
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Version.
  */
-define( 'MOJITO_SINPE_VERSION', '1.0.8' );
+define( 'MOJITO_SINPE_VERSION', '1.1.0' );
 
 /**
  * Define plugin constants.
@@ -102,7 +102,16 @@ if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 		require_once MOJITO_SINPE_DIR . 'admin/partials/mojito-sinpe-require-plugins-woocommerce.php';
 	}
 }
-
 if ( $load ) {
+
+	/**
+	 * Compatibility with WooCommerce declarations
+	 */
+	add_action('before_woocommerce_init', function(){
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	});
+	
 	mojito_sinpe_run();
 }
