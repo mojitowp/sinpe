@@ -1,6 +1,6 @@
 === Mojito Sinpe ===
 Contributors: quantumdev
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CUC2VE9F3LADU
+Donate link: https://github.com/sponsors/nomanualdev
 Tags: ecommerce, woocommerce, payment
 Requires at least: 4.6
 Tested up to: 6.5.3
