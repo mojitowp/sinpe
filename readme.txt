@@ -70,6 +70,7 @@ Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este 
 * New filter mojito_sinpe_amount
 * Tested up to WP 6.5.3
 * Tested up to WC 8.9.1
+* PHP Fixes
 
 = 1.0.8 =
 * iPhone Compatibility fix
