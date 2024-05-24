@@ -1,7 +1,7 @@
 === Mojito Sinpe ===
 Contributors: quantumdev
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CUC2VE9F3LADU
-Tags: ecommerce, woocommerce, payment, woocommerce payment, sinpe, costa rica, multisite
+Tags: ecommerce, woocommerce, payment
 Requires at least: 4.6
 Tested up to: 6.5.3
 Stable tag: 1.1.0
@@ -58,6 +58,7 @@ e.g.
 
 == Upgrade Notice ==
 
+Actualización con compatibilidad para WooCommerce HPOS (High-Performance Order Storage). Requiere PHP 7.4 y WooCommerce 8.2 (o superiores)
 Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
 
 == Changelog ==
