@@ -63,7 +63,7 @@ Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este 
 
 == Changelog ==
 
-= 1.1.0
+= 1.1.0 =
 * WooCommerce High-Performance Order Storage compatibility
 * Exchange rate options
 * New filter mojito_sinpe_exchange_rate
