@@ -13,6 +13,9 @@ class Factory{
             case ProviderTypes::CR_BCCR:
                 return new BCCR();
 
+            case ProviderTypes::CR_Gometa:
+                return new Gometa();
+
             default:
                 return null;
         }

@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c79d60eed8240d5006c9f23d154f0249d00b2a70',
+        'reference' => '021963771d7b5f39ca093b09add757b9edcb81f0',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c79d60eed8240d5006c9f23d154f0249d00b2a70',
+            'reference' => '021963771d7b5f39ca093b09add757b9edcb81f0',
             'dev_requirement' => false,
         ),
         'composer/ca-bundle' => array(
@@ -74,12 +74,12 @@
             'dev_requirement' => false,
         ),
         'mojitowp/exchange-rate' => array(
-            'pretty_version' => '0.0.7',
-            'version' => '0.0.7.0',
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../mojitowp/exchange-rate',
             'aliases' => array(),
-            'reference' => 'b76963d3de2160fc3e821afe947262ac648be47a',
+            'reference' => '485154bcaf22a3df4b36aab27c93c6a3ad161c22',
             'dev_requirement' => false,
         ),
         'mustangostang/spyc' => array(

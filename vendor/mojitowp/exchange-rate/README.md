@@ -129,5 +129,47 @@ Dólar venta: 558.05000000
 Dólar compra: 558.05000000
 ```
 
+### Tipo de cambio de GoMeta
+
+[https://apis.gometa.org/tdc/](https://apis.gometa.org/tdc/)
+
+```
+use Mojito\ExchangeRate\Factory;
+use Mojito\ExchangeRate\ProviderTypes;
+
+$rates = Factory::create( ProviderTypes::CR_Gometa );
+$data = $rates->getRates();
+
+echo print_r( $data, true );
+```
+
+Esto imprime el siguiente objecto:
+```
+stdClass Object
+(
+    [venta] => 512.64000000
+    [compra_date] => 2024-05-08T00:00:00-06:00
+    [licence] => https://en.wikipedia.org/wiki/Beerware
+    [compra] => 506.22000000
+    [updated] => Wed May  8 00:01:03 2024
+    [garantia] => Ninguna
+    [venta_date] => 2024-05-08T00:00:00-06:00
+)
+```
+
+
+Acceder a los valores:
+```
+echo "Dólar venta: " . $data->venta;
+echo PHP_EOL;
+echo "Dólar compra: " . $data->compra;
+echo PHP_EOL;
+```
+
+El resultado sería:
+```
+Dólar venta: 512.64000000
+Dólar compra: 506.22000000
+```
 
 ### Pull Request are Welcome | Los Pull Request son bienvenidos

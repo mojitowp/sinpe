@@ -2,10 +2,10 @@
 
 namespace Mojito\ExchangeRate;
 
-class Hacienda extends Provider{
+class Gometa extends Provider{
 
     public function __construct(){
-        $this->url = 'https://api.hacienda.go.cr/indicadores/tc';
+        $this->url = 'https://apis.gometa.org/tdc/tdc.json';
         $this->params = array();
     }
 
@@ -21,6 +21,8 @@ class Hacienda extends Provider{
 
         // Ejecutar sesión cURL
         $response = curl_exec($ch);
+
+        error_log(print_r( $response, true));
 
         // Verificar si ocurrió algún error durante la ejecución
         if(curl_errno($ch)){

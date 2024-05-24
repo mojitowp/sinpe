@@ -79,6 +79,7 @@ class ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Mojito\\ExchangeRate\\BCCR' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/providers/cr/class-bccr.php',
         'Mojito\\ExchangeRate\\Factory' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/class-factory.php',
+        'Mojito\\ExchangeRate\\Gometa' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/providers/cr/class-gometa.php',
         'Mojito\\ExchangeRate\\Hacienda' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/providers/cr/class-hacienda.php',
         'Mojito\\ExchangeRate\\Provider' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/class-provider.php',
         'Mojito\\ExchangeRate\\ProviderTypes' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/enum-provider-types.php',

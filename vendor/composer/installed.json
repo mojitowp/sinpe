@@ -407,20 +407,20 @@
         },
         {
             "name": "mojitowp/exchange-rate",
-            "version": "0.0.7",
-            "version_normalized": "0.0.7.0",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mojitowp/exchange-rate.git",
-                "reference": "b76963d3de2160fc3e821afe947262ac648be47a"
+                "reference": "485154bcaf22a3df4b36aab27c93c6a3ad161c22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mojitowp/exchange-rate/zipball/b76963d3de2160fc3e821afe947262ac648be47a",
-                "reference": "b76963d3de2160fc3e821afe947262ac648be47a",
+                "url": "https://api.github.com/repos/mojitowp/exchange-rate/zipball/485154bcaf22a3df4b36aab27c93c6a3ad161c22",
+                "reference": "485154bcaf22a3df4b36aab27c93c6a3ad161c22",
                 "shasum": ""
             },
-            "time": "2023-03-01T23:20:35+00:00",
+            "time": "2024-05-08T14:42:07+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -436,7 +436,7 @@
             "description": "PHP Exchange Rate.",
             "support": {
                 "issues": "https://github.com/mojitowp/exchange-rate/issues",
-                "source": "https://github.com/mojitowp/exchange-rate/tree/0.0.7"
+                "source": "https://github.com/mojitowp/exchange-rate/tree/1.0.0"
             },
             "install-path": "../mojitowp/exchange-rate"
         },
