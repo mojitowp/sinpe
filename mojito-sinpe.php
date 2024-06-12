@@ -33,6 +33,26 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
+ * Debuggin function
+ */
+if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
+	/**
+	 * Show a message
+	 *
+	 * @param mixed $message Text to log.
+	 * @return void
+	 */
+	function mojito_sinpe_debug( $message ) {
+		error_log( print_r( $message, 1 ) );
+
+		if ( class_exists( 'WC_Logger' ) ) {
+			$logger = new \WC_Logger();
+			$logger->log( 'debug', print_r( $message, true ), [] );
+		}
+	}
+}
+
+/**
  * Version.
  */
 define( 'MOJITO_SINPE_VERSION', '1.1.0' );
@@ -109,9 +129,13 @@ if ( $load ) {
 	 */
 	add_action('before_woocommerce_init', function(){
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			// Declare compatibility for WooCommerce HPOS (High-Performance Order Storage)
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+			
+			// Declare compatibility for 'cart_checkout_blocks'
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
 		}
 	});
-	
+
 	mojito_sinpe_run();
 }

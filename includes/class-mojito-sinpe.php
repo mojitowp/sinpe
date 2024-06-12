@@ -14,6 +14,8 @@
 
 namespace Mojito_Sinpe;
 
+use \Automattic\WooCommerce\Blocks\Assets\Api as WooCommerce_Blocks_Assets_Api;
+
 /**
  * The core plugin class.
  *
@@ -153,6 +155,28 @@ class Mojito_Sinpe {
 				});
 			}
 		);
+
+		// Hook the custom function to the 'woocommerce_blocks_loaded' action
+		add_action( 'woocommerce_blocks_loaded', function(){
+
+			// Check if the required class exists
+			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+				return;
+			}
+
+			// Include the custom Blocks Checkout class
+			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway-block.php';
+
+			// Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
+			add_action(
+				'woocommerce_blocks_payment_method_type_registration',
+				function( \Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+					// Register an instance of My_Custom_Gateway_Blocks
+					$payment_method_registry->register( new Mojito_Sinpe_Gateway_Block() );
+				}
+			);
+		} );
+
 	}
 
 	/**
