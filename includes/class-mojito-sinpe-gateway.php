@@ -334,6 +334,9 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			</p>
 		<?php
 		}
+
+		do_action( 'mojito_sinpe_after_fields' );
+		
 	}
 
 	/**
