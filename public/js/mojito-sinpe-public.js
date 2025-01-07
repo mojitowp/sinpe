@@ -37,6 +37,9 @@
 		
 		} else if ( bank === 'coopecaja' ) {
 			bank_number = '62229526';
+
+		} else if ( bank === 'coocique' ) {
+			bank_number = '46002905';
 				
 		} else if ( bank === 'coopelecheros' ) {
 			bank_number = '60405957';
@@ -54,13 +57,10 @@
 			bank_number = '62229525';
 
 		} else if ( bank === 'mutual-alajuela' ) {
-			bank_number = '70707079';
+			bank_number = '60575079';
 
 		} else if ( bank === 'promerica' ) {
 			bank_number = '62232450';
-
-		} else if ( bank === 'credecoop' ) {
-			bank_number = '71984256';
 
 		}
 

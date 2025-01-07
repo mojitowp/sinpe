@@ -491,6 +491,10 @@ class Mojito_Sinpe {
 				$bank_number = '60405957';
 				break;
 
+			case 'coocique':
+				$bank_number = '46002905';
+				break;
+
 			case 'credecoop':
 				$bank_number = '71984256';
 				break;
@@ -508,7 +512,7 @@ class Mojito_Sinpe {
 				break;
 
 			case 'mutual-alajuela':
-				$bank_number = '70707079';
+				$bank_number = '60575079';
 				break;
 
 			case 'promerica':

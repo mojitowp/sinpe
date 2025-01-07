@@ -227,6 +227,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 
 		2021-12-27
 		https://www.bccr.fi.cr/sistema-de-pagos/tarifas-y-comisiones-del-sinpe/comisiones-cobradas-por-las-entidades-financieras/sinpe-m%c3%b3vil
+		https://www.bccr.fi.cr/sistema-de-pagos/DocTarifas/SinpeMovil-Web.xlsx
 
 		*/
 		$sinpe_banks = array(
@@ -239,11 +240,12 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			'coopealianza'    => 'Coopealianza', // 6222-9523
 			'coopecaja'       => 'Coopecaja', // 6222-9526
 			'coopelecheros'   => 'Coopelecheros', // 6040-5957
+			'coocique'        => 'Coocique', // 4600-2905
 			'credecoop'       => 'Credecoop', // 7198-4256
 			'davivienda'      => 'Banco Davivienda', // 7070-7474
 			'lafise'          => 'Banco Lafise', // 9091
-			'mucap'           => 'MUCAP', // 8858-4646 o 8861-5353
-			'mutual-alajuela' => 'Grupo Mutual Alajuela - La Vivienda', // 7070-7079
+			'mucap'           => 'MUCAP', // 6222-9525
+			'mutual-alajuela' => 'Grupo Mutual Alajuela - La Vivienda', // 6057-5079
 			'promerica'       => 'Banco Promerica', // 6223-2450
 		);
 
