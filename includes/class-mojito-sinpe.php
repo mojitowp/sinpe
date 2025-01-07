@@ -62,6 +62,8 @@ class Mojito_Sinpe {
 	protected $version;
 
 
+	private $mojito_sinpe_settings;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -79,6 +81,7 @@ class Mojito_Sinpe {
 			$this->version = '1.1.0';
 		}
 		$this->plugin_name = 'mojito-sinpe';
+		$this->mojito_sinpe_settings = array();
 
 		/**
 		 * Define plugin name as constant.
