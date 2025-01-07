@@ -19,7 +19,7 @@ use \Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodTy
 class Mojito_Sinpe_Gateway_Block extends AbstractPaymentMethodType 
 {
     private $gateway;
-    protected $name = 'mojito-sinpe';// your payment gateway name
+    protected $name = 'mojito-sinpe';
 
     public function initialize() {
         $this->settings = get_option( 'woocommerce_mojito_sinpe_gateway_settings', [] );

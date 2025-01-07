@@ -206,7 +206,6 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	public function payment_fields() {
 
 		if ( ! is_checkout() ) {
-			mojito_sinpe_debug( 'Not in checkout page');
 			return;
 		}
 

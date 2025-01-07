@@ -43,6 +43,7 @@ if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
 	 * @return void
 	 */
 	function mojito_sinpe_debug( $message ) {
+		
 		error_log( print_r( $message, 1 ) );
 
 		if ( class_exists( 'WC_Logger' ) ) {
