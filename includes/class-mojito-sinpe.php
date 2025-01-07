@@ -161,12 +161,14 @@ class Mojito_Sinpe {
 		);
 
 		// Hook the custom function to the 'woocommerce_blocks_loaded' action
+		/* Working on it, not ready yet
 		add_action( 'woocommerce_blocks_loaded', function(){
 
 			// Check if the required class exists
 			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
 				return;
 			}
+
 
 			// Include the custom Blocks Checkout class
 			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway-block.php';
@@ -180,6 +182,7 @@ class Mojito_Sinpe {
 				}
 			);
 		} );
+		*/
 
 	}
 
