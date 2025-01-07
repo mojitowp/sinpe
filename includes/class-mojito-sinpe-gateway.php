@@ -14,6 +14,7 @@
 namespace Mojito_Sinpe;
 
 use WC_Payment_Gateway;
+use Detection\MobileDetect;
 
 /**
  * Mojito Sinpe Gateway
@@ -348,11 +349,11 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 */
 	public function is_mobile() {
 
-		if ( ! class_exists( 'Detection\MobileDetect' ) ) {
-			return;
+		if ( ! class_exists( 'MobileDetect' ) ) {
+			return false;
 		}
 
-		$detect = new \Detection\MobileDetect();
+		$detect = new MobileDetect();
 
 		$is_mobile = false;
 

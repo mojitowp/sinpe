@@ -11,6 +11,10 @@ class ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a
     );
 
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'SzepeViktor\\PHPStan\\WordPress\\' => 30,
+        ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
@@ -23,6 +27,10 @@ class ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a
     );
 
     public static $prefixDirsPsr4 = array (
+        'SzepeViktor\\PHPStan\\WordPress\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/szepeviktor/phpstan-wordpress/src',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',

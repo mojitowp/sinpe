@@ -14,6 +14,7 @@
 
 namespace Mojito_Sinpe;
 
+use Detection\MobileDetect;
 use \Automattic\WooCommerce\Blocks\Assets\Api as WooCommerce_Blocks_Assets_Api;
 
 /**
@@ -543,13 +544,6 @@ class Mojito_Sinpe {
 		 */
 		if ( !class_exists( 'Mojito_Sinpe_i18n' ) ) {
 			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-i18n.php';
-		}
-		
-		/**
-		 * The class responsible for mobile detection
-		 */
-		if ( !class_exists( 'Mobile_Detect' ) ) {
-			require_once MOJITO_SINPE_DIR . 'includes/class-mobile-detect.php';
 		}
 
 		/**

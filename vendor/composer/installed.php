@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'cd83620b7eab00b04050c2d5bc63071a83a1da1c',
+        'reference' => 'f248eeb55ced0a7f35b5d649d5be6a00e54b9e7e',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'cd83620b7eab00b04050c2d5bc63071a83a1da1c',
+            'reference' => 'f248eeb55ced0a7f35b5d649d5be6a00e54b9e7e',
             'dev_requirement' => false,
         ),
         'mobiledetect/mobiledetectlib' => array(
@@ -72,6 +72,15 @@
             'aliases' => array(),
             'reference' => '764e0b3939f5ca87cb904f570ef9be2d78a07865',
             'dev_requirement' => false,
+        ),
+        'szepeviktor/phpstan-wordpress' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'type' => 'phpstan-extension',
+            'install_path' => __DIR__ . '/../szepeviktor/phpstan-wordpress',
+            'aliases' => array(),
+            'reference' => 'f7beb13cd22998e3d913fdb897a1e2553ccd637e',
+            'dev_requirement' => true,
         ),
     ),
 );

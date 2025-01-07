@@ -5,6 +5,7 @@
         "mobiledetect/mobiledetectlib": "^4.8"
     },
     "require-dev": {
-        "php-stubs/wordpress-stubs": "^6.7"
+        "php-stubs/wordpress-stubs": "^6.7",
+        "szepeviktor/phpstan-wordpress": "^2.0"
     }
 }
