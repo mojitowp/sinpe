@@ -348,11 +348,11 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 */
 	public function is_mobile() {
 
-		if ( ! class_exists( 'Mobile_Detect' ) ) {
+		if ( ! class_exists( 'Detection\MobileDetect' ) ) {
 			return;
 		}
 
-		$detect = new \Mobile_Detect();
+		$detect = new \Detection\MobileDetect();
 
 		$is_mobile = false;
 

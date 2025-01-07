@@ -7,76 +7,38 @@ namespace Composer\Autoload;
 class ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a
 {
     public static $files = array (
-        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
+        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'h' => 
+        'P' => 
         array (
-            'hisorange\\BrowserDetect\\' => 24,
-        ),
-        'U' => 
-        array (
-            'UAParser\\' => 9,
-        ),
-        'L' => 
-        array (
-            'League\\Pipeline\\' => 16,
-        ),
-        'J' => 
-        array (
-            'Jaybizzle\\CrawlerDetect\\' => 24,
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Cache\\' => 10,
         ),
         'D' => 
         array (
-            'DeviceDetector\\' => 15,
-        ),
-        'C' => 
-        array (
-            'Composer\\CaBundle\\' => 18,
+            'Detection\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'hisorange\\BrowserDetect\\' => 
+        'Psr\\SimpleCache\\' => 
         array (
-            0 => __DIR__ . '/..' . '/hisorange/browser-detect/src',
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'UAParser\\' => 
+        'Psr\\Cache\\' => 
         array (
-            0 => __DIR__ . '/..' . '/ua-parser/uap-php/src',
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'League\\Pipeline\\' => 
+        'Detection\\' => 
         array (
-            0 => __DIR__ . '/..' . '/league/pipeline/src',
-        ),
-        'Jaybizzle\\CrawlerDetect\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src',
-        ),
-        'DeviceDetector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/matomo/device-detector',
-        ),
-        'Composer\\CaBundle\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'D' => 
-        array (
-            'Detection' => 
-            array (
-                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
-            ),
+            0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/src',
         ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Mojito\\ExchangeRate\\BCCR' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/providers/cr/class-bccr.php',
         'Mojito\\ExchangeRate\\Factory' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/class-factory.php',
         'Mojito\\ExchangeRate\\Gometa' => __DIR__ . '/..' . '/mojitowp/exchange-rate/src/providers/cr/class-gometa.php',
@@ -90,7 +52,6 @@ class ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitd1d6564a8efa80ad9206e62689a7a86a::$classMap;
 
         }, null, ClassLoader::class);

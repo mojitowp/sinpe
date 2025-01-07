@@ -1,16 +1,62 @@
-# This is for local development. NOT WORKING ATM!
-# Docker image of PHP 5.3 lacks ssl module and composer requires it
-# Also this image lacks git which is at some point required during installation of phpunit deps.
 services:
-  app:
-    image: php:7-alpine3.16
+  setup:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.setup
+
+  runUnitTests:
+    # Need xdebug from this image to run with coverage
+    # https://hub.docker.com/r/alcohol/php/tags
+    image: alcohol/php:8.3-xdebug
+    depends_on:
+      setup:
+        condition: service_completed_successfully
     working_dir: /app
+    environment:
+      XDEBUG_MODE: coverage
     command: >
-      /bin/sh -c "
-      rm -rf vendor && 
-      rm -f composer.lock composer.phar &&
-      curl -s https://getcomposer.org/download/2.0.0/composer.phar -o composer.phar &&
-      php composer.phar update --no-interaction --prefer-dist -vvv &&
-      vendor/bin/phpunit -v -c tests/phpunit.xml --coverage-text --strict-coverage --stop-on-risky"
+      /bin/sh -c "vendor/bin/phpunit -v -c tests/phpunit.xml --coverage-html ./coverage --strict-coverage --stop-on-risky"
     volumes:
       - .:/app
+
+  runPerfTests:
+    image: php:8.3-rc-alpine3.18
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    working_dir: /app
+    command: >
+      /bin/sh -c "vendor/bin/phpbench run tests/benchmark/MobileDetectBench.php --retry-threshold=1 --iterations=10 --revs=1000 --report=aggregate"
+    volumes:
+      - .:/app
+
+  runLinting:
+    image: php:8.3-rc-alpine3.18
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    working_dir: /app
+    command: >
+      /bin/sh -c "vendor/bin/phpcs; vendor/bin/phpcbf"
+    volumes:
+      - .:/app
+
+  generateModel:
+    image: php:8.3-rc-alpine3.18
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+      runUnitTests:
+        condition: service_completed_successfully
+      runPerfTests:
+        condition: service_completed_successfully
+      runLinting:
+        condition: service_completed_successfully
+
+    working_dir: /app
+    command: >
+      /bin/sh -c "php ./scripts/export_to_json.php"
+    volumes:
+      - .:/app
+
+

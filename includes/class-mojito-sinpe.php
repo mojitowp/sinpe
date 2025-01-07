@@ -257,7 +257,7 @@ class Mojito_Sinpe {
 		 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
 		 */
 		$concat = '?';
-		$detect = new \Mobile_Detect();
+		$detect = new \Detection\MobileDetect();
 
 		if ( true === $detect->isIphone() ) {
 			$concat = '&';
