@@ -44,6 +44,10 @@ if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
 	 */
 	function mojito_sinpe_debug( $message ) {
 		
+		if ( get_option( 'mojito_sinpe_debug', 'no' ) === 'no' ) {
+			return;
+		}
+		
 		error_log( print_r( $message, 1 ) );
 
 		if ( class_exists( 'WC_Logger' ) ) {

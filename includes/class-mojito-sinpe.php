@@ -107,6 +107,9 @@ class Mojito_Sinpe {
 		add_action(
 			'plugins_loaded',
 			function () {
+				if (!class_exists('WC_Payment_Gateway')) {
+					return;
+				}
 				/**
 				 * The class responsible for defining all actions that occur in the public-facing
 				 * side of the site.
@@ -367,6 +370,10 @@ class Mojito_Sinpe {
 	public function add_sinpe_link_to_thankyou_page( $order_id ) {
 
 		if ( is_ajax() ) {
+			return;
+		}
+
+		if ( !isset( $this->mojito_sinpe_settings['show-in-thankyou-page'] ) ) {
 			return;
 		}
 

@@ -40,6 +40,17 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 		$this->init_form_fields();
 		$this->init_settings();
 
+		/**
+		 * Update option
+		 */
+		if ( ! empty( $this->settings['enable-mojito-sinpe-debug'] ) ) {
+			$current_debug = get_option( 'mojito_sinpe_debug' );
+			$setting_debug = $this->settings['enable-mojito-sinpe-debug'];
+			if ( $current_debug !== $setting_debug ) {
+				update_option( 'mojito_sinpe_debug', $setting_debug );
+			}
+		}
+
 		$icon = 'sinpe-movil';
 		if ( 'no-logo' === $this->settings['sinpe-logo-size'] ) {
 			$icon = false;
@@ -196,6 +207,12 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 				'title'   => __( 'Custom exchange rate', 'mojito-sinpe' ),
 				'type'    => 'text',
 				'label'   => __( 'How many colones is a dollar?', 'mojito-sinpe' ),
+			),
+			'enable-mojito-sinpe-debug' => array(
+				'title'   => __( 'Enable/Disable debug', 'mojito-sinpe' ),
+				'type'    => 'checkbox',
+				'label'   => __( 'Enable debug', 'mojito-sinpe' ),
+				'default' => 'no',
 			),
 		);
 	}
@@ -452,4 +469,8 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			'redirect' => $this->get_return_url( $order ),
 		);
 	}
+	public function is_available() {
+        // Lógica para determinar si está disponible. Por defecto, siempre disponible.
+        return parent::is_available();
+    }
 }
