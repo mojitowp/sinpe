@@ -14,11 +14,14 @@
 namespace Mojito_Sinpe;
 
 use WC_Payment_Gateway;
+use Detection\MobileDetect;
 
 /**
  * Mojito Sinpe Gateway
  */
 class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
+
+	public $instructions;
 
 	/**
 	 * Constructor for gateway class
@@ -36,6 +39,17 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 		// Load the settings.
 		$this->init_form_fields();
 		$this->init_settings();
+
+		/**
+		 * Update option
+		 */
+		if ( ! empty( $this->settings['enable-mojito-sinpe-debug'] ) ) {
+			$current_debug = get_option( 'mojito_sinpe_debug' );
+			$setting_debug = $this->settings['enable-mojito-sinpe-debug'];
+			if ( $current_debug !== $setting_debug ) {
+				update_option( 'mojito_sinpe_debug', $setting_debug );
+			}
+		}
 
 		$icon = 'sinpe-movil';
 		if ( 'no-logo' === $this->settings['sinpe-logo-size'] ) {
@@ -194,6 +208,12 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 				'type'    => 'text',
 				'label'   => __( 'How many colones is a dollar?', 'mojito-sinpe' ),
 			),
+			'enable-mojito-sinpe-debug' => array(
+				'title'   => __( 'Enable/Disable debug', 'mojito-sinpe' ),
+				'type'    => 'checkbox',
+				'label'   => __( 'Enable debug', 'mojito-sinpe' ),
+				'default' => 'no',
+			),
 		);
 	}
 
@@ -211,6 +231,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 		$number = $this->settings['number'];
 
 		if ( empty( $number ) ) {
+			mojito_sinpe_debug( 'Phone number is empty' );
 			return;
 		}
 
@@ -225,6 +246,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 
 		2021-12-27
 		https://www.bccr.fi.cr/sistema-de-pagos/tarifas-y-comisiones-del-sinpe/comisiones-cobradas-por-las-entidades-financieras/sinpe-m%c3%b3vil
+		https://www.bccr.fi.cr/sistema-de-pagos/DocTarifas/SinpeMovil-Web.xlsx
 
 		*/
 		$sinpe_banks = array(
@@ -237,11 +259,12 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			'coopealianza'    => 'Coopealianza', // 6222-9523
 			'coopecaja'       => 'Coopecaja', // 6222-9526
 			'coopelecheros'   => 'Coopelecheros', // 6040-5957
+			'coocique'        => 'Coocique', // 4600-2905
 			'credecoop'       => 'Credecoop', // 7198-4256
 			'davivienda'      => 'Banco Davivienda', // 7070-7474
 			'lafise'          => 'Banco Lafise', // 9091
-			'mucap'           => 'MUCAP', // 8858-4646 o 8861-5353
-			'mutual-alajuela' => 'Grupo Mutual Alajuela - La Vivienda', // 7070-7079
+			'mucap'           => 'MUCAP', // 6222-9525
+			'mutual-alajuela' => 'Grupo Mutual Alajuela - La Vivienda', // 6057-5079
 			'promerica'       => 'Banco Promerica', // 6223-2450
 		);
 
@@ -346,11 +369,11 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	 */
 	public function is_mobile() {
 
-		if ( ! class_exists( 'Mobile_Detect' ) ) {
-			return;
+		if ( ! class_exists( 'MobileDetect' ) ) {
+			return false;
 		}
 
-		$detect = new \Mobile_Detect();
+		$detect = new MobileDetect();
 
 		$is_mobile = false;
 
@@ -446,4 +469,8 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 			'redirect' => $this->get_return_url( $order ),
 		);
 	}
+	public function is_available() {
+        // Lógica para determinar si está disponible. Por defecto, siempre disponible.
+        return parent::is_available();
+    }
 }

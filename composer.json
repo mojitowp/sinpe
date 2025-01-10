@@ -1,6 +1,11 @@
 {
     "require": {
-        "hisorange/browser-detect": "^4.2",
-        "mojitowp/exchange-rate": "^1.0"
+        "mojitowp/exchange-rate": "^1.0",
+        "phpstan/phpstan": "^2.1",
+        "mobiledetect/mobiledetectlib": "^4.8"
+    },
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^6.7",
+        "szepeviktor/phpstan-wordpress": "^2.0"
     }
 }

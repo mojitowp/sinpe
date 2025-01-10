@@ -14,6 +14,9 @@
 
 namespace Mojito_Sinpe;
 
+use Detection\MobileDetect;
+use \Automattic\WooCommerce\Blocks\Assets\Api as WooCommerce_Blocks_Assets_Api;
+
 /**
  * The core plugin class.
  *
@@ -59,6 +62,8 @@ class Mojito_Sinpe {
 	protected $version;
 
 
+	private $mojito_sinpe_settings;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -73,9 +78,10 @@ class Mojito_Sinpe {
 		if ( defined( 'MOJITO_SINPE_VERSION' ) ) {
 			$this->version = MOJITO_SINPE_VERSION;
 		} else {
-			$this->version = '1.1.0';
+			$this->version = '1.2.0';
 		}
 		$this->plugin_name = 'mojito-sinpe';
+		$this->mojito_sinpe_settings = array();
 
 		/**
 		 * Define plugin name as constant.
@@ -101,6 +107,9 @@ class Mojito_Sinpe {
 		add_action(
 			'plugins_loaded',
 			function () {
+				if (!class_exists('WC_Payment_Gateway')) {
+					return;
+				}
 				/**
 				 * The class responsible for defining all actions that occur in the public-facing
 				 * side of the site.
@@ -153,6 +162,31 @@ class Mojito_Sinpe {
 				});
 			}
 		);
+
+		// Hook the custom function to the 'woocommerce_blocks_loaded' action
+		/* Working on it, not ready yet
+		add_action( 'woocommerce_blocks_loaded', function(){
+
+			// Check if the required class exists
+			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+				return;
+			}
+
+
+			// Include the custom Blocks Checkout class
+			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway-block.php';
+
+			// Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
+			add_action(
+				'woocommerce_blocks_payment_method_type_registration',
+				function( \Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+					// Register an instance of My_Custom_Gateway_Blocks
+					$payment_method_registry->register( new Mojito_Sinpe_Gateway_Block() );
+				}
+			);
+		} );
+		*/
+
 	}
 
 	/**
@@ -233,7 +267,7 @@ class Mojito_Sinpe {
 		 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
 		 */
 		$concat = '?';
-		$detect = new \Mobile_Detect();
+		$detect = new MobileDetect();
 
 		if ( true === $detect->isIphone() ) {
 			$concat = '&';
@@ -336,6 +370,10 @@ class Mojito_Sinpe {
 	public function add_sinpe_link_to_thankyou_page( $order_id ) {
 
 		if ( is_ajax() ) {
+			return;
+		}
+
+		if ( !isset( $this->mojito_sinpe_settings['show-in-thankyou-page'] ) ) {
 			return;
 		}
 
@@ -460,6 +498,10 @@ class Mojito_Sinpe {
 				$bank_number = '60405957';
 				break;
 
+			case 'coocique':
+				$bank_number = '46002905';
+				break;
+
 			case 'credecoop':
 				$bank_number = '71984256';
 				break;
@@ -477,7 +519,7 @@ class Mojito_Sinpe {
 				break;
 
 			case 'mutual-alajuela':
-				$bank_number = '70707079';
+				$bank_number = '60575079';
 				break;
 
 			case 'promerica':
@@ -519,13 +561,6 @@ class Mojito_Sinpe {
 		 */
 		if ( !class_exists( 'Mojito_Sinpe_i18n' ) ) {
 			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-i18n.php';
-		}
-		
-		/**
-		 * The class responsible for mobile detection
-		 */
-		if ( !class_exists( 'Mobile_Detect' ) ) {
-			require_once MOJITO_SINPE_DIR . 'includes/class-mobile-detect.php';
 		}
 
 		/**

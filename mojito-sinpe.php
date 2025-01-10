@@ -10,9 +10,9 @@
  * Plugin Name: Mojito Sinpe
  * Plugin URI: https://mojitowp.com/
  * Description: Sinpe Móvil as Woocommerce gateway
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires at least: 5.2
- * Requires PHP: 7.4
+ * Requires PHP: 8.1
  * Author: Mojito Team
  * Author URI: https://mojitowp.com/
  * License: GPL v2 or later
@@ -20,7 +20,7 @@
  * Text Domain: mojito-sinpe
  * Domain Path: /languages
  * WC requires at least: 8.2.0
- * WC tested up to: 8.9.1
+ * WC tested up to: 9.5.2
  */
 
 namespace Mojito_Sinpe;
@@ -33,9 +33,34 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
+ * Debuggin function
+ */
+if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
+	/**
+	 * Show a message
+	 *
+	 * @param mixed $message Text to log.
+	 * @return void
+	 */
+	function mojito_sinpe_debug( $message ) {
+		
+		if ( get_option( 'mojito_sinpe_debug', 'no' ) === 'no' ) {
+			return;
+		}
+		
+		error_log( print_r( $message, 1 ) );
+
+		if ( class_exists( 'WC_Logger' ) ) {
+			$logger = new \WC_Logger();
+			$logger->log( 'debug', print_r( $message, true ), [] );
+		}
+	}
+}
+
+/**
  * Version.
  */
-define( 'MOJITO_SINPE_VERSION', '1.1.0' );
+define( 'MOJITO_SINPE_VERSION', '1.2.0' );
 
 /**
  * Define plugin constants.
@@ -109,9 +134,13 @@ if ( $load ) {
 	 */
 	add_action('before_woocommerce_init', function(){
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			// Declare compatibility for WooCommerce HPOS (High-Performance Order Storage)
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+			
+			// Declare compatibility for 'cart_checkout_blocks'
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
 		}
 	});
-	
+
 	mojito_sinpe_run();
 }

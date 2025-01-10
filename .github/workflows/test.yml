@@ -1,0 +1,58 @@
+name: PHPStan Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  phpstan:
+    name: PHPStan on PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [8.2, 8.3, 8.4] # Especificamos las versiones de PHP a validar
+
+    steps:
+      # Checkout del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Crear una nueva rama para los tests
+      - name: Create a new branch
+        run: |
+          git checkout -b phpstan
+
+      # Configuración de PHP con la versión actual de la matriz
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer
+
+      # Instalación de las dependencias del proyecto
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist
+
+      # Ejecución de PHPStan para analizar el código
+      - name: Run PHPStan
+        #run: vendor/bin/phpstan analyse --no-progress . > phpstan.txt || true
+        run: vendor/bin/phpstan analyse --no-progress src/
+
+      #- name: Commit changes
+      #  run: |
+      #    git config --local user.email "action@github.com"
+      #    git config --local user.name "GitHub Action"
+      #    git add -A .
+      #    git commit -m "PHPStan analysis" || true
+
+      # Hacer push de la nueva rama al repositorio
+      #- name: Push branch
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  run: |
+      #    git push origin HEAD
