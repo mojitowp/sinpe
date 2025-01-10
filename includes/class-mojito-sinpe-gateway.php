@@ -21,6 +21,8 @@ use Detection\MobileDetect;
  */
 class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 
+	public $instructions;
+
 	/**
 	 * Constructor for gateway class
 	 *

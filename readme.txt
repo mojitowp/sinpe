@@ -3,9 +3,9 @@ Contributors: quantumdev
 Donate link: https://github.com/sponsors/nomanualdev
 Tags: ecommerce, woocommerce, payment
 Requires at least: 4.6
-Tested up to: 6.5.3
-Stable tag: 1.1.0
-Requires PHP: 7.4
+Tested up to: 6.7.1
+Stable tag: 1.2.0
+Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,10 +58,15 @@ e.g.
 
 == Upgrade Notice ==
 
-Actualización con compatibilidad para WooCommerce HPOS (High-Performance Order Storage). Requiere PHP 7.4 y WooCommerce 8.2 (o superiores)
-Nueva opción de tipo de cambio. ¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
+¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
 
 == Changelog ==
+
+= 1.2.0 =
+* PHP 8.X compatibility
+* New bank: Coocique
+* Update MUCAP and Mutual Alajuela account numbers
+* New action mojito_sinpe_after_fields (thanks to @jothaxc)
 
 = 1.1.0 =
 * WooCommerce High-Performance Order Storage compatibility

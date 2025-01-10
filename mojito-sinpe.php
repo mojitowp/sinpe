@@ -10,9 +10,9 @@
  * Plugin Name: Mojito Sinpe
  * Plugin URI: https://mojitowp.com/
  * Description: Sinpe Móvil as Woocommerce gateway
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires at least: 5.2
- * Requires PHP: 7.4
+ * Requires PHP: 8.1
  * Author: Mojito Team
  * Author URI: https://mojitowp.com/
  * License: GPL v2 or later
@@ -20,7 +20,7 @@
  * Text Domain: mojito-sinpe
  * Domain Path: /languages
  * WC requires at least: 8.2.0
- * WC tested up to: 8.9.1
+ * WC tested up to: 9.5.2
  */
 
 namespace Mojito_Sinpe;
@@ -56,7 +56,7 @@ if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
 /**
  * Version.
  */
-define( 'MOJITO_SINPE_VERSION', '1.1.0' );
+define( 'MOJITO_SINPE_VERSION', '1.2.0' );
 
 /**
  * Define plugin constants.
