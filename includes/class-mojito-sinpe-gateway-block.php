@@ -48,9 +48,9 @@ class Mojito_Sinpe_Gateway_Block extends AbstractPaymentMethodType
     }
     public function get_payment_method_data() {
         return [
-			'title'       => $this->get_setting( 'title' ),
-			'description' => $this->get_setting( 'description' ),
-			'supports'    => $this->get_supported_features(),
+			'title'       => $this->gateway->get_option( 'title' ),
+			'description' => $this->gateway->get_option( 'description' ),
+			'supports'    => $this->gateway->supports,
 		];
     }
 
