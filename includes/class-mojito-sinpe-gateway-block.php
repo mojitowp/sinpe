@@ -39,12 +39,10 @@ class Mojito_Sinpe_Gateway_Block extends AbstractPaymentMethodType
                 'wp-html-entities',
                 'wp-i18n',
             ],
-            null,
+            '1.2.0',
             true
         );
 		return [ 'moji-sinpe-checkout-js' ];
-
-
     }
     public function get_payment_method_data() {
         return [
