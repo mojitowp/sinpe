@@ -3,8 +3,13 @@ includes:
 parameters:
 	bootstrapFiles:
 		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+		- phpstan-stubs/woocommerce-stubs.php
 	level: 5
 	paths:
-		- .
+		- admin
+		- includes
+		- languages
+		- mojito-sinpe.php
+		- public
 	excludePaths:
 		- vendor/

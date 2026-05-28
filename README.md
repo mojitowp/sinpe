@@ -6,6 +6,8 @@ Agrega enlace de pago en la página de pago (opcional), página de gracias y cor
 
 El dueño de la tienda sólo debe agregar su número de teléfono en "Woocommerce > Ajustes > Pagos > SINPE Móvil > Gestionar"
 
+Compatible con WordPress 7.0, WooCommerce 10.8.1, HPOS y WooCommerce Checkout Blocks.
+
 
 ¿Desea colaborar? 
 

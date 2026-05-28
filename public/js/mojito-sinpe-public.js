@@ -16,57 +16,18 @@
 			return;
 		}
 
-		var bank_number = '';
-		if ( bank === 'bn' ) {
-			bank_number = '2627';
+		var bank_numbers = window.mojito_sinpe_bank_phone_numbers || {};
+		var bank_number = bank_numbers[bank] || '';
 
-		} else if ( bank === 'bcr' ) {
-			bank_number = '4066';
-
-		} else if ( bank === 'bac' ) {
-			bank_number = '70701212';
-
-		} else if ( bank === 'bct' ) {
-			bank_number = '60400300';
-
-		} else if ( bank === 'caja-de-ande' ) {
-			bank_number = '62229532';
-
-		} else if ( bank === 'coopealianza' ) {
-			bank_number = '62229523';
-		
-		} else if ( bank === 'coopecaja' ) {
-			bank_number = '62229526';
-
-		} else if ( bank === 'coocique' ) {
-			bank_number = '46002905';
-				
-		} else if ( bank === 'coopelecheros' ) {
-			bank_number = '60405957';
-
-		} else if ( bank === 'credecoop' ) {
-			bank_number = '71984256';
-
-		} else if ( bank === 'davivienda' ) {
-			bank_number = '70707474';
-
-		} else if ( bank === 'lafise' ) {
-			bank_number = '9091';
-
-		} else if ( bank === 'mucap' ) {
-			bank_number = '62229525';
-
-		} else if ( bank === 'mutual-alajuela' ) {
-			bank_number = '60575079';
-
-		} else if ( bank === 'promerica' ) {
-			bank_number = '62232450';
-
+		if ( bank_number === '' ) {
+			link.hide();
+			text_container.hide();
+			return;
 		}
 
 		if ( mojito_sinpe_show_text_after_banks_list === 'yes' ) {
 			if ( type === 'mobile' ){
-				var href = 'sms:+' + bank_number + '?&body=' + link.data('msj');
+				var href = 'sms:+' + encodeURIComponent( bank_number ) + '?&body=' + encodeURIComponent( link.data('msj') );
 				link.attr('href', href);
 				link.show();
 	

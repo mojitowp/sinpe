@@ -2,9 +2,9 @@
 Contributors: quantumdev
 Donate link: https://github.com/sponsors/nomanualdev
 Tags: ecommerce, woocommerce, payment
-Requires at least: 4.6
-Tested up to: 6.7.1
-Stable tag: 1.2.0
+Requires at least: 7.0
+Tested up to: 7.0
+Stable tag: 1.3.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -36,6 +36,7 @@ The store owner should only add their phone number in "Woocommerce > Settings > 
 
 Add your phone number.
 The client select his bank.
+Compatible with WooCommerce High-Performance Order Storage and Checkout Blocks.
 
 
 == Installation ==
@@ -61,6 +62,14 @@ e.g.
 ¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
 
 == Changelog ==
+
+= 1.3.0 =
+* WordPress 7.0 compatibility.
+* WooCommerce 10.8.1 compatibility.
+* Functional WooCommerce Checkout Blocks integration.
+* Store API payment data processing for bank and voucher fields.
+* HPOS-safe order meta handling using WooCommerce CRUD.
+* Centralized SINPE bank phone numbers for classic and block checkout.
 
 = 1.2.0 =
 * PHP 8.X compatibility

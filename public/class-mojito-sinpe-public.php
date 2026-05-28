@@ -103,5 +103,11 @@ class Mojito_Sinpe_Public {
 			'mojito_sinpe_show_text_after_banks_list',
 			apply_filters( 'mojito_sinpe_show_text_after_banks_list', 'yes' )
 		);
+
+		wp_localize_script(
+			$this->plugin_name,
+			'mojito_sinpe_bank_phone_numbers',
+			Mojito_Sinpe_Gateway::get_bank_phone_numbers()
+		);
 	}
 }
