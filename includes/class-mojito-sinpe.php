@@ -15,7 +15,6 @@
 namespace Mojito_Sinpe;
 
 use Detection\MobileDetect;
-use \Automattic\WooCommerce\Blocks\Assets\Api as WooCommerce_Blocks_Assets_Api;
 
 /**
  * The core plugin class.
@@ -78,7 +77,7 @@ class Mojito_Sinpe {
 		if ( defined( 'MOJITO_SINPE_VERSION' ) ) {
 			$this->version = MOJITO_SINPE_VERSION;
 		} else {
-			$this->version = '1.2.0';
+			$this->version = '1.3.0';
 		}
 		$this->plugin_name = 'mojito-sinpe';
 		$this->mojito_sinpe_settings = array();
@@ -86,10 +85,13 @@ class Mojito_Sinpe {
 		/**
 		 * Define plugin name as constant.
 		 */
-		define( 'MOJITO_SINPE_SLUG', $this->plugin_name );
+		if ( ! defined( 'MOJITO_SINPE_SLUG' ) ) {
+			define( 'MOJITO_SINPE_SLUG', $this->plugin_name );
+		}
 
 		$this->load_dependencies();
 		$this->set_locale();
+		// @phpstan-ignore-next-line Empty extension point kept for plugin-boilerplate compatibility.
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -107,14 +109,7 @@ class Mojito_Sinpe {
 		add_action(
 			'plugins_loaded',
 			function () {
-				if (!class_exists('WC_Payment_Gateway')) {
-					return;
-				}
-				/**
-				 * The class responsible for defining all actions that occur in the public-facing
-				 * side of the site.
-				 */
-				require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway.php';
+				$this->load_gateway_class();
 			}
 		);
 
@@ -138,61 +133,56 @@ class Mojito_Sinpe {
 		 */
 		add_action(
 			'rest_api_init',
-			function () {
-				register_rest_route(
-					'mojito-sinpe/v1',
-					'/open-payment-link/',
-					array(
-						'methods'  => 'GET',
-						'callback' => array( $this, 'payment_link' ),
-						'permission_callback' => array(),
-					)
-				);
-			}
+				function () {
+					register_rest_route(
+						'mojito-sinpe/v1',
+						'/open-payment-link/',
+						array(
+							'methods'             => 'GET',
+							'callback'            => array( $this, 'payment_link' ),
+							'permission_callback' => '__return_true',
+						)
+					);
+				}
 		);
 
 		add_action(
 			'woocommerce_init',
-			function(){
+			function() {
 				add_filter( 'woocommerce_available_payment_gateways', function( $available_gateways ) {
-					if ( ! empty( $available_gateways['mojito-sinpe'] ) ) {
-						$this->mojito_sinpe_settings = $available_gateways['mojito-sinpe']->settings;
+					if ( ! empty( $available_gateways[ Mojito_Sinpe_Gateway::ID ] ) ) {
+						$this->mojito_sinpe_settings = $available_gateways[ Mojito_Sinpe_Gateway::ID ]->settings;
 					}
 					return $available_gateways;
 				});
 			}
 		);
 
-		// Hook the custom function to the 'woocommerce_blocks_loaded' action
-		/* Working on it, not ready yet
-		add_action( 'woocommerce_blocks_loaded', function(){
+		add_action( 'woocommerce_blocks_loaded', function() {
+			if ( ! $this->load_gateway_class() ) {
+				return;
+			}
 
-			// Check if the required class exists
 			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
 				return;
 			}
 
-
-			// Include the custom Blocks Checkout class
 			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway-block.php';
 
-			// Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
 			add_action(
 				'woocommerce_blocks_payment_method_type_registration',
 				function( \Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
-					// Register an instance of My_Custom_Gateway_Blocks
 					$payment_method_registry->register( new Mojito_Sinpe_Gateway_Block() );
 				}
 			);
 		} );
-		*/
 
 	}
 
 	/**
 	 * Open Payment link from confirmation order
 	 */
-	public function payment_link() {
+	public function payment_link( $request = null ) {
 
 		/**
 		 * Work only in mobile
@@ -205,31 +195,35 @@ class Mojito_Sinpe {
 		/**
 		 * Get order id
 		 */
-		$order_id = sanitize_text_field( $_GET['order'] );
+		if ( $request instanceof \WP_REST_Request ) {
+			$order_id = absint( $request->get_param( 'order' ) );
+		} else {
+			$order_id = isset( $_GET['order'] ) ? absint( wp_unslash( $_GET['order'] ) ) : 0;
+		}
 
 		/**
 		 * Check order id
 		 */
-		if ( ! is_numeric( $order_id ) ) {
+		if ( ! $order_id ) {
 			return __( 'Not a valid order', 'mojito-sinpe' );
 		}
 
 		/**
 		 * Load Order data
 		 */
-		$order    = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
 
 		/**
 		 * Is a valid order?
 		 */
-		if ( is_bool( $order ) ) {
+		if ( ! $order instanceof \WC_Order ) {
 			return __( 'Not a valid order', 'mojito-sinpe' );
 		}
 
 		/**
 		 * Check if is the correct payment method
 		 */
-		if ( 'mojito-sinpe' !== $order->get_payment_method() ) {
+		if ( Mojito_Sinpe_Gateway::ID !== $order->get_payment_method() ) {
 			return __( 'This order hasn\'t SINPE Móvil as payment method', 'mojito-sinpe' );
 		}
 
@@ -269,11 +263,15 @@ class Mojito_Sinpe {
 		$concat = '?';
 		$detect = new MobileDetect();
 
-		if ( true === $detect->isIphone() ) {
-			$concat = '&';
+		try {
+			if ( true === $detect->is( 'iPhone' ) ) {
+				$concat = '&';
+			}
+		} catch ( \Exception $exception ) {
+			mojito_sinpe_debug( $exception->getMessage() );
 		}
 
-		wp_redirect( 'sms:+' . $bank_number . $concat . 'body=' . $message, 301 );
+		wp_redirect( esc_url_raw( 'sms:+' . rawurlencode( $bank_number ) . $concat . 'body=' . rawurlencode( $message ), array( 'sms' ) ), 302 );
 
 		exit;
 	}
@@ -285,7 +283,11 @@ class Mojito_Sinpe {
 	public function save_client_bank_selection( $order_id ) {
 
 		if ( ! empty( $_POST['mojito_sinpe_bank'] ) ) {
-			update_post_meta( $order_id, 'mojito_sinpe_bank', sanitize_text_field( $_POST['mojito_sinpe_bank'] ) );
+			$order = wc_get_order( $order_id );
+			if ( $order instanceof \WC_Order ) {
+				$order->update_meta_data( 'mojito_sinpe_bank', sanitize_text_field( wp_unslash( $_POST['mojito_sinpe_bank'] ) ) );
+				$order->save();
+			}
 		}
 	}
 
@@ -295,7 +297,9 @@ class Mojito_Sinpe {
 	 */
 	public function add_sinpe_link_to_order_email( $order, $sent_to_admin, $plain_text, $email ) {
 
-		if ( 'yes' !== $this->mojito_sinpe_settings['show-in-email'] ) {
+		$settings = $this->get_mojito_sinpe_settings();
+
+		if ( 'yes' !== $settings['show-in-email'] ) {
 			return;
 		}
 
@@ -316,7 +320,7 @@ class Mojito_Sinpe {
 		/**
 		 * Check if is the correct payment method
 		 */
-		if ( 'mojito-sinpe' !== $order->get_payment_method() ) {
+		if ( Mojito_Sinpe_Gateway::ID !== $order->get_payment_method() ) {
 			return;
 		}
 
@@ -347,20 +351,22 @@ class Mojito_Sinpe {
 		$total   = round( $order->get_total(), 0);
 		$message = sprintf( __( 'Pase %s %s', 'mojito-sinpe' ), $total, $store_sinpe_number );
 
-		echo '<p>' . sprintf( __( 'Send a SMS to %s with the content: %s', 'mojito-sinpe' ), $bank_number, $message );
-		echo '<p>' . __( 'Are you on mobile? ', 'mojito-sinpe' );
+		printf(
+			'<p>%s</p>',
+			esc_html( sprintf( __( 'Send a SMS to %s with the content: %s', 'mojito-sinpe' ), $bank_number, $message ) )
+		);
 
 		/**
 		 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
 		 */
-		$link  = '<a href="';
-		$link .= rest_url() . 'mojito-sinpe/v1/open-payment-link?order=' . $order->get_id();
-		$link .= '">';
-		$link .= apply_filters( 'mojito_sinpe_email_label', __( 'Pay here SINPE Móvil', 'mojito-sinpe' ) );
-		$link .= '</a>';
-		$link .= '<br><br>';
+		$link = add_query_arg( 'order', $order->get_id(), rest_url( 'mojito-sinpe/v1/open-payment-link/' ) );
 
-		echo $link;
+		printf(
+			'<p>%1$s <a href="%2$s">%3$s</a></p><br><br>',
+			esc_html__( 'Are you on mobile? ', 'mojito-sinpe' ),
+			esc_url( $link ),
+			esc_html( apply_filters( 'mojito_sinpe_email_label', __( 'Pay here SINPE Móvil', 'mojito-sinpe' ) ) )
+		);
 
 	}
 
@@ -369,22 +375,24 @@ class Mojito_Sinpe {
 	 */
 	public function add_sinpe_link_to_thankyou_page( $order_id ) {
 
-		if ( is_ajax() ) {
+		if ( wp_doing_ajax() ) {
 			return;
 		}
 
-		if ( !isset( $this->mojito_sinpe_settings['show-in-thankyou-page'] ) ) {
-			return;
-		}
+		$settings = $this->get_mojito_sinpe_settings();
 
-		if ( 'yes' !== $this->mojito_sinpe_settings['show-in-thankyou-page'] ) {
+		if ( 'yes' !== $settings['show-in-thankyou-page'] ) {
 			return;
 		}
 
 		/**
 		 * Load Order data
 		 */
-		$order    = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
+
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
 
 		/**
 		 * Check if order is paid
@@ -397,7 +405,7 @@ class Mojito_Sinpe {
 		/**
 		 * Check if there is bank number
 		 */
-		if (empty($bank_number)) {
+		if ( empty( $bank_number ) ) {
 			return;
 		}
 
@@ -412,7 +420,10 @@ class Mojito_Sinpe {
 		$total   = round( $order->get_total(), 0 );
 		$message = sprintf( __( 'Pase %s %s', 'mojito-sinpe' ), $total, $store_sinpe_number );
 
-		echo '<p>' . sprintf( __( 'Send a SMS to %s with the content: %s', 'mojito-sinpe' ), $bank_number, $message );
+		printf(
+			'<p>%s</p>',
+			esc_html( sprintf( __( 'Send a SMS to %s with the content: %s', 'mojito-sinpe' ), $bank_number, $message ) )
+		);
 
 		/**
 		 * If mobile, show the link
@@ -420,20 +431,18 @@ class Mojito_Sinpe {
 		$sinpe_gateway = new Mojito_Sinpe_Gateway();
 		if ( $sinpe_gateway->is_mobile() ) {
 
-			echo '<p>' . __( 'Are you on mobile?', 'mojito-sinpe' );
+			echo '<p>' . esc_html__( 'Are you on mobile?', 'mojito-sinpe' );
 
 			/**
 			 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
 			 */
-			$link = '<a href="';
-			$link .= rest_url() . 'mojito-sinpe/v1/open-payment-link?order=' . $order->get_id();
-			$link .= '">';
-			$link .= ' '; // Yes, this space is Ok.
-			$link .= apply_filters( 'mojito_sinpe_email_label', __( 'Pay here SINPE Móvil', 'mojito-sinpe' ) );
-			$link .= '</a>';
-			$link .= '<br><br>';
+			$link = add_query_arg( 'order', $order->get_id(), rest_url( 'mojito-sinpe/v1/open-payment-link/' ) );
 
-			echo $link;
+			printf(
+				' <a href="%1$s">%2$s</a><br><br>',
+				esc_url( $link ),
+				esc_html( apply_filters( 'mojito_sinpe_email_label', __( 'Pay here SINPE Móvil', 'mojito-sinpe' ) ) )
+			);
 		}
 		
 	}
@@ -444,7 +453,9 @@ class Mojito_Sinpe {
 	 * @return string
 	 */
 	private function get_store_owner_bank_number() {
-		return $this->mojito_sinpe_settings['number'];
+		$settings = $this->get_mojito_sinpe_settings();
+
+		return isset( $settings['number'] ) ? $settings['number'] : '';
 	}
 
 	/**
@@ -454,82 +465,51 @@ class Mojito_Sinpe {
 	 */
 	private function get_bank_number( $order_id ) {
 
-		/**
-		 * Get Bank selected by client
-		 */
-		$bank = get_post_meta( $order_id, 'mojito_sinpe_bank', true );
-
-		/**
-		 * Set the bank number
-		 */
-		$bank_number = '';
-
-		switch ( $bank ) {
-
-			case 'bn':
-				$bank_number = '2627';
-				break;
-
-			case 'bcr':
-				$bank_number = '4066';
-				break;
-
-			case 'bac':
-				$bank_number = '70701222';
-				break;
-
-			case 'bct':
-				$bank_number = '60400300';
-				break;
-
-			case 'caja-de-ande':
-				$bank_number = '62229532';
-				break;
-
-			case 'coopealianza':
-				$bank_number = '62229523';
-				break;
-
-			case 'coopecaja':
-				$bank_number = '62229526';
-				break;
-
-			case 'coopelecheros':
-				$bank_number = '60405957';
-				break;
-
-			case 'coocique':
-				$bank_number = '46002905';
-				break;
-
-			case 'credecoop':
-				$bank_number = '71984256';
-				break;
-
-			case 'davivienda':
-				$bank_number = '70707474';
-				break;
-
-			case 'lafise':
-				$bank_number = '9091';
-				break;
-
-			case 'mucap':
-				$bank_number = '62229525';
-				break;
-
-			case 'mutual-alajuela':
-				$bank_number = '60575079';
-				break;
-
-			case 'promerica':
-				$bank_number = '62232450';
-				break;
+		$order = wc_get_order( $order_id );
+		if ( ! $order instanceof \WC_Order ) {
+			return '';
 		}
 
-		return $bank_number;
+		return Mojito_Sinpe_Gateway::get_bank_phone_number( $order->get_meta( 'mojito_sinpe_bank', true ) );
 
 	}
+
+	/**
+	 * Get gateway settings with safe defaults.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function get_mojito_sinpe_settings() {
+		$defaults = array(
+			'number'                => '',
+			'show-in-email'         => 'yes',
+			'show-in-thankyou-page' => 'yes',
+		);
+
+		if ( empty( $this->mojito_sinpe_settings ) ) {
+			$this->mojito_sinpe_settings = get_option( 'woocommerce_mojito_sinpe_gateway_settings', array() );
+		}
+
+		return wp_parse_args( $this->mojito_sinpe_settings, $defaults );
+	}
+
+	/**
+	 * Load the WooCommerce payment gateway class when WooCommerce is ready.
+	 *
+	 * @return bool
+	 */
+	private function load_gateway_class() {
+		if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
+			return false;
+		}
+
+		if ( ! class_exists( __NAMESPACE__ . '\Mojito_Sinpe_Gateway' ) ) {
+			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway.php';
+		}
+
+		return true;
+	}
+
 	/**
 	 * Load the required dependencies for this plugin.
 	 *

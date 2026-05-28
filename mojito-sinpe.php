@@ -10,8 +10,9 @@
  * Plugin Name: Mojito Sinpe
  * Plugin URI: https://mojitowp.com/
  * Description: Sinpe Móvil as Woocommerce gateway
- * Version: 1.2.0
- * Requires at least: 5.2
+ * Version: 1.3.0
+ * Requires at least: 7.0
+ * Tested up to: 7.0
  * Requires PHP: 8.1
  * Author: Mojito Team
  * Author URI: https://mojitowp.com/
@@ -19,8 +20,8 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: mojito-sinpe
  * Domain Path: /languages
- * WC requires at least: 8.2.0
- * WC tested up to: 9.5.2
+ * WC requires at least: 10.8
+ * WC tested up to: 10.8.1
  */
 
 namespace Mojito_Sinpe;
@@ -48,7 +49,7 @@ if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
 			return;
 		}
 		
-		error_log( print_r( $message, 1 ) );
+		error_log( print_r( $message, true ) );
 
 		if ( class_exists( 'WC_Logger' ) ) {
 			$logger = new \WC_Logger();
@@ -60,7 +61,7 @@ if ( ! function_exists( 'mojito_sinpe_debug' ) ) {
 /**
  * Version.
  */
-define( 'MOJITO_SINPE_VERSION', '1.2.0' );
+define( 'MOJITO_SINPE_VERSION', '1.3.0' );
 
 /**
  * Define plugin constants.
@@ -76,6 +77,7 @@ register_activation_hook(
 	__FILE__,
 	function () {
 		require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-activator.php';
+		// @phpstan-ignore-next-line Empty extension point kept for activation compatibility.
 		Mojito_Sinpe_Activator::activate();
 	}
 );
@@ -87,6 +89,7 @@ register_deactivation_hook(
 	__FILE__,
 	function () {
 		require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-deactivator.php';
+		// @phpstan-ignore-next-line Empty extension point kept for deactivation compatibility.
 		Mojito_Sinpe_Deactivator::deactivate();
 	}
 );
@@ -132,15 +135,15 @@ if ( $load ) {
 	/**
 	 * Compatibility with WooCommerce declarations
 	 */
-	add_action('before_woocommerce_init', function(){
+	add_action( 'before_woocommerce_init', function() {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 			// Declare compatibility for WooCommerce HPOS (High-Performance Order Storage)
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 			
 			// Declare compatibility for 'cart_checkout_blocks'
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
 		}
-	});
+	} );
 
 	mojito_sinpe_run();
 }

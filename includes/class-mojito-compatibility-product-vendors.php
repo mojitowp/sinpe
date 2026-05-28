@@ -115,16 +115,17 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 	/**
 	 * Save term fields.
 	 *
-	 * @param string $term_id Term.
+	 * @param int|string $term_id Term.
 	 */
 	public function save_vendor_custom_fields( $term_id ) {
 
-		if ( ! wp_verify_nonce( $_POST['vendor_custom_sinpe_nonce'], basename( __FILE__ ) ) ) {
+		if ( empty( $_POST['vendor_custom_sinpe_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vendor_custom_sinpe_nonce'] ) ), basename( __FILE__ ) ) ) {
 			return;
 		}
 
+		$term_id   = (int) $term_id;
 		$old_sinpe = get_term_meta( $term_id, 'sinpe-number', true );
-		$new_sinpe = sanitize_text_field( $_POST['sinpe-number'] );
+		$new_sinpe = isset( $_POST['sinpe-number'] ) ? sanitize_text_field( wp_unslash( $_POST['sinpe-number'] ) ) : '';
 
 		if ( ! empty( $old_sinpe ) && '' === $new_sinpe ) {
 			delete_term_meta( $term_id, 'sinpe-number' );
