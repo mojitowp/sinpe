@@ -117,7 +117,8 @@ class Mojito_Sinpe_Gateway_Block extends AbstractPaymentMethodType {
 		}
 
 		$payment_data = isset( $context->payment_data ) && is_array( $context->payment_data ) ? $context->payment_data : array();
-		$processed    = $this->gateway->process_sinpe_order( $context->order, $payment_data );
+		// Store API owns cart emptying and redirects; this shared path persists SINPE meta, note, and status.
+		$processed = $this->gateway->process_sinpe_order( $context->order, $payment_data );
 
 		if ( is_wp_error( $processed ) ) {
 			throw new \Exception( $processed->get_error_message() );

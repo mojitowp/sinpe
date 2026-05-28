@@ -18,6 +18,7 @@ namespace {
 
 	class WC_Order {
 		public function get_id(): int {}
+		public function get_order_key(): string {}
 		public function get_payment_method(): string {}
 		public function has_status( string $status ): bool {}
 		public function is_paid(): bool {}

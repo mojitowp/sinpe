@@ -140,7 +140,7 @@ class Mojito_Sinpe {
 						array(
 							'methods'             => 'GET',
 							'callback'            => array( $this, 'payment_link' ),
-							'permission_callback' => '__return_true',
+							'permission_callback' => array( $this, 'can_open_payment_link' ),
 						)
 					);
 				}
@@ -180,6 +180,32 @@ class Mojito_Sinpe {
 	}
 
 	/**
+	 * Validate access to the public SINPE payment link.
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 * @return bool|\WP_Error
+	 */
+	public function can_open_payment_link( $request ) {
+		$order_id  = absint( $request->get_param( 'order' ) );
+		$order_key = sanitize_text_field( (string) $request->get_param( 'key' ) );
+
+		if ( ! $order_id || empty( $order_key ) ) {
+			return new \WP_Error( 'mojito_sinpe_invalid_payment_link', __( 'Not a valid order', 'mojito-sinpe' ), array( 'status' => 403 ) );
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order instanceof \WC_Order ) {
+			return new \WP_Error( 'mojito_sinpe_invalid_payment_link', __( 'Not a valid order', 'mojito-sinpe' ), array( 'status' => 403 ) );
+		}
+
+		if ( ! hash_equals( $order->get_order_key(), $order_key ) ) {
+			return new \WP_Error( 'mojito_sinpe_invalid_payment_link', __( 'Not a valid order', 'mojito-sinpe' ), array( 'status' => 403 ) );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Open Payment link from confirmation order
 	 */
 	public function payment_link( $request = null ) {
@@ -197,8 +223,10 @@ class Mojito_Sinpe {
 		 */
 		if ( $request instanceof \WP_REST_Request ) {
 			$order_id = absint( $request->get_param( 'order' ) );
+			$key      = sanitize_text_field( (string) $request->get_param( 'key' ) );
 		} else {
 			$order_id = isset( $_GET['order'] ) ? absint( wp_unslash( $_GET['order'] ) ) : 0;
+			$key      = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 		}
 
 		/**
@@ -217,6 +245,10 @@ class Mojito_Sinpe {
 		 * Is a valid order?
 		 */
 		if ( ! $order instanceof \WC_Order ) {
+			return __( 'Not a valid order', 'mojito-sinpe' );
+		}
+
+		if ( empty( $key ) || ! hash_equals( $order->get_order_key(), $key ) ) {
 			return __( 'Not a valid order', 'mojito-sinpe' );
 		}
 
@@ -359,7 +391,7 @@ class Mojito_Sinpe {
 		/**
 		 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
 		 */
-		$link = add_query_arg( 'order', $order->get_id(), rest_url( 'mojito-sinpe/v1/open-payment-link/' ) );
+		$link = $this->get_payment_link_url( $order );
 
 		printf(
 			'<p>%1$s <a href="%2$s">%3$s</a></p><br><br>',
@@ -436,7 +468,7 @@ class Mojito_Sinpe {
 			/**
 			 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
 			 */
-			$link = add_query_arg( 'order', $order->get_id(), rest_url( 'mojito-sinpe/v1/open-payment-link/' ) );
+			$link = $this->get_payment_link_url( $order );
 
 			printf(
 				' <a href="%1$s">%2$s</a><br><br>',
@@ -472,6 +504,22 @@ class Mojito_Sinpe {
 
 		return Mojito_Sinpe_Gateway::get_bank_phone_number( $order->get_meta( 'mojito_sinpe_bank', true ) );
 
+	}
+
+	/**
+	 * Build the signed REST URL that opens the SINPE SMS app.
+	 *
+	 * @param \WC_Order $order Order object.
+	 * @return string
+	 */
+	private function get_payment_link_url( $order ) {
+		return add_query_arg(
+			array(
+				'order' => $order->get_id(),
+				'key'   => $order->get_order_key(),
+			),
+			rest_url( 'mojito-sinpe/v1/open-payment-link/' )
+		);
 	}
 
 	/**

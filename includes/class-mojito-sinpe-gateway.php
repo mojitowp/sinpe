@@ -506,7 +506,7 @@ class Mojito_Sinpe_Gateway extends WC_Payment_Gateway {
 	}
 
 	public function is_available(): bool {
-		return parent::is_available() && '' !== $this->get_store_owner_number();
+		return (bool) parent::is_available() && '' !== $this->get_store_owner_number();
 	}
 
 	/**
