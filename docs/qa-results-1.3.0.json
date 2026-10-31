@@ -361,5 +361,30 @@
     "iPhone separator",
     "reject protocol injection"
   ],
-  "candidate_sha256": "9d57a90fdf69a5ffb2e7887dc39b4cebc8f27bcab7a43ef8533239429a9583b3"
+  "candidate_sha256": "9d57a90fdf69a5ffb2e7887dc39b4cebc8f27bcab7a43ef8533239429a9583b3",
+  "friendly_urls": [
+    "friendly authorized endpoint, amount, no-cache and no-referrer",
+    "invalid key denied without exposing recipient and with no-store",
+    "friendly checkout resolves through WordPress routing"
+  ],
+  "network_activation": [
+    {
+      "multisite": true,
+      "blog": 1,
+      "network_woo": true,
+      "gateway_registered": true
+    },
+    {
+      "multisite": true,
+      "blog": 2,
+      "network_woo": true,
+      "gateway_registered": true
+    }
+  ],
+  "remote_ci": {
+    "commit": "c3896d4b603d81bb20888887e8077882f2faaa99",
+    "run_url": "https://github.com/mojitowp/sinpe/actions/runs/41149048983",
+    "jobs": 13,
+    "conclusion": "success"
+  }
 }

@@ -27,6 +27,8 @@ Los casos de concurrencia comprueban rechazo de un bloqueo activo y recuperació
 - Checkout de bloques: banco y comprobante, cupón de 10%, monto/SMS de 1000 a 900 CRC, pedido recibido por 900 CRC e instrucciones protegidas.
 - Checkout clásico: mismo cupón, conservación de banco/comprobante durante AJAX, monto/SMS 900 CRC y pedido recibido.
 - Instrucciones posteriores al pedido traducidas al español; no se abrió ninguna aplicación de SMS.
+- URLs amigables: checkout resuelve, instrucciones autorizadas mantienen el monto y las cabeceras de privacidad; clave incorrecta devuelve 403, sin destinatario y con `no-store`.
+- WordPress Multisite: WooCommerce/SINPE activados en red; pasarela registrada tanto en el sitio principal como en un subsitio ficticio.
 - Actualización real desde el ZIP público **1.2.0** al candidato **1.3.0** en una cuarta tienda ficticia: configuración exacta preservada (incluida clave personalizada), metadatos de pedidos anteriores conservados, CRC legible, USD sin tasa histórica solicita regeneración. La instalación funciona sin `vendor` ni Composer en producción.
 
 ![Pedido de bloques ficticio](images/blocks-order-received.png)
@@ -51,8 +53,8 @@ Los entornos antiguos WooCommerce 9.5.2/PHP 8.4 y la herramienta local WP-CLI/PH
 1. Validación física Android/iPhone pendiente: las pruebas de URI y de navegador no prueban envío/aceptación bancaria.
 2. Completar la verificación oficial de los números heredados y comandos de cada entidad: ver [catálogo bancario](bank-catalog.md). No se inventaron números nuevos.
 3. No se probaron fondos reales, entrega externa de correo, todos los temas/extensiones ni un escenario de carga.
-4. Las URLs simples se probaron en navegador; enlaces amigables, edición del bloque en el editor visual y activación WooCommerce en red tienen controles de implementación, pero requieren revisión manual adicional.
-5. CI remoto debe comprobarse en el commit del PR; los resultados locales no lo sustituyen.
+4. La edición del bloque en el editor visual requiere revisión manual adicional; la integración y los datos de vista previa tienen controles automatizados.
+5. CI remoto confirmado en `c3896d4`: [ejecución 41149048983](https://github.com/mojitowp/sinpe/actions/runs/41149048983), 13 trabajos correctos, incluidos betas y Plugin Check. Revalidar ante cambios posteriores; los resultados locales no sustituyen CI.
 6. La publicación en WordPress.org y el merge requieren autorización independiente. El ZIP es un candidato de revisión.
 
 Fuentes de plataformas: [WordPress 7.1.4](https://wordpress.org/news/2026/10/wordpress-7-1-4/), [WooCommerce 11.2.1](https://developer.woocommerce.com/2026/10/09/woocommerce-11-2-1-release-notes/), [WordPress 7.2-beta2](https://wordpress.org/news/2026/10/wordpress-7-2-beta-2/), [beta WooCommerce](https://github.com/woocommerce/woocommerce/releases/tag/11.3.0-beta.1), [soporte PHP](https://www.php.net/supported-versions.php).
