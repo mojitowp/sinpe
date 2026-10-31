@@ -1,80 +1,21 @@
-(function( $ ) {
-	'use strict';
-
-	 $(document).on('change', '.mojito_sinpe_bank_selector', function(event) {
-		 
-		event.preventDefault();
-
-		var link = $('.mojito-sinpe-link');
-		var type = link.data('type');
-		var bank = $(this).val();
-		var text_container = $('.mojito-sinpe-payment-container');
-
-		if ( bank === 'none' ){
-			link.hide();
-			text_container.hide();
-			return;
-		}
-
-		var bank_number = '';
-		if ( bank === 'bn' ) {
-			bank_number = '2627';
-
-		} else if ( bank === 'bcr' ) {
-			bank_number = '4066';
-
-		} else if ( bank === 'bac' ) {
-			bank_number = '70701212';
-
-		} else if ( bank === 'bct' ) {
-			bank_number = '60400300';
-
-		} else if ( bank === 'caja-de-ande' ) {
-			bank_number = '62229532';
-
-		} else if ( bank === 'coopealianza' ) {
-			bank_number = '62229523';
-		
-		} else if ( bank === 'coopecaja' ) {
-			bank_number = '62229526';
-
-		} else if ( bank === 'coocique' ) {
-			bank_number = '46002905';
-				
-		} else if ( bank === 'coopelecheros' ) {
-			bank_number = '60405957';
-
-		} else if ( bank === 'credecoop' ) {
-			bank_number = '71984256';
-
-		} else if ( bank === 'davivienda' ) {
-			bank_number = '70707474';
-
-		} else if ( bank === 'lafise' ) {
-			bank_number = '9091';
-
-		} else if ( bank === 'mucap' ) {
-			bank_number = '62229525';
-
-		} else if ( bank === 'mutual-alajuela' ) {
-			bank_number = '60575079';
-
-		} else if ( bank === 'promerica' ) {
-			bank_number = '62232450';
-
-		}
-
-		if ( mojito_sinpe_show_text_after_banks_list === 'yes' ) {
-			if ( type === 'mobile' ){
-				var href = 'sms:+' + bank_number + '?&body=' + link.data('msj');
-				link.attr('href', href);
-				link.show();
-	
-			}else{
-				text_container.text('Envie un SMS al +' + bank_number + ' con el texto: ' + link.data('msj') );
-				text_container.show();
-			}
-		}
-	 })
-
-})( jQuery );
+/* global jQuery, mojitoSinpe, wp */
+(function ($) {
+    'use strict';
+    function refresh() {
+        const field = $('#mojito_sinpe_bank');
+        const number = mojitoSinpe.bankNumbers[field.val()] || '';
+        const box = $('.mojito-sinpe-classic-instructions');
+        const link = box.find('.mojito-sinpe-link');
+        const message = box.attr('data-message') || '';
+        link.prop('hidden', !number).removeAttr('href');
+        box.find('.mojito-sinpe-payment-container').text(number ? wp.i18n.sprintf(wp.i18n.__('Send an SMS to %1$s with the content: %2$s', 'mojito-sinpe'), number, message) : '');
+        if (number) link.attr('href', 'sms:' + number + (/iPhone|iPad|iPod/i.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(message));
+    }
+    let savedBank = 'none';
+    let savedVoucher = '';
+    $(document.body).on('change', '#mojito_sinpe_bank', function () { savedBank = $(this).val(); refresh(); });
+    $(document.body).on('input', '#mojito_sinpe_voucher_id', function () { savedVoucher = $(this).val(); });
+    $(document.body).on('updated_checkout', function () { $('#mojito_sinpe_bank').val(savedBank); $('#mojito_sinpe_voucher_id').val(savedVoucher); refresh(); });
+    $(document.body).on('update_checkout', function () { $('.mojito-sinpe-link').prop('hidden', true).removeAttr('href'); });
+    $(refresh);
+}(jQuery));

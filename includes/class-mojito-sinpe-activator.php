@@ -5,7 +5,7 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Mojito_Sinpe 
+ * @package    Mojito_Sinpe
  * @author     Mojito Team <support@mojitowp.com>
  */
 
@@ -18,8 +18,5 @@ class Mojito_Sinpe_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-		
-		
 	}
-
 }

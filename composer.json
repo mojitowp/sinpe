@@ -1,11 +1,31 @@
 {
-    "require": {
-        "mojitowp/exchange-rate": "^1.0",
-        "phpstan/phpstan": "^2.1",
-        "mobiledetect/mobiledetectlib": "^4.8"
-    },
-    "require-dev": {
-        "php-stubs/wordpress-stubs": "^6.7",
-        "szepeviktor/phpstan-wordpress": "^2.0"
-    }
+  "name": "mojitowp/sinpe",
+  "description": "Free manual SINPE Movil gateway for WooCommerce",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": { "php": ">=8.2" },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "php-stubs/woocommerce-stubs": "^9.5 || ^10.0 || ^11.0",
+    "php-stubs/wordpress-stubs": "^6.7 || ^7.0",
+    "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+    "phpcompatibility/phpcompatibility-paragonie": "2.0.0-alpha1",
+    "phpcompatibility/phpcompatibility-wp": "3.0.0-alpha2",
+    "phpstan/phpstan": "^2.1",
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "wp-coding-standards/wpcs": "^3.2"
+  },
+  "config": {
+    "allow-plugins": { "dealerdirect/phpcodesniffer-composer-installer": true },
+    "sort-packages": true,
+    "platform": { "php": "8.2.0" }
+  },
+  "scripts": {
+    "lint": "python3 tools/lint.py",
+    "analyse": "phpstan analyse --no-progress --memory-limit=1G",
+    "standards": "phpcs --standard=phpcs.xml.dist",
+    "compatibility": "phpcs --standard=PHPCompatibilityWP --runtime-set testVersion 8.2-8.5 --extensions=php mojito-sinpe.php includes public admin --ignore=*.l10n.php",
+    "test": "php tests/payment-regression.php",
+    "check": ["@lint", "@analyse", "@standards", "@compatibility", "@test"]
+  }
 }

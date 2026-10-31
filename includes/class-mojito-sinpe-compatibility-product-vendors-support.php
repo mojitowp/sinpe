@@ -40,6 +40,9 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 		/**
 		 * Check if WooCommerce Product Vendors is installed
 		 */
+		if ( ! defined( 'WC_PRODUCT_VENDORS_TAXONOMY' ) ) {
+			return false;
+		}
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 
 			if ( function_exists( 'is_plugin_active' ) && is_plugin_active( 'woocommerce-product-vendors' ) ) {
@@ -69,6 +72,8 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 		add_action(
 			'init',
 			function () {
+				if ( ! defined( 'WC_PRODUCT_VENDORS_TAXONOMY' ) ) {
+					return; }
 				add_action( WC_PRODUCT_VENDORS_TAXONOMY . '_add_form_fields', array( $this, 'add_vendor_custom_fields' ) );
 				add_action( WC_PRODUCT_VENDORS_TAXONOMY . '_edit_form_fields', array( $this, 'edit_vendor_custom_fields' ), 10 );
 				add_action( 'edited_' . WC_PRODUCT_VENDORS_TAXONOMY, array( $this, 'save_vendor_custom_fields' ) );
@@ -105,7 +110,7 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="sinpe-number"><?php _e( 'Sinpe Number', 'mojito-sinpe' ); ?></label></th>
 			<td>
-				<input type="text" name="sinpe-number" id="sinpe-number" value="<?php echo sanitize_text_field( get_term_meta( $term->term_id, 'sinpe-number', true ) ); ?>" />
+				<input type="text" name="sinpe-number" id="sinpe-number" value="<?php echo esc_attr( get_term_meta( $term->term_id, 'sinpe-number', true ) ); ?>" />
 			</td>
 		</tr>
 		<?php
@@ -115,16 +120,16 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 	/**
 	 * Save term fields.
 	 *
-	 * @param string $term_id Term.
+	 * @param int $term_id Term.
 	 */
 	public function save_vendor_custom_fields( $term_id ) {
 
-		if ( ! wp_verify_nonce( $_POST['vendor_custom_sinpe_nonce'], basename( __FILE__ ) ) ) {
+		if ( ! isset( $_POST['vendor_custom_sinpe_nonce'], $_POST['sinpe-number'] ) || ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vendor_custom_sinpe_nonce'] ) ), basename( __FILE__ ) ) ) {
 			return;
 		}
 
 		$old_sinpe = get_term_meta( $term_id, 'sinpe-number', true );
-		$new_sinpe = sanitize_text_field( $_POST['sinpe-number'] );
+		$new_sinpe = sanitize_text_field( wp_unslash( $_POST['sinpe-number'] ) );
 
 		if ( ! empty( $old_sinpe ) && '' === $new_sinpe ) {
 			delete_term_meta( $term_id, 'sinpe-number' );
@@ -142,12 +147,12 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 	public function vendors_reg_custom_fields() {
 		?>
 		<p class="form-row form-row-first">
-			<label for="wcpv-sinpe-number"><?php esc_html_e( 'Sinpe Number', 'mojito-sinpe'); ?></label>
+			<label for="wcpv-sinpe-number"><?php esc_html_e( 'Sinpe Number', 'mojito-sinpe' ); ?></label>
 			<input type="text" class="input-text" name="sinpe-number" id="wcpv-sinpe-number" value="
-			<?php 
+			<?php
 			if ( ! empty( $_POST['sinpe-number'] ) ) {
-				echo esc_attr( trim( sanitize_text_field( $_POST['sinpe-number'] ) ) );
-			} 
+				echo esc_attr( trim( sanitize_text_field( wp_unslash( $_POST['sinpe-number'] ) ) ) );
+			}
 			?>
 			" />
 		</p>
@@ -164,9 +169,11 @@ class Mojito_Sinpe_Compatibility_Product_Vendors_Support {
 	 */
 	public function vendors_reg_custom_fields_save( $args, $items ) {
 
+		if ( ! defined( 'WC_PRODUCT_VENDORS_TAXONOMY' ) ) {
+			return; }
 		$term = get_term_by( 'name', $items['vendor_name'], WC_PRODUCT_VENDORS_TAXONOMY );
 
-		if ( isset( $items['sinpe-number'] ) && ! empty( $items['sinpe-number'] ) ) {
+		if ( $term instanceof \WP_Term && isset( $items['sinpe-number'] ) && ! empty( $items['sinpe-number'] ) ) {
 			$sinpe_number = sanitize_text_field( $items['sinpe-number'] );
 			update_term_meta( $term->term_id, 'sinpe-number', $sinpe_number );
 		}

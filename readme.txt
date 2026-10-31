@@ -2,65 +2,79 @@
 Contributors: quantumdev
 Donate link: https://github.com/sponsors/nomanualdev
 Tags: ecommerce, woocommerce, payment
-Requires at least: 4.6
-Tested up to: 6.7.1
-Stable tag: 1.2.0
-Requires PHP: 8.1
+Requires at least: 6.2
+Tested up to: 7.1
+Stable tag: 1.3.0
+Requires PHP: 8.2
+Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Sinpe Móvil as Woocommerce gateway
+Free manual SINPE Movil payments for WooCommerce, with classic checkout, Checkout Blocks and HPOS.
 
 == Description ==
 
-¿Desea colaborar? https://github.com/mojitowp/sinpe
+Free manual SINPE Móvil payments for Costa Rican WooCommerce stores, with classic checkout, Checkout Blocks and HPOS support. No plugin subscription or transaction fees.
 
+Configure your store SINPE phone number. Customers can select their bank, open an SMS command, or use their banking app. An optional voucher reference can be requested.
 
+This plugin does not verify bank transfers. Orders remain on hold until the merchant checks receipt of funds. Opening an SMS or entering a voucher is not proof of payment.
 
-(Español)
-Habilita SINPE Móvil como pasarela de pago (solo funciona en Costa Rica)
+CRC totals are used directly. USD requires a valid manual or Hacienda USD/CRC selling rate. Other currencies are unavailable.
 
-Agrega enlace de pago en la página de pago (opcional), página de gracias y correo de confirmación de pedido.
+= External services =
 
-El dueño de la tienda sólo debe agregar su número de teléfono en "Woocommerce > Ajustes > Pagos > SINPE Móvil > Gestionar"
+Only when the store currency is USD and Hacienda is selected, the plugin sends a GET request to https://api.hacienda.go.cr/indicadores/tc to obtain public exchange rates. It sends no customer, order, phone or voucher data; the provider sees the server IP and ordinary HTTP request information. The timeout is five seconds. Valid rates are cached for six hours; failures are cached for one minute and never replaced with rate 1.
 
+Service information: https://www.hacienda.go.cr/
+Privacy policy: https://www.hacienda.go.cr/Documentos/Footer/Pol%C3%ADtica%20de%20Privacidad%20Directriz%20N%C2%B0%20DM-009-2021.pdf
 
-(English)
-Enables SINPE Móvil as Payment gateway (Only works in Costa Rica)
+= Requirements =
 
-Add payment link on the checkout page (optional), thank you page and order confirmation email.
-
-The store owner should only add their phone number in "Woocommerce > Settings > Payments > SINPE Móvil > Manage"
-
-= Features =
-
-Add your phone number.
-The client select his bank.
-
+PHP 8.2 or later; PHP 8.3 or later recommended. PHP 8.2 upstream security support ends on December 31, 2026.
+WordPress 6.2 or later and WooCommerce 8.2 or later. Older versions are compatibility targets, not a recommendation to run outdated store software.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload the plugin files to the `/wp-content/plugins/mojito-sinpe` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Use the Settings->Mojito Sinpe screen to configure the plugin
-4. (Make your instructions match the desired user flow for activating and installing your plugin. Include any steps that might be needed for explanatory purposes)
-
-
-== Screenshots ==
+1. Install WooCommerce and this plugin through Plugins > Add New.
+2. Open WooCommerce > Settings > Payments > SINPE Móvil > Manage.
+3. Enable the method and enter the store Costa Rican SINPE mobile number (eight digits; +506 is also accepted).
+4. Configure bank selection, optional voucher reference, instructions and USD conversion if needed.
+5. Use either the WooCommerce Checkout block or the classic checkout shortcode. No extra paid extension is required.
+6. Place a test order without sending money; confirm the amount, bank number, email and order status before enabling it for customers.
 
 == Frequently Asked Questions ==
 
-== Features included ==
+= Does it confirm that the customer paid? =
+No. The merchant must confirm receipt manually before processing or completing the order.
+
+= What happens when exchange rates change? =
+The amount, rate, currency and recipient are saved with the order. Later changes to store settings do not change existing instructions. Changing an order total or currency invalidates its instructions.
+
+= How can the merchant regenerate an old USD order? =
+Edit an eligible unpaid SINPE order and use the order action "Regenerate SINPE instructions using the current rate". Review and send the updated instructions to the customer. Historical exchange rates are not invented.
+
+= Why does an old email link stop working? =
+Links from 1.2.0 did not include the order key. New links require the key and an eligible unpaid order. Send a new on-hold order email or use the new order instructions. Paid or cancelled orders cannot open payment instructions.
+
+= Is Product Vendors supported? =
+The experimental integration remains disabled. This update does not add marketplace payouts, automatic refunds or recurring payments.
 
 == Upgrade Notice ==
 
-¿Desea colaborar con el mantenimiento de este plugin? https://github.com/mojitowp/sinpe
+= 1.3.0 =
+Requires PHP 8.2, WordPress 6.2 and WooCommerce 8.2. Adds Checkout Blocks, fixes HPOS metadata, secures order links and unifies CRC/USD amounts. Back up and test on staging. Existing settings and orders are preserved. Resend instructions for old links without an order key.
 
 == Changelog ==
+
+= 1.3.0 =
+* Complete Checkout Blocks payment fields, validation, editor preview and live server amounts.
+* Shared classic/Store API processing and HPOS CRUD metadata with retry protection.
+* Unified CRC/USD conversion, saved order instructions and authorized regeneration.
+* Authorized order links, uncached instructions, encoded Android/iOS SMS commands.
+* Central bank catalog; Spanish PHP and JavaScript translations.
+* PHP 8.2-8.5 checks, regression tests and deterministic production packaging.
+
 
 = 1.2.0 =
 * PHP 8.X compatibility

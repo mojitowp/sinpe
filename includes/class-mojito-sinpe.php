@@ -1,677 +1,283 @@
 <?php
 /**
- * The file that defines the core plugin class
+ * Gateway registration, order instructions and authorized SMS links.
  *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
- * @link       https://mojitowp.com/
- * @since      1.0.0
- *
- * @package    Mojito_Sinpe
- * @subpackage Mojito_Sinpe/includes
+ * @package Mojito_Sinpe
  */
 
 namespace Mojito_Sinpe;
 
-use Detection\MobileDetect;
-use \Automattic\WooCommerce\Blocks\Assets\Api as WooCommerce_Blocks_Assets_Api;
+defined( 'ABSPATH' ) || exit;
 
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
- * @since      1.0.0
- * @package    Mojito_Sinpe
- * @subpackage Mojito_Sinpe/includes
- * @author     Mojito Team <support@mojitowp.com>
- */
 class Mojito_Sinpe {
+	/** @var array<string,bool> */
+	private $rendered = array();
 
-	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      Mojito_Sinpe_Loader    $loader    Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
-
-	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-	 */
-	protected $plugin_name;
-
-	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
-	 */
-	protected $version;
-
-
-	private $mojito_sinpe_settings;
-
-	/**
-	 * Define the core functionality of the plugin.
-	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function __construct() {
-
-		if ( defined( 'MOJITO_SINPE_VERSION' ) ) {
-			$this->version = MOJITO_SINPE_VERSION;
+	public function run(): void {
+		add_action( 'init', array( $this, 'translations' ) );
+		add_filter( 'woocommerce_payment_gateways', array( $this, 'register_gateway' ) );
+		if ( did_action( 'woocommerce_blocks_loaded' ) ) {
+			$this->blocks();
 		} else {
-			$this->version = '1.2.0';
+			add_action( 'woocommerce_blocks_loaded', array( $this, 'blocks' ) );
 		}
-		$this->plugin_name = 'mojito-sinpe';
-		$this->mojito_sinpe_settings = array();
-
-		/**
-		 * Define plugin name as constant.
-		 */
-		define( 'MOJITO_SINPE_SLUG', $this->plugin_name );
-
-		$this->load_dependencies();
-		$this->set_locale();
-		$this->define_admin_hooks();
-		$this->define_public_hooks();
-
-		add_filter(
-			'woocommerce_payment_gateways',
-			function ( $methods ) {
-				$methods[] = 'Mojito_Sinpe\Mojito_Sinpe_Gateway';
-				return $methods;
-			}
-		);
-
-		/**
-		 * Load gateway
-		 */
-		add_action(
-			'plugins_loaded',
-			function () {
-				if (!class_exists('WC_Payment_Gateway')) {
-					return;
-				}
-				/**
-				 * The class responsible for defining all actions that occur in the public-facing
-				 * side of the site.
-				 */
-				require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway.php';
-			}
-		);
-
-		/**
-		 * Save client bank selection as meta to use it later in the order email
-		 */
-		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'save_client_bank_selection' ) );
-
-		/**
-		 * Add SINPE link to order email
-		 */
-		add_action( 'woocommerce_email_before_order_table', array( $this, 'add_sinpe_link_to_order_email' ), 10, 4 );
-
-		/**
-		 * Add SINPE link to Thank you page
-		 */
-		add_action( 'woocommerce_thankyou', array( $this, 'add_sinpe_link_to_thankyou_page' ), 10, 1 );
-
-		/**
-		 * Add enpoint to rest api
-		 */
-		add_action(
-			'rest_api_init',
-			function () {
-				register_rest_route(
-					'mojito-sinpe/v1',
-					'/open-payment-link/',
-					array(
-						'methods'  => 'GET',
-						'callback' => array( $this, 'payment_link' ),
-						'permission_callback' => array(),
-					)
-				);
-			}
-		);
-
-		add_action(
-			'woocommerce_init',
-			function(){
-				add_filter( 'woocommerce_available_payment_gateways', function( $available_gateways ) {
-					if ( ! empty( $available_gateways['mojito-sinpe'] ) ) {
-						$this->mojito_sinpe_settings = $available_gateways['mojito-sinpe']->settings;
-					}
-					return $available_gateways;
-				});
-			}
-		);
-
-		// Hook the custom function to the 'woocommerce_blocks_loaded' action
-		/* Working on it, not ready yet
-		add_action( 'woocommerce_blocks_loaded', function(){
-
-			// Check if the required class exists
-			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
-				return;
-			}
-
-
-			// Include the custom Blocks Checkout class
-			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway-block.php';
-
-			// Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
-			add_action(
-				'woocommerce_blocks_payment_method_type_registration',
-				function( \Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
-					// Register an instance of My_Custom_Gateway_Blocks
-					$payment_method_registry->register( new Mojito_Sinpe_Gateway_Block() );
-				}
-			);
-		} );
-		*/
-
+		add_action( 'woocommerce_thankyou_mojito-sinpe', array( $this, 'thankyou' ) );
+		add_action( 'woocommerce_email_before_order_table', array( $this, 'email' ), 10, 4 );
+		add_action( 'rest_api_init', array( $this, 'rest' ) );
+		add_filter( 'rest_post_dispatch', array( $this, 'rest_headers' ), 10, 3 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
+		add_filter( 'woocommerce_order_actions', array( $this, 'order_actions' ), 10, 2 );
+		add_action( 'woocommerce_order_action_mojito_sinpe_regenerate', array( $this, 'regenerate' ) );
 	}
 
-	/**
-	 * Open Payment link from confirmation order
-	 */
-	public function payment_link() {
+	public function translations(): void {
+		global $wp_textdomain_registry;
+		// Register bundled catalogs; WordPress still loads translations on demand.
+		$wp_textdomain_registry->set_custom_path( 'mojito-sinpe', MOJITO_SINPE_DIR . 'languages' );
+	}
 
-		/**
-		 * Work only in mobile
-		 */
-		$sinpe_gateway = new Mojito_Sinpe_Gateway();
-		if ( ! $sinpe_gateway->is_mobile() ) {
-			return __( 'Please open the link only in mobile', 'mojito-sinpe' );
+	public function register_gateway( array $gateways ): array {
+		$gateways[] = Mojito_Sinpe_Gateway::class;
+		return $gateways;
+	}
+
+	public static function gateway(): ?Mojito_Sinpe_Gateway {
+		$gateways = WC()->payment_gateways()->payment_gateways();
+		$gateway  = $gateways[ Mojito_Sinpe_Gateway::ID ] ?? null;
+		return $gateway instanceof Mojito_Sinpe_Gateway ? $gateway : null;
+	}
+
+	public function blocks(): void {
+		if ( ! class_exists( '\Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+			return;
 		}
-
-		/**
-		 * Get order id
-		 */
-		$order_id = sanitize_text_field( $_GET['order'] );
-
-		/**
-		 * Check order id
-		 */
-		if ( ! is_numeric( $order_id ) ) {
-			return __( 'Not a valid order', 'mojito-sinpe' );
+		require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-gateway-block.php';
+		add_action(
+			'woocommerce_blocks_payment_method_type_registration',
+			static function ( $registry ) {
+				$registry->register( new Mojito_Sinpe_Gateway_Block() );
+			}
+		);
+		if ( function_exists( 'woocommerce_store_api_register_endpoint_data' ) ) {
+			woocommerce_store_api_register_endpoint_data(
+				array(
+					'endpoint'        => \Automattic\WooCommerce\StoreApi\Schemas\V1\CartSchema::IDENTIFIER,
+					'namespace'       => 'mojito-sinpe',
+					'data_callback'   => static function () {
+						$gateway = self::gateway();
+						return $gateway ? $gateway->get_blocks_payment_data() : array();
+					},
+					'schema_callback' => static function () {
+						return array(
+							'available'  => array(
+								'type'     => 'boolean',
+								'readonly' => true,
+							),
+							'recipient'  => array(
+								'type'     => 'string',
+								'readonly' => true,
+							),
+							'amount'     => array(
+								'type'     => 'string',
+								'readonly' => true,
+							),
+							'message'    => array(
+								'type'     => 'string',
+								'readonly' => true,
+							),
+							'cart_total' => array(
+								'type'     => 'integer',
+								'readonly' => true,
+							),
+							'error'      => array(
+								'type'     => 'string',
+								'readonly' => true,
+							),
+						);
+					},
+					'schema_type'     => ARRAY_A,
+				)
+			);
 		}
+	}
 
-		/**
-		 * Load Order data
-		 */
-		$order    = wc_get_order( $order_id );
-
-		/**
-		 * Is a valid order?
-		 */
-		if ( is_bool( $order ) ) {
-			return __( 'Not a valid order', 'mojito-sinpe' );
+	public function assets(): void {
+		if ( ! is_checkout() || is_wc_endpoint_url() || has_block( 'woocommerce/checkout' ) ) {
+			return;
 		}
+		wp_enqueue_script( 'mojito-sinpe-classic', plugins_url( 'public/js/mojito-sinpe-public.js', MOJITO_SINPE_DIR . 'mojito-sinpe.php' ), array( 'jquery', 'wp-i18n' ), MOJITO_SINPE_VERSION, true );
+		wp_set_script_translations( 'mojito-sinpe-classic', 'mojito-sinpe', MOJITO_SINPE_DIR . 'languages' );
+		wp_localize_script( 'mojito-sinpe-classic', 'mojitoSinpe', array( 'bankNumbers' => Mojito_Sinpe_Gateway::get_bank_phone_numbers() ) );
+	}
 
-		/**
-		 * Check if is the correct payment method
-		 */
-		if ( 'mojito-sinpe' !== $order->get_payment_method() ) {
-			return __( 'This order hasn\'t SINPE Móvil as payment method', 'mojito-sinpe' );
+	public function thankyou( $order_id ): void {
+		$order = wc_get_order( $order_id );
+		if ( ! $order instanceof \WC_Order || ! $this->can_render( $order ) ) {
+			return;
 		}
-
-		/**
-		 * Check if order is paid
-		 */
-		if ( $order->is_paid() ) {
-			return __( 'Order is paid', 'mojito-sinpe' );
+		$key = 'thankyou:' . $order->get_id();
+		if ( isset( $this->rendered[ $key ] ) ) {
+			return;
 		}
+		$this->rendered[ $key ] = true;
+		$this->instructions( $order, false, 'show-in-thankyou-page' );
+	}
 
-		/**
-		 * Get bank SINPE number
-		 */
-		$bank_number = $this->get_bank_number( $order->get_id() );
-
-		/**
-		 * Check if there is bank number
-		 */
-		if ( empty( $bank_number ) ) {
-			return __( 'Bank was not selected', 'mojito-sinpe' );
+	public function email( $order, $sent_to_admin, $plain_text, $email ): void {
+		if ( $sent_to_admin || ! $order instanceof \WC_Order || ! $email instanceof \WC_Email || 'customer_on_hold_order' !== $email->id || ! $this->can_render( $order ) ) {
+			return;
 		}
+		$this->instructions( $order, (bool) $plain_text, 'show-in-email' );
+	}
 
-		/**
-		 * Get Store Owner bank number
-		 */
-		$store_sinpe_number = $this->get_store_owner_bank_number();
+	private function can_render( \WC_Order $order ): bool {
+		return Mojito_Sinpe_Gateway::ID === $order->get_payment_method() && $order->has_status( array( 'on-hold', 'pending', 'failed' ) );
+	}
 
-		/**
-		 * Build SMS message and link
-		 */
-		$total   = round( $order->get_total(), 0 );
-		$message = sprintf( __( 'Pase %s %s Order %s', 'mojito-sinpe' ), $total, $store_sinpe_number, $order_id );
-
-		/**
-		 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
-		 */
-		$concat = '?';
-		$detect = new MobileDetect();
-
-		if ( true === $detect->isIphone() ) {
-			$concat = '&';
+	private function instructions( \WC_Order $order, bool $plain, string $option ): void {
+		$gateway = self::gateway();
+		if ( ! $gateway ) {
+			return;
 		}
+		if ( $gateway->instructions ) {
+			if ( $plain ) {
+				echo esc_html( wp_strip_all_tags( $gateway->instructions ) ) . "\n";
+			} else {
+				echo wp_kses_post( wpautop( $gateway->instructions ) );
+			}
+		}
+		if ( 'yes' !== $gateway->get_option( $option, 'yes' ) ) {
+			return;
+		}
+		$snapshot = Mojito_Sinpe_Payment::for_order( $order, $gateway->settings );
+		if ( is_wp_error( $snapshot ) ) {
+			$text = $snapshot->get_error_message();
+		} else {
+			$bank = Mojito_Sinpe_Gateway::get_bank_phone_number( (string) $order->get_meta( 'mojito_sinpe_bank', true ) );
+			$text = Mojito_Sinpe_Payment::instructions( $snapshot, $bank );
+		}
+		$text .= ' ' . __( 'The store must confirm receipt of funds. Do not pay again if you already sent the transfer.', 'mojito-sinpe' );
+		if ( $plain ) {
+			echo esc_html( wp_strip_all_tags( $text ) ) . "\n";
+		} else {
+			echo '<p>' . esc_html( $text ) . '</p>';
+		}
+		if ( ! is_wp_error( $snapshot ) && ! empty( $bank ) ) {
+			$url   = self::payment_url( $order );
+			$label = apply_filters( 'mojito_sinpe_email_label', __( 'Open SINPE SMS instructions on your mobile', 'mojito-sinpe' ) );
+			if ( $plain ) {
+				echo esc_html( wp_strip_all_tags( $label ) ) . ': ' . esc_url_raw( $url ) . "\n";
+			} else {
+				echo '<p><a rel="noreferrer" href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></p>';
+			}
+		}
+	}
 
-		wp_redirect( 'sms:+' . $bank_number . $concat . 'body=' . $message, 301 );
+	public static function payment_url( \WC_Order $order ): string {
+		return add_query_arg(
+			array(
+				'order' => $order->get_id(),
+				'key'   => $order->get_order_key(),
+			),
+			rest_url( 'mojito-sinpe/v1/open-payment-link/' )
+		);
+	}
 
+	public function rest(): void {
+		register_rest_route(
+			'mojito-sinpe/v1',
+			'/open-payment-link/',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'payment_link' ),
+				'permission_callback' => array( $this, 'can_open_payment_link' ),
+				'args'                => array(
+					'order' => array(
+						'required' => true,
+						'type'     => 'integer',
+						'minimum'  => 1,
+					),
+					'key'   => array(
+						'required'  => true,
+						'type'      => 'string',
+						'maxLength' => 100,
+					),
+				),
+			)
+		);
+	}
+
+	public function rest_headers( $response, $server, $request ) {
+		if ( str_starts_with( $request->get_route(), '/mojito-sinpe/v1/' ) ) {
+			$response->header( 'Cache-Control', 'no-store, private, max-age=0' );
+			$response->header( 'Referrer-Policy', 'no-referrer' );
+			$response->header( 'X-Robots-Tag', 'noindex, nofollow' );
+		}
+		return $response;
+	}
+
+	public function can_open_payment_link( \WP_REST_Request $request ) {
+		$order = wc_get_order( absint( $request->get_param( 'order' ) ) );
+		$key   = $request->get_param( 'key' );
+		if ( ! $order instanceof \WC_Order || ! is_string( $key ) || '' === $key || ! hash_equals( $order->get_order_key(), $key ) || ! $this->can_render( $order ) ) {
+			return new \WP_Error( 'sinpe_link', __( 'This SINPE payment link is invalid or no longer available.', 'mojito-sinpe' ), array( 'status' => 403 ) );
+		}
+		return true;
+	}
+
+	public function payment_link( \WP_REST_Request $request ) {
+		$permission = $this->can_open_payment_link( $request );
+		if ( is_wp_error( $permission ) ) {
+			return $permission;
+		}
+		$order   = wc_get_order( absint( $request->get_param( 'order' ) ) );
+		$gateway = self::gateway();
+		if ( ! $order instanceof \WC_Order || ! $gateway ) {
+			return new \WP_Error( 'sinpe_link', __( 'SINPE is unavailable.', 'mojito-sinpe' ), array( 'status' => 400 ) );
+		}
+		$snapshot = Mojito_Sinpe_Payment::for_order( $order, $gateway->settings );
+		if ( is_wp_error( $snapshot ) ) {
+			return $snapshot;
+		}
+		$bank = Mojito_Sinpe_Gateway::get_bank_phone_number( (string) $order->get_meta( 'mojito_sinpe_bank', true ) );
+		$text = Mojito_Sinpe_Payment::instructions( $snapshot, $bank );
+		// Return a real HTML page: no JSON-encoded HTML or permanent sms: redirects.
+		nocache_headers();
+		header( 'Referrer-Policy: no-referrer' );
+		header( 'X-Robots-Tag: noindex, nofollow' );
+		header( "Content-Security-Policy: default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" );
+		header( 'Content-Type: text/html; charset=UTF-8' );
+		echo '<!doctype html><html lang="' . esc_attr( get_bloginfo( 'language' ) ) . '"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SINPE Móvil</title><main><h1>SINPE Móvil</h1><p>' . esc_html( $text ) . '</p>';
+		if ( $bank ) {
+			echo '<p><a href="' . esc_url( Mojito_Sinpe_Payment::sms_url( $bank, Mojito_Sinpe_Payment::message( $snapshot ) ), array( 'sms' ) ) . '">' . esc_html__( 'Open SMS payment instructions', 'mojito-sinpe' ) . '</a></p>';
+		}
+		echo '<p>' . esc_html__( 'The store must confirm receipt of funds. Do not pay again if you already sent the transfer.', 'mojito-sinpe' ) . '</p></main></html>';
 		exit;
 	}
 
-	/**
-	 * Save client bank selection as meta to use it later in the order email
-	 * @return void
-	 */
-	public function save_client_bank_selection( $order_id ) {
-
-		if ( ! empty( $_POST['mojito_sinpe_bank'] ) ) {
-			update_post_meta( $order_id, 'mojito_sinpe_bank', sanitize_text_field( $_POST['mojito_sinpe_bank'] ) );
+	public function order_actions( array $actions, $order ): array {
+		if ( $order instanceof \WC_Order && $this->can_render( $order ) ) {
+			$actions['mojito_sinpe_regenerate'] = __( 'Regenerate SINPE instructions using the current rate', 'mojito-sinpe' );
 		}
+		return $actions;
 	}
 
-	/**
-	 * Add SINPE link to order emai
-	 * @return void
-	 */
-	public function add_sinpe_link_to_order_email( $order, $sent_to_admin, $plain_text, $email ) {
-
-		if ( 'yes' !== $this->mojito_sinpe_settings['show-in-email'] ) {
+	/** WooCommerce protects order actions with its order-edit nonce and capability. */
+	public function regenerate( \WC_Order $order ): void {
+		if ( ! current_user_can( 'edit_shop_order', $order->get_id() ) || ! $this->can_render( $order ) ) {
 			return;
 		}
-
-		/**
-		 * Check if is the correct email
-		 */
-		if ( 'customer_on_hold_order' !== $email->id ) {
+		$gateway = self::gateway();
+		if ( ! $gateway ) {
 			return;
 		}
-
-		/**
-		 * Check if is sent to admin
-		 */
-		if ( $sent_to_admin ) {
+		$snapshot = Mojito_Sinpe_Payment::calculate( $order->get_total(), $order->get_currency(), $gateway->settings );
+		if ( is_wp_error( $snapshot ) ) {
+			$order->add_order_note( $snapshot->get_error_message() );
 			return;
 		}
-
-		/**
-		 * Check if is the correct payment method
-		 */
-		if ( 'mojito-sinpe' !== $order->get_payment_method() ) {
-			return;
-		}
-
-		/**
-		 * Check if order is paid
-		 */
-		if ( $order->is_paid() ) {
-			return;
-		}
-
-		$bank_number = $this->get_bank_number( $order->get_id() );
-
-		/**
-		 * Check if there is bank number
-		 */
-		if ( empty( $bank_number ) ) {
-			return;
-		}
-
-		/**
-		 * Get Store Owner bank number
-		 */
-		$store_sinpe_number = $this->get_store_owner_bank_number();
-
-		/**
-		 * Build SMS message and link
-		 */
-		$total   = round( $order->get_total(), 0);
-		$message = sprintf( __( 'Pase %s %s', 'mojito-sinpe' ), $total, $store_sinpe_number );
-
-		echo '<p>' . sprintf( __( 'Send a SMS to %s with the content: %s', 'mojito-sinpe' ), $bank_number, $message );
-		echo '<p>' . __( 'Are you on mobile? ', 'mojito-sinpe' );
-
-		/**
-		 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
-		 */
-		$link  = '<a href="';
-		$link .= rest_url() . 'mojito-sinpe/v1/open-payment-link?order=' . $order->get_id();
-		$link .= '">';
-		$link .= apply_filters( 'mojito_sinpe_email_label', __( 'Pay here SINPE Móvil', 'mojito-sinpe' ) );
-		$link .= '</a>';
-		$link .= '<br><br>';
-
-		echo $link;
-
+		$order->update_meta_data( '_mojito_sinpe_payment', $snapshot );
+		$order->save();
+		$order->add_order_note( __( 'SINPE instructions regenerated using the current total, recipient and rate. Send the updated instructions to the customer.', 'mojito-sinpe' ) );
 	}
-
-	/**
-	 * Add SINPE link to Thank you page
-	 */
-	public function add_sinpe_link_to_thankyou_page( $order_id ) {
-
-		if ( is_ajax() ) {
-			return;
-		}
-
-		if ( !isset( $this->mojito_sinpe_settings['show-in-thankyou-page'] ) ) {
-			return;
-		}
-
-		if ( 'yes' !== $this->mojito_sinpe_settings['show-in-thankyou-page'] ) {
-			return;
-		}
-
-		/**
-		 * Load Order data
-		 */
-		$order    = wc_get_order( $order_id );
-
-		/**
-		 * Check if order is paid
-		 */
-		if ( $order->is_paid() ) {
-			return;
-		}
-		$bank_number = $this->get_bank_number( $order->get_id() );
-
-		/**
-		 * Check if there is bank number
-		 */
-		if (empty($bank_number)) {
-			return;
-		}
-
-		/**
-		 * Get Store Owner bank number
-		 */
-		$store_sinpe_number = $this->get_store_owner_bank_number();
-
-		/**
-		 * Build SMS message and link
-		 */
-		$total   = round( $order->get_total(), 0 );
-		$message = sprintf( __( 'Pase %s %s', 'mojito-sinpe' ), $total, $store_sinpe_number );
-
-		echo '<p>' . sprintf( __( 'Send a SMS to %s with the content: %s', 'mojito-sinpe' ), $bank_number, $message );
-
-		/**
-		 * If mobile, show the link
-		 */
-		$sinpe_gateway = new Mojito_Sinpe_Gateway();
-		if ( $sinpe_gateway->is_mobile() ) {
-
-			echo '<p>' . __( 'Are you on mobile?', 'mojito-sinpe' );
-
-			/**
-			 * The link address to website to prevent double payments. Also gmail blocks "sms" in href attribute.
-			 */
-			$link = '<a href="';
-			$link .= rest_url() . 'mojito-sinpe/v1/open-payment-link?order=' . $order->get_id();
-			$link .= '">';
-			$link .= ' '; // Yes, this space is Ok.
-			$link .= apply_filters( 'mojito_sinpe_email_label', __( 'Pay here SINPE Móvil', 'mojito-sinpe' ) );
-			$link .= '</a>';
-			$link .= '<br><br>';
-
-			echo $link;
-		}
-		
-	}
-
-	/**
-	 * Get settings stores owner bank number
-	 *
-	 * @return string
-	 */
-	private function get_store_owner_bank_number() {
-		return $this->mojito_sinpe_settings['number'];
-	}
-
-	/**
-	 * Get bank number
-	 *
-	 * @return string
-	 */
-	private function get_bank_number( $order_id ) {
-
-		/**
-		 * Get Bank selected by client
-		 */
-		$bank = get_post_meta( $order_id, 'mojito_sinpe_bank', true );
-
-		/**
-		 * Set the bank number
-		 */
-		$bank_number = '';
-
-		switch ( $bank ) {
-
-			case 'bn':
-				$bank_number = '2627';
-				break;
-
-			case 'bcr':
-				$bank_number = '4066';
-				break;
-
-			case 'bac':
-				$bank_number = '70701222';
-				break;
-
-			case 'bct':
-				$bank_number = '60400300';
-				break;
-
-			case 'caja-de-ande':
-				$bank_number = '62229532';
-				break;
-
-			case 'coopealianza':
-				$bank_number = '62229523';
-				break;
-
-			case 'coopecaja':
-				$bank_number = '62229526';
-				break;
-
-			case 'coopelecheros':
-				$bank_number = '60405957';
-				break;
-
-			case 'coocique':
-				$bank_number = '46002905';
-				break;
-
-			case 'credecoop':
-				$bank_number = '71984256';
-				break;
-
-			case 'davivienda':
-				$bank_number = '70707474';
-				break;
-
-			case 'lafise':
-				$bank_number = '9091';
-				break;
-
-			case 'mucap':
-				$bank_number = '62229525';
-				break;
-
-			case 'mutual-alajuela':
-				$bank_number = '60575079';
-				break;
-
-			case 'promerica':
-				$bank_number = '62232450';
-				break;
-		}
-
-		return $bank_number;
-
-	}
-	/**
-	 * Load the required dependencies for this plugin.
-	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Mojito_Sinpe_Loader. Orchestrates the hooks of the plugin.
-	 * - Mojito_Sinpe_i18n. Defines internationalization functionality.
-	 * - Mojito_Sinpe_Public. Defines all hooks for the public side of the site.
-	 *
-	 * Create an instance of the loader which will be used to register the hooks
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function load_dependencies() {
-
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
-		if ( ! class_exists( 'Mojito_Sinpe_Loader' ) ) {
-			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-loader.php';
-		}		
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		if ( !class_exists( 'Mojito_Sinpe_i18n' ) ) {
-			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-sinpe-i18n.php';
-		}
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */		
-		if ( !class_exists( 'Mojito_Sinpe_Public' ) ) {
-			require_once MOJITO_SINPE_DIR . 'public/class-mojito-sinpe-public.php';
-		}
-
-		/**
-		 * Load Product Vendors Support
-		 */
-		/*
-		if ( !class_exists('Mojito_Sinpe_Compatibility_Product_Vendors_Support' ) ) {
-			require_once MOJITO_SINPE_DIR . 'includes/class-mojito-compatibility-product-vendors.php';
-			$Product_Vendors_support = new Mojito_Sinpe_Compatibility_Product_Vendors_Support();
-			$Product_Vendors_support->run();
-		}
-		*/
-
-
-		$this->loader = new Mojito_Sinpe_Loader();
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the Mojito_Sinpe_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale()
-	{
-
-		$plugin_i18n = new Mojito_Sinpe_i18n();
-
-		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
-	}
-
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_admin_hooks()
-	{
-	}
-
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_public_hooks()
-	{
-
-		$plugin_public = new Mojito_Sinpe_Public($this->get_plugin_name(), $this->get_version());
-
-		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
-		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-	}
-
-	/**
-	 * Run the loader to execute all of the hooks with WordPress.
-	 *
-	 * @since    1.0.0
-	 */
-	public function run()
-	{
-
-		$this->loader->run();
-	}
-
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
-
-	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    Mojito_Sinpe_Loader    Orchestrates the hooks of the plugin.
-	 */
-	public function get_loader()
-	{
-		return $this->loader;
-	}
-
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
-	 */
-	public function get_version()
-	{
-		return $this->version;
-	}
-
 }
