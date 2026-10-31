@@ -1,10 +1,21 @@
 includes:
     - vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
-	bootstrapFiles:
-		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
-	level: 5
-	paths:
-		- .
-	excludePaths:
-		- vendor/
+    bootstrapFiles:
+        - tests/static-bootstrap.php
+    scanFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    stubFiles:
+        - tests/woocommerce-corrections.stub
+    dynamicConstantNames:
+        - WC_VERSION
+    treatPhpDocTypesAsCertain: false
+    level: 5
+    phpVersion: 80200
+    paths:
+        - mojito-sinpe.php
+        - includes
+        - public
+        - admin
+    tmpDir: /tmp/mojito-sinpe-phpstan

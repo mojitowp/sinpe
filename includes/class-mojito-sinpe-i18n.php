@@ -13,7 +13,7 @@
 
 namespace Mojito_Sinpe;
 
-class Mojito_Sinpe_i18n {
+class Mojito_Sinpe_I18n {
 
 
 	/**
@@ -26,7 +26,7 @@ class Mojito_Sinpe_i18n {
 		load_plugin_textdomain(
 			'mojito-sinpe',
 			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			dirname( plugin_basename( __FILE__ ), 2 ) . '/languages/'
 		);
 	}
 }

@@ -1,2 +1,4 @@
 vendor/*
 phpstan.txt
+__pycache__/
+*.pyc

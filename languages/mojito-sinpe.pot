@@ -1,34 +1,37 @@
-# Copyright (C) 2025 Mojito Team
-# This file is distributed under the GPL v2 or later.
+# Copyright (C) 2026 Mojito Team
+# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mojito Sinpe 1.2.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mojito-sinpe\n"
+"Project-Id-Version: Mojito Sinpe 1.3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mojito-sinpe-1.3.0\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-10T11:49:45-06:00\n"
+"POT-Creation-Date: 2026-10-31T00:10:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: mojito-sinpe\n"
 
 #. Plugin Name of the plugin
-#: includes/checkout.js:2
+#: mojito-sinpe.php
 msgid "Mojito Sinpe"
 msgstr ""
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
+#: mojito-sinpe.php
 msgid "https://mojitowp.com/"
 msgstr ""
 
 #. Description of the plugin
-msgid "Sinpe Móvil as Woocommerce gateway"
+#: mojito-sinpe.php
+msgid "Manual SINPE Móvil payments for WooCommerce, including block checkout."
 msgstr ""
 
 #. Author of the plugin
+#: mojito-sinpe.php
 msgid "Mojito Team"
 msgstr ""
 
@@ -36,220 +39,292 @@ msgstr ""
 msgid "Mojito Sinpe Plugin requires WooCommerce to be active."
 msgstr ""
 
-#: includes/class-mojito-compatibility-product-vendors.php:90
-#: includes/class-mojito-compatibility-product-vendors.php:106
-#: includes/class-mojito-compatibility-product-vendors.php:145
+#: includes/class-mojito-sinpe-compatibility-product-vendors-support.php:95
+#: includes/class-mojito-sinpe-compatibility-product-vendors-support.php:111
+#: includes/class-mojito-sinpe-compatibility-product-vendors-support.php:150
 msgid "Sinpe Number"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:36
-msgid "SINPE Móvil"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:37
-msgid "Payment using SINPE Móvil"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:113
-msgid "Enable/Disable"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:115
-msgid "Enable SINPE Payment"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:119
-msgid "Title"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:121
-msgid "Pay using SINPE Móvil"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:122
-msgid "SINPE Móvil Payment"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:126
-msgid "Phone number"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:131
-#: includes/class-mojito-sinpe-gateway.php:133
-msgid "Ask voucher id in check-out page"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:137
-#: includes/class-mojito-sinpe-gateway.php:139
-msgid "Show link in check-out page"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:143
-#: includes/class-mojito-sinpe-gateway.php:145
-msgid "Show banks list in check-out page"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:149
-#: includes/class-mojito-sinpe-gateway.php:151
-msgid "Show link in thank you page"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:155
-#: includes/class-mojito-sinpe-gateway.php:157
-msgid "Show link in email"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:161
-#: includes/class-mojito-sinpe-gateway.php:163
-msgid "Sinpe logo size in check-out page"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:166
-msgid "No logo"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:176
-msgid "Description"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:178
-msgid "Payment method description that the customer will see on your checkout."
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:179
-msgid "Make your payment with your mobile. Your order will not be shipped until the funds have cleared in our account."
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:183
-msgid "Instructions"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:185
-msgid "Instructions that will be added to the thank you page and emails."
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:191
-msgid "Enable/Disable exchange rate"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:193
-msgid "Enable exchange rates"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:197
-msgid "Exchange rate origin"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:199
-msgid "Pick the origin of the dolar price"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:202
-msgid "Ministerio de Hacienda"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:203
-msgid "Custom"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:207
-msgid "Custom exchange rate"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:209
-msgid "How many colones is a dollar?"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:212
-msgid "Enable/Disable debug"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:214
-msgid "Enable debug"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:253
-#: includes/class-mojito-sinpe-gateway.php:277
-msgid "Select your bank"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:288
-msgid "You will receive the SINPE Payment link in the order confirmation email. Open it on your mobile."
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:344
-#: includes/class-mojito-sinpe-gateway.php:346
-msgid "Pay now: %s"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:352
+#: includes/class-mojito-sinpe-gateway-block.php:62
+#: includes/class-mojito-sinpe-gateway.php:85
 msgid "Enter your voucher ID here"
 msgstr ""
 
-#: includes/class-mojito-sinpe-gateway.php:355
-msgid "Enter your voucher ID"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:441
-msgid "Payment error: Please select your bank"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:453
-msgid "Payment error: Please enter your voucher id"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:457
-msgid "SINPE Voucher id: %s"
-msgstr ""
-
-#: includes/class-mojito-sinpe-gateway.php:461
-msgid "Awaiting SINPE payment"
-msgstr ""
-
-#: includes/class-mojito-sinpe.php:202
-msgid "Please open the link only in mobile"
-msgstr ""
-
-#: includes/class-mojito-sinpe.php:214
-#: includes/class-mojito-sinpe.php:226
+#: includes/class-mojito-sinpe-gateway-block.php:72
+#: includes/class-mojito-sinpe-gateway.php:93
 msgid "Not a valid order"
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:233
-msgid "This order hasn't SINPE Móvil as payment method"
+#: includes/class-mojito-sinpe-gateway.php:20
+#: includes/class-mojito-sinpe-gateway.php:25
+#: includes/checkout.js:7
+msgid "SINPE Móvil"
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:240
-msgid "Order is paid"
+#: includes/class-mojito-sinpe-gateway.php:21
+msgid "Manual payment using SINPE Móvil. The store must confirm receipt of funds."
 msgstr ""
 
+#: includes/class-mojito-sinpe-gateway.php:51
+#: includes/checkout.js:39
+msgid "SINPE instructions will appear after the cart is ready."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:67
+#: includes/class-mojito-sinpe-gateway.php:320
+#: includes/checkout.js:32
+#: includes/checkout.js:55
+msgid "Select your bank"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:75
 #: includes/class-mojito-sinpe.php:252
-msgid "Bank was not selected"
+#: includes/checkout.js:46
+msgid "Open SMS payment instructions"
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:264
-msgid "Pase %s %s Order %s"
+#. translators: %s: amount in Costa Rican colones.
+#: includes/class-mojito-sinpe-gateway.php:79
+#: includes/checkout.js:40
+#, php-format,js-format
+msgid "Amount to send: %s CRC. The store will confirm receipt of funds."
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:348
-#: includes/class-mojito-sinpe.php:413
-msgid "Pase %s %s"
+#: includes/class-mojito-sinpe-gateway.php:85
+#: includes/checkout.js:36
+#: includes/checkout.js:56
+msgid "Enter your voucher ID"
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:350
-#: includes/class-mojito-sinpe.php:415
-msgid "Send a SMS to %s with the content: %s"
+#: includes/class-mojito-sinpe-gateway.php:120
+#: includes/class-mojito-sinpe.php:236
+msgid "SINPE is unavailable."
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:351
-msgid "Are you on mobile? "
+#: includes/class-mojito-sinpe-gateway.php:138
+msgid "This order is being processed. Please try again."
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:359
-#: includes/class-mojito-sinpe.php:432
-msgid "Pay here SINPE Móvil"
+#: includes/class-mojito-sinpe-gateway.php:144
+msgid "This order cannot be paid using SINPE."
 msgstr ""
 
-#: includes/class-mojito-sinpe.php:423
-msgid "Are you on mobile?"
+#: includes/class-mojito-sinpe-gateway.php:160
+msgid "Invalid SINPE payment details."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:165
+#: includes/checkout.js:24
+msgid "Payment error: Please select your bank"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:168
+#: includes/checkout.js:25
+msgid "Payment error: Please enter your voucher id"
+msgstr ""
+
+#. translators: %s: customer supplied voucher reference, not proof of funds.
+#: includes/class-mojito-sinpe-gateway.php:185
+#, php-format
+msgid "SINPE Voucher id: %s"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:187
+msgid "Awaiting SINPE payment. Receipt of funds must be confirmed manually."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:211
+msgid "Enable/Disable"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:213
+msgid "Enable SINPE Payment"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:217
+msgid "Title"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:219
+msgid "Pay using SINPE Móvil"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:220
+msgid "SINPE Móvil Payment"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:224
+msgid "Phone number"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:229
+#: includes/class-mojito-sinpe-gateway.php:231
+msgid "Ask voucher id in check-out page"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:235
+#: includes/class-mojito-sinpe-gateway.php:237
+msgid "Show link in check-out page"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:241
+#: includes/class-mojito-sinpe-gateway.php:243
+msgid "Show banks list in check-out page"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:247
+#: includes/class-mojito-sinpe-gateway.php:249
+msgid "Show link in thank you page"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:253
+#: includes/class-mojito-sinpe-gateway.php:255
+msgid "Show link in email"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:259
+#: includes/class-mojito-sinpe-gateway.php:261
+msgid "Sinpe logo size in check-out page"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:264
+msgid "No logo"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:274
+msgid "Description"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:276
+msgid "Payment method description that the customer will see on your checkout."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:277
+msgid "Make your payment with your mobile. Your order will not be shipped until the funds have cleared in our account."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:281
+msgid "Instructions"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:283
+msgid "Instructions that will be added to the thank you page and emails."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:284
+msgid "Please send us the Sinpe Móvil voucher. Use your order ID as a payment reference."
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:289
+msgid "Enable/Disable exchange rate"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:291
+msgid "Enable exchange rates"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:295
+msgid "Exchange rate origin"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:297
+msgid "Pick the origin of the dolar price"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:300
+msgid "Ministerio de Hacienda"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:301
+msgid "Custom"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:305
+msgid "Custom exchange rate"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:307
+msgid "How many colones is a dollar?"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:310
+msgid "Enable/Disable debug"
+msgstr ""
+
+#: includes/class-mojito-sinpe-gateway.php:312
+msgid "Enable debug"
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:25
+msgid "SINPE supports CRC and USD with a valid conversion rate."
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:30
+msgid "Enable a valid USD to CRC conversion rate to use SINPE."
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:39
+#: includes/class-mojito-sinpe-payment.php:66
+#: includes/class-mojito-sinpe-payment.php:85
+msgid "The SINPE exchange rate is unavailable. Please try again later."
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:43
+msgid "The SINPE amount is invalid."
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:47
+msgid "The store SINPE phone number is invalid."
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:101
+msgid "The order changed. Ask the store to regenerate SINPE instructions."
+msgstr ""
+
+#: includes/class-mojito-sinpe-payment.php:106
+msgid "Ask the store to regenerate SINPE instructions for this older USD order."
+msgstr ""
+
+#. translators: 1: bank SMS service number, 2: SMS command.
+#: includes/class-mojito-sinpe-payment.php:118
+#: includes/checkout.js:45
+#: public/js/mojito-sinpe-public.js:11
+#, php-format,js-format
+msgid "Send an SMS to %1$s with the content: %2$s"
+msgstr ""
+
+#. translators: 1: amount in CRC, 2: store SINPE phone number.
+#: includes/class-mojito-sinpe-payment.php:121
+#: includes/checkout.js:42
+#, php-format,js-format
+msgid "Send %1$s CRC to SINPE phone %2$s using your banking app."
+msgstr ""
+
+#: includes/class-mojito-sinpe.php:159
+#: includes/class-mojito-sinpe.php:254
+msgid "The store must confirm receipt of funds. Do not pay again if you already sent the transfer."
+msgstr ""
+
+#: includes/class-mojito-sinpe.php:167
+msgid "Open SINPE SMS instructions on your mobile"
+msgstr ""
+
+#: includes/class-mojito-sinpe.php:223
+msgid "This SINPE payment link is invalid or no longer available."
+msgstr ""
+
+#: includes/class-mojito-sinpe.php:260
+msgid "Regenerate SINPE instructions using the current rate"
+msgstr ""
+
+#: includes/class-mojito-sinpe.php:281
+msgid "SINPE instructions regenerated using the current total, recipient and rate. Send the updated instructions to the customer."
+msgstr ""
+
+#: mojito-sinpe.php:46
+msgid "Mojito Sinpe requires PHP 8.2 or newer and WooCommerce 8.2 or newer."
+msgstr ""
+
+#: includes/checkout.js:23
+msgid "Please wait for the SINPE amount to update."
 msgstr ""

@@ -1,0 +1,11 @@
+<?php
+// Upstream PaymentResult PHPDoc says array, but implementation calls esc_url_raw().
+// Verified against WooCommerce 8.2.0 and 11.2.1 src/StoreApi/Payments/PaymentResult.php.
+namespace Automattic\WooCommerce\StoreApi\Payments;
+class PaymentResult {
+    /**
+     * @param string $redirect_url
+     * @return void
+     */
+    public function set_redirect_url($redirect_url = '') {}
+}

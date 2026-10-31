@@ -1,0 +1,365 @@
+{
+  "source_sha256": {
+    "mojito-sinpe.php": "46c0875200e92aa7fafef82d992444f604a9842f64d9f8d96b6830ffd116e3da",
+    "includes/class-mojito-sinpe.php": "c03db0ff334a5ca457d46bba0a0917b477c508484b9ef3489e68e68c9d92d47c",
+    "includes/class-mojito-sinpe-gateway.php": "1ffac9d879311947c1a6712cfa67d7ab552c50a2bc3930a309511a25b6e53912",
+    "includes/class-mojito-sinpe-gateway-block.php": "06b65cfe6a8e07b85300593e42590a0a4e6191443970f5c72f4fbf1493d5c03c",
+    "includes/class-mojito-sinpe-payment.php": "505c0f1576b579f4bb6730f6d82dad6b178b6cbc68ac4a096b0a58227d9032b9",
+    "includes/checkout.js": "83b0d1c2d62d5167f1ccf104c3002388d35b602b05b5865c5aee5733b0696bf3",
+    "public/js/mojito-sinpe-public.js": "658565ab4e280f3196cde8a97b59787fcb13ee9bf0ca7467bccf0dc8d1f5d317"
+  },
+  "stable": [
+    {
+      "wordpress": "6.2.15",
+      "woocommerce": "8.2.3",
+      "php": "8.2.35",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "6.2.15",
+      "woocommerce": "8.2.3",
+      "php": "8.2.35",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "6.7.8",
+      "woocommerce": "9.5.2",
+      "php": "8.2.35",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "6.7.8",
+      "woocommerce": "9.5.2",
+      "php": "8.2.35",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.2.35",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.2.35",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "6.7.8",
+      "woocommerce": "9.5.2",
+      "php": "8.3.36",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "6.7.8",
+      "woocommerce": "9.5.2",
+      "php": "8.3.36",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.3.36",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.3.36",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "6.7.8",
+      "woocommerce": "9.5.2",
+      "php": "8.4.26",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "6.7.8",
+      "woocommerce": "9.5.2",
+      "php": "8.4.26",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.4.26",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.4.26",
+      "hpos": true,
+      "checks": 49
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.5.12",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.2.1",
+      "php": "8.5.12",
+      "hpos": true,
+      "checks": 49
+    }
+  ],
+  "upcoming": [
+    {
+      "wordpress": "7.2-beta2",
+      "woocommerce": "11.3.0-beta.1",
+      "php": "8.5.12",
+      "hpos": false,
+      "checks": 47
+    },
+    {
+      "wordpress": "7.2-beta2",
+      "woocommerce": "11.3.0-beta.1",
+      "php": "8.5.12",
+      "hpos": true,
+      "checks": 49
+    }
+  ],
+  "unit": [
+    {
+      "php": "8.2.35",
+      "checks": 38
+    },
+    {
+      "php": "8.3.36",
+      "checks": 38
+    },
+    {
+      "php": "8.4.26",
+      "checks": 38
+    },
+    {
+      "php": "8.5.12",
+      "checks": 38
+    }
+  ],
+  "js_tests": 11,
+  "quality": [
+    {
+      "php": "8.2",
+      "tool": "phpstan",
+      "exit": 0
+    },
+    {
+      "php": "8.2",
+      "tool": "phpcs",
+      "exit": 0
+    },
+    {
+      "php": "8.2",
+      "tool": "compat",
+      "exit": 0
+    },
+    {
+      "php": "8.3",
+      "tool": "phpstan",
+      "exit": 0
+    },
+    {
+      "php": "8.3",
+      "tool": "phpcs",
+      "exit": 0
+    },
+    {
+      "php": "8.3",
+      "tool": "compat",
+      "exit": 0
+    },
+    {
+      "php": "8.4",
+      "tool": "phpstan",
+      "exit": 0
+    },
+    {
+      "php": "8.4",
+      "tool": "phpcs",
+      "exit": 0
+    },
+    {
+      "php": "8.4",
+      "tool": "compat",
+      "exit": 0
+    },
+    {
+      "php": "8.5",
+      "tool": "phpstan",
+      "exit": 0
+    },
+    {
+      "php": "8.5",
+      "tool": "phpcs",
+      "exit": 0
+    },
+    {
+      "php": "8.5",
+      "tool": "compat",
+      "exit": 0
+    }
+  ],
+  "stable_check_names": [
+    "gateway registered with original ID",
+    "real gateway settings key preserved",
+    "server rejects missing or malformed payment data",
+    "server rejects missing or malformed payment data",
+    "server rejects missing or malformed payment data",
+    "server rejects missing or malformed payment data",
+    "shared processor accepts valid CRC payment",
+    "persisted on-hold status",
+    "bank persists through order CRUD",
+    "snapshot present before status email hooks",
+    "CRC snapshot round half up",
+    "retry succeeds without repeating processing",
+    "retry does not duplicate notes",
+    "valid guest order key permits instructions",
+    "tampered key denied",
+    "paid order instructions denied",
+    "paid order cannot return to on-hold",
+    "paid status preserved",
+    "USD processing",
+    "USD amount converted to CRC",
+    "saved quote survives later rate/recipient changes",
+    "changed total invalidates instructions",
+    "authorized admin regenerates quote",
+    "guest cannot regenerate instructions",
+    "legacy USD cannot invent historical rate",
+    "legacy CRC remains readable",
+    "active processing lease rejects concurrent request",
+    "expired lease recovers",
+    "classic gateway result and redirect",
+    "blocks registered despite plugin load order",
+    "blocks shares gateway configuration",
+    "Store API sets payment result and redirect",
+    "Store API bank persisted",
+    "HTML email uses snapshot and authorized URL",
+    "text email contains no HTML, even on resend",
+    "Store API cart extension provides server amount",
+    "Store API amount updates with quantity",
+    "Store API USD conversion",
+    "bank list hidden permits manual app transfer",
+    "hidden bank list still gives recipient instructions",
+    "physical order processed",
+    "caller order refreshed after processing",
+    "physical stock reduced once",
+    "retry leaves inventory unchanged",
+    "disabled gateway cannot process Store API payment",
+    "registered customer order processed",
+    "registered customer ownership preserved",
+    "HPOS synchronization disabled",
+    "bank physically stored in HPOS order table"
+  ],
+  "upcoming_check_names": [
+    "gateway registered with original ID",
+    "real gateway settings key preserved",
+    "server rejects missing or malformed payment data",
+    "server rejects missing or malformed payment data",
+    "server rejects missing or malformed payment data",
+    "server rejects missing or malformed payment data",
+    "shared processor accepts valid CRC payment",
+    "persisted on-hold status",
+    "bank persists through order CRUD",
+    "snapshot present before status email hooks",
+    "CRC snapshot round half up",
+    "retry succeeds without repeating processing",
+    "retry does not duplicate notes",
+    "valid guest order key permits instructions",
+    "tampered key denied",
+    "paid order instructions denied",
+    "paid order cannot return to on-hold",
+    "paid status preserved",
+    "USD processing",
+    "USD amount converted to CRC",
+    "saved quote survives later rate/recipient changes",
+    "changed total invalidates instructions",
+    "authorized admin regenerates quote",
+    "guest cannot regenerate instructions",
+    "legacy USD cannot invent historical rate",
+    "legacy CRC remains readable",
+    "active processing lease rejects concurrent request",
+    "expired lease recovers",
+    "classic gateway result and redirect",
+    "blocks registered despite plugin load order",
+    "blocks shares gateway configuration",
+    "Store API sets payment result and redirect",
+    "Store API bank persisted",
+    "HTML email uses snapshot and authorized URL",
+    "text email contains no HTML, even on resend",
+    "Store API cart extension provides server amount",
+    "Store API amount updates with quantity",
+    "Store API USD conversion",
+    "bank list hidden permits manual app transfer",
+    "hidden bank list still gives recipient instructions",
+    "physical order processed",
+    "caller order refreshed after processing",
+    "physical stock reduced once",
+    "retry leaves inventory unchanged",
+    "disabled gateway cannot process Store API payment",
+    "registered customer order processed",
+    "registered customer ownership preserved",
+    "HPOS synchronization disabled",
+    "bank physically stored in HPOS order table"
+  ],
+  "unit_check_names": [
+    "CR phone normalization",
+    "reject malformed phone \"\"",
+    "reject malformed phone []",
+    "reject malformed phone \"11111111\"",
+    "reject malformed phone \"+188889999\"",
+    "reject malformed phone \"888899999\"",
+    "reject malformed phone \"8<script>8889999\"",
+    "reject invalid total \"-1\"",
+    "reject invalid total \"NaN\"",
+    "reject invalid total ",
+    "reject invalid total []",
+    "reject invalid total null",
+    "CRC never multiplied",
+    "USD round half up",
+    "unsupported currency",
+    "reject invalid rate \"0\"",
+    "reject invalid rate \"-1\"",
+    "reject invalid rate \"no\"",
+    "reject invalid rate ",
+    "USD needs conversion enabled",
+    "legacy exchange-rate filter",
+    "legacy amount filter",
+    "HTTP valid Hacienda rate",
+    "cache avoids repeated HTTP calls",
+    "six-hour success cache",
+    "HTTP five-second timeout",
+    "Hacienda failure does not use rate 1",
+    "brief failure cache",
+    "Hacienda failure does not use rate 1",
+    "brief failure cache",
+    "Hacienda failure does not use rate 1",
+    "brief failure cache",
+    "Hacienda failure does not use rate 1",
+    "brief failure cache",
+    "stable bank command",
+    "Android shortcode not internationalized",
+    "iPhone separator",
+    "reject protocol injection"
+  ],
+  "candidate_sha256": "9d57a90fdf69a5ffb2e7887dc39b4cebc8f27bcab7a43ef8533239429a9583b3"
+}

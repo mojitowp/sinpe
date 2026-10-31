@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="Mojito Sinpe">
+    <description>WordPress coding and security checks for shipped PHP.</description>
+    <arg name="extensions" value="php"/>
+    <arg value="sp"/>
+    <file>mojito-sinpe.php</file><file>includes</file><file>public</file><file>admin</file>
+    <rule ref="WordPress-Core"/>
+    <config name="minimum_supported_wp_version" value="6.2"/>
+</ruleset>
